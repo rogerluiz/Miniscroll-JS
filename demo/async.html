@@ -2,22 +2,24 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>MINISCROLL CAMOBOBOX</title>
-		<link rel="stylesheet" href="css/miniscroll-async.css" type="text/css" media="screen" />
-		<script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
-		<script type="text/javascript" src="js/miniscroll.js"></script>
+		<title>MINISCROLL ASYNC</title>
+		<link rel="stylesheet" href="css/all.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="css/async.css" type="text/css" media="screen" />
+		
+		<script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
+		<script type="text/javascript" src="js/miniscroll.min.js"></script>
 		<script type="text/javascript">
 			var i = 0;
 			
 			$(document).ready(function(){
         		$(".add").click(function(e){
-					addDivs();
+					createDiv();
 				});
         		
         		miniscroll.init('lista-div', {color:"#313433", scroll:"y", size:10});
     		});
     		
-			function addDivs(){
+			function createDiv(){
 				var div = document.createElement('div');
 				div.setAttribute("id", "div_"+ i);
 				div.setAttribute("class", "box");
@@ -30,13 +32,11 @@
 	</head>
 	<body>
 		<div id="wrapper">
-			<div class="topo">
+			<div id="header">
 				<div  class="logo">
-					<img src="images/logo-miniscroll.png" width="250" height="57" alt="Image 01"/>
+					<a href="http://miniscroll.rogerluizm.com.br/"><img src="images/logo-miniscroll.png" width="250" height="57" alt="Image 01"/></a>
 				</div>
-				<div class="titulo">
-					<h1></h1>
-				</div>
+				<div id="status"></div>
 			</div>
 			<div id="content">
 				<div id="form">

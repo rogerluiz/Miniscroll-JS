@@ -5,6 +5,7 @@
  *			miniscroll.rogerluizm.com.br
  *
  * @size 22.11.2011
+ *		 24.11.2011 ( added hide and show scrollbar )
  * @version	1.0v
  * @copyright (c) 2011
  */
@@ -118,9 +119,33 @@ var miniscroll = {
 	updateScroll:function(axis, obj, size){
 		if(axis == "x"){
 			miniscroll.updateMiniScroll(obj, "x", size);
+			(obj[1].offsetWidth == obj[2].offsetWidth) ? miniscroll.hide(obj[1], obj[2]) : miniscroll.show(obj[1], obj[2]);
 		} else {
 			miniscroll.updateMiniScroll(obj, "y", size);
+			(obj[1].offsetHeight == obj[2].offsetHeight) ? miniscroll.hide(obj[1], obj[2]) : miniscroll.show(obj[1], obj[2]);
 		}
+	},
+	
+	/**
+	 * Hide the scroll when the scrub and tracker they will be equal
+	 *
+	 * @type {Element} tracker Elements tracker
+	 * @type {Element} scrub Elements scrub
+	 */
+	hide:function(tracker, scrub){
+		tracker.style.visibility = "hidden";
+		scrub.style.visibility = "hidden";
+	},
+	
+	/**
+	 * Show the scroll when the scrub will be different of tracker
+	 *
+	 * @type {Element} tracker Elements tracker
+	 * @type {Element} scrub Elements scrub
+	 */
+	show:function(tracker, scrub){
+		tracker.style.visibility="visible";
+		scrub.style.visibility="visible";
 	},
 	
 	//-------------------------------------------
@@ -137,9 +162,8 @@ var miniscroll = {
 		
 		mini.getCurrent(this);
 		mini.getAxis(mini.tracker);
-		//
 		mini.addMiniEvent(this, 'touchmove', mini.moveTouch);
-		mini.addMiniEvent(this, 'touchend', mini.moveTouch);
+		mini.addMiniEvent(this, 'touchend', mini.stopTouch);
 		mini.preventEvent(e);
 	},
 	
@@ -168,7 +192,6 @@ var miniscroll = {
 	 */
 	stopTouch:function(e){
 		var mini = miniscroll;
-		
 		mini.removeMiniEvent(this, 'touchmove', mini.moveTouch);
 		mini.removeMiniEvent(this, 'touchend', mini.moveTouch);
 	},
