@@ -1,0 +1,84 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>MINISCROLL MULTIPLE</title>
+		<link rel="stylesheet" href="css/all.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="css/index.css" type="text/css" media="screen" />
+		
+		<script type="text/javascript" src="js/functions.js"></script>
+		<script type="text/javascript" src="js/miniscroll.js"></script>
+		<script type="text/javascript">
+			window.onload = function(e){
+				document.getElementById("content").style.height = (getSize()[1]-60)+"px";
+				
+				//miniscroll.init('scroller', {color:"#2992ce", scroll:"x"});
+				miniscroll.init('lista', {color:"#2992ce", scroll:"y"});
+			};
+			
+			window.onresize = function(e){
+				document.getElementById("content").style.height = (getSize()[1]-60)+"px";
+			}
+		</script>
+	</head>
+	<body>
+		<div id="wrapper">
+			<div id="header">
+				<div  class="logo">
+					<a href="http://miniscroll.rogerluizm.com.br/"><img src="images/logo-miniscroll.png" width="250" height="57" alt="Image 01"/></a>
+				</div>
+			</div>
+			<div id="content">
+				<div id="lista">
+					<ul>
+						<li>
+							<a href="http://miniscroll.rogerluizm.com.br/demo/vertical.html"><div class="titulo">
+								<h1>VERTICAL SCROLLBAR</h1>
+								<div class="clear"></div>
+								<h3>this is a basic exemple of the a vertical scroll</h3>
+							</div></a>
+						</li>
+						<li>
+							<a href="http://miniscroll.rogerluizm.com.br/demo/horizontal.html"><div class="titulo">
+								<h1>HORIZONTAL SCROLLBAR</h1>
+								<h3>this is a basic exemple of the a horizontal scroll</h3>
+							</div></a>
+						</li>
+						<li>
+							<a href="http://miniscroll.rogerluizm.com.br/demo/multiple.html"><div class="titulo">
+								<h1>MULTIPLE SCROLLBARS</h1>
+								<h3>this is a exemple page with scrolls multiples</h3>
+							</div></a>
+						</li>
+						<li>
+							<a href="http://miniscroll.rogerluizm.com.br/demo/async.html"><div class="titulo">
+								<h1>ASYNC SCROLLBAR</h1>
+								<h3>This a exemple of async scroll</h3>
+							</div></a>
+						</li>
+						
+						
+						<li>
+							<a href="http://miniscroll.rogerluizm.com.br/demo/horizontal.html"><div class="titulo">
+								<h1>MULTIPLE SCROLLBARS</h1>
+								<h3>this is a exemple page with scrolls multiples</h3>
+							</div></a>
+						</li>
+						<li>
+							<a href="http://miniscroll.rogerluizm.com.br/demo/horizontal.html"><div class="titulo">
+								<h1>MULTIPLE SCROLLBARS</h1>
+								<h3>this is a exemple page with scrolls multiples</h3>
+							</div></a>
+						</li>
+						<li>
+							<a href="http://miniscroll.rogerluizm.com.br/demo/horizontal.html"><div class="titulo">
+								<h1>MULTIPLE SCROLLBARS</h1>
+								<h3>this is a exemple page with scrolls multiples</h3>
+							</div></a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

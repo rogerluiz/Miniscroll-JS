@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>MINISCROLL CAMOBOBOX</title>
+		<link rel="stylesheet" href="css/miniscroll-combo.css" type="text/css" media="screen" />
+		<script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
+		<script type="text/javascript" src="js/miniscroll.js"></script>
+		<script type="text/javascript">
+			var t;
+    
+    		$(document).ready(function(){
+        		$("#combo-button").click(function(){
+           	 		if($("#combo-panel").is(":hidden")) {
+                		$("#combo-panel").slideDown('fast');
+            		} else {
+                		$("#combo-panel").slideUp('fast');
+            		}
+        		});
+        		
+        		miniscroll.init('combo-panel', {color:"#2992ce", scroll:"y"});
+        		console.log(document.getElementById("combo-ul").offsetTop);
+    		});
+    
+    		function hideCombo() {
+        		t = setTimeout(function(){
+            		$("#combo-panel").slideUp('fast');
+        		}, 300);
+    		}
+    
+    		function showCombo() {
+        		clearTimeout(t);
+        		$("#combo-panel").css("display", "block");
+    		}
+    		
+    		
+		</script>
+	</head>
+	<body>
+		<div id="wrapper">
+			<div class="topo">
+				<div  class="logo">
+					<img src="images/logo-miniscroll.png" width="250" height="57" alt="Image 01"/>
+				</div>
+				<div class="menu-combo">
+					<div id="combo">
+						<div id="combo-button">SELECT THE SCROLLBAR</div>
+						<div id="combo-panel">
+							<ul id="combo-ul">
+								<li>HORIZONTAL SCROLLBAR</li>
+								<li>VERTICAL SCROLLBAR</li>
+								<li>MULTIPLES SCROLLBARS</li>
+								<li>ASYNC SCROLLBAR</li>
+								<li>FULLPAGE SCROLLBAR</li>
+								<li>BASIC SCROLLBAR</li>
+								<li>LIGHTBOX SCROLL</li>
+								<li>IMAGE SCROLLBAR</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="content">
+				content
+			</div>
+		</div>
+	</body>
+</html>

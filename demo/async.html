@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>MINISCROLL CAMOBOBOX</title>
+		<link rel="stylesheet" href="css/miniscroll-async.css" type="text/css" media="screen" />
+		<script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
+		<script type="text/javascript" src="js/miniscroll.js"></script>
+		<script type="text/javascript">
+			var i = 0;
+			
+			$(document).ready(function(){
+        		$(".add").click(function(e){
+					addDivs();
+				});
+        		
+        		miniscroll.init('lista-div', {color:"#313433", scroll:"y", size:10});
+    		});
+    		
+			function addDivs(){
+				var div = document.createElement('div');
+				div.setAttribute("id", "div_"+ i);
+				div.setAttribute("class", "box");
+				
+				document.getElementById("lista-div").appendChild(div);
+				document.getElementById("div_"+ i).innerHTML = "ELEMENT DIV "+i;
+				i++;
+			}
+		</script>
+	</head>
+	<body>
+		<div id="wrapper">
+			<div class="topo">
+				<div  class="logo">
+					<img src="images/logo-miniscroll.png" width="250" height="57" alt="Image 01"/>
+				</div>
+				<div class="titulo">
+					<h1></h1>
+				</div>
+			</div>
+			<div id="content">
+				<div id="form">
+					<div class="add">ADD DIV</div>
+				</div>
+				<div id="lista">
+					<div id="lista-div"></div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

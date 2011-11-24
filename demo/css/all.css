@@ -9,9 +9,11 @@ caption,th{text-align:left;}
 h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}
 q:before,q:after{content:"";}
 hr{display:none;}
+a{text-decoration:none;}
+img{border:0px;}
 body,html{margin:0px;padding:0px;width:100%;height:100%;}
 body{font-size:10px;font-family:Arial,Helvetica,sans-serif;height:100%;overflow:hidden;}
 #wrapper{width:100%;height:100%;position:absolute;}
-#header{width:100%;height:60px;background-color:#f6f8f6;}
+#header{width:100%;height:60px;background:#f6f8f6 url(../images/top_bg.jpg) repeat;}
 #content{width:100%;float:left;}
 div.logo{float:left;}
