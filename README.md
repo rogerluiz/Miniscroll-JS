@@ -1,7 +1,6 @@
-
 ## Miniscroll
 
-
+This is a my first framework in javascript
 
 **License**
 
