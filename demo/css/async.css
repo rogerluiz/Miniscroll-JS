@@ -1,6 +1,0 @@
-div#content{height:90%;width:100%;float:left;background-color:#fff;overflow:hidden;}
-div#form{width:250px;height:100%;float:left;position:relative;background-color:#eff1ef;}
-div#form .add{width:230px;height:40px;color:#FFF;font-size:13px;line-height:40px;text-align:center;background-color:#358ed2;position:relative;left:10px;top:45%;cursor:pointer;}
-div#lista{width:800px;height:100%;background-color:#eff1ef;position:relative;margin-left:255px;}
-div#lista-div{width:800px;height:100%;overflow:hidden;}
-div.box{width:800px;height:120px;float:left;color:#FFF;font-size:13px;line-height:120px;text-align:center;margin-bottom:2px;background-color:#358ed2;}
