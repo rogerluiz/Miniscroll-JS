@@ -730,10 +730,7 @@ var miniscroll = {
 	 * Return if the event touch
 	 */
 	isMiniTouchDevice : function(){
-		try { 
-			document.createEvent("TouchEvent");
-			return true;
-		} catch(e){ return false; }
+		return "ontouchstart" in window;
 	}
         
 }
