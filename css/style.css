@@ -23,8 +23,8 @@ h1 {font-size: 14px;}
 /* =Content
 -----------------------------------------------*/
 
-div#wrapper {width: 100%;height: 100%;position: absolute;background: url(../../lib/images/background.png) repeat #f0f0f0;}
-div#wrap {width: 100%;height: 100%;overflow: hidden;}
+div#example {width: 100%;height: 100%;position: absolute;background: url(../../lib/images/background.png) repeat #f0f0f0;}
+div#example_main {width: 100%;height: 100%;overflow: hidden;}
 
 /* =Box scroller
 -----------------------------------------------*/
@@ -45,4 +45,39 @@ div#scroll_content div.box {
 	height: 300px;
 	padding-right: 20px;
 	overflow: hidden;
+}
+
+div#menu_async {
+	
+	left: 50%;
+	width: 480px;
+	height: 40px;
+	margin-top: 55px;
+	margin-left: -255px;
+	position: absolute;
+}
+div#menu_async ul {
+	display: block;
+}
+div#menu_async ul li {
+	height: 30px;
+	display: block;
+	float: left;
+	line-height: 30px;
+	padding: 5px;
+	margin-left: 5px;
+	color: #FFF;
+	background-color: #07B6FF;
+	cursor: pointer;
+}
+
+div#menu_async ul li:hover {
+	background-color: #03A2E3;
+}
+
+
+#item li {
+	padding: 10px;
+	margin-bottom: 10px;
+	background-color: #ffffff;
 }

@@ -1,10 +1,11 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>MINISCROLL</title>
+	<link rel="stylesheet" href="css/style.css" type="text/css" media="screen" />
+	<script src="js/miniscroll.min.js" type="text/javascript"></script>
 	
-	<link id="favicon" href="/favicon.ico" rel="icon" type="image/x-icon" />
-	<link rel="stylesheet" href="css/sytle.css" type="text/css" media="screen" />
 	<style>
 		#list li {
 			width: 300px;
@@ -15,18 +16,16 @@
 			
 		}
 	</style>
-	<script src="js/miniscroll.min.js" type="text/javascript"></script>
+	
 </head>
 	
 <body>
-	<div id="wrapper">
-		<div id="wrap">
+	<div id="example">
+		<div id="example_main">
 			<!-- BEGIN CONTENT -->
-			
 			<div id="scroll_content">
-				
 				<div id="scroller" class="box">
-					<ul id="list">
+					<ul id="list" style="width: 1200px;">
 						<li style="margin-right: 20px;">
 							<h2><strong>Uuummmm, this is a tasty burger!</strong></h2>
 							<br />
@@ -51,10 +50,15 @@
 				</div>
 			</div>
 			<script type="text/javascript">
-				var d = document.getElementById("list");
-				d.style.width = "1260px";
-				miniscroll.init("scroller", {scroll:"x", color:"#333", size:12});
+				new Miniscroll('scroller', {
+					axis:'x',
+					size:12, 
+					handle:'auto',
+					scrubColor:"#333", 
+					trackerColor:"#666"
+				});
 			</script>
-		</di
+		</div>
+	</div>
 </body>
 </html>
