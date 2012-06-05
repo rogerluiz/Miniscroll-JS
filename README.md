@@ -26,3 +26,29 @@ OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE 
 OR OTHER DEALINGS IN THE SOFTWARE.
 ```
+
+##ABOUT MINISCROLL
+
+Miniscroll is a small scrollbar plugin for desktop and mobile applications.
+It’s use is very simple. You also can use CSS code to modify the default configuration.
+
+
+##HOW TO USE
+
+initializing the basic plugin, the handle can be an int ex: handle:100
+```
+new Miniscroll('divid', {
+  axis:'y',
+	size:12, 
+	handle:'auto',
+	scrubColor:"#33a369", 
+	trackerColor:"#bde7d8"
+});
+```						
+
+the div container connot have display attribute as absolute or relative and the overflow attribute has to be as hidden
+```
+<div id='divid'>
+	<p>The path of the righteous man is beset on all sides by the iniquities of the selfish and the tyranny of evil men.</p>
+</div>
+```
