@@ -7,7 +7,9 @@
  * @copyright (c) 2011, 2012 <http://rogerluizm.com.br/>
  * @package Loo UI
  *
- * @version 0.2
+ * @version 0.3v
+ * 		- adding the cross-browser fix scrollTop and scrollLeft, see getScrollPercentage();
+ *			
  */
 (function(window, document) {
 	/**
@@ -273,8 +275,8 @@
 		var self = this;
 		this.dragging = true;
 		this.point = {
-			x:(e.clientX + document.body.scrollLeft) - this.findOffsetLeft(this.scrub),
-			y:(e.clientY + document.body.scrollTop) - this.findOffsetTop(this.scrub),
+			x:(e.clientX + this.getScrollPercentage().left) - this.findOffsetLeft(this.scrub),
+			y:(e.clientY + this.getScrollPercentage().top) - this.findOffsetTop(this.scrub),
 			offsetX:this.findOffsetLeft(this.tracker),
 			offsetY:this.findOffsetTop(this.tracker)
 		};
@@ -287,6 +289,26 @@
 			self.stopEvent(e);
 			self.onStopDrag(e);
 		});
+	};
+	
+	Miniscroll.prototype.getScrollPercentage = function() {
+		
+		var top;
+		var left;
+		
+		if(document.documentElement && (document.documentElement.scrollTop)) {
+			top = document.documentElement.scrollTop;
+		} else {
+			top = document.body.scrollTop;
+		}
+		
+		if(document.documentElement && (document.documentElement.scrollLeft)) {
+			left = document.documentElement.scrollLeft;
+		} else {
+			left = document.body.scrollLeft;
+		}
+		
+		return {top: top, left: left};
 	};
 	
 	/**
@@ -502,7 +524,7 @@
 		if(element.addEventListener) {
 			if(eventType === "mousewheel") {
 				var mousewheelevt = (/Firefox/i.test(navigator.userAgent)) ? "DOMMouseScroll" : "mousewheel";
-				element.addEventListener(mousewheelevt, callBack, false);
+				element.removeEventListener(mousewheelevt, callBack, false);
 			} else {
 				element.removeEventListener(eventType, callBack, false);
 			}
