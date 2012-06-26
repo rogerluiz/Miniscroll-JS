@@ -7,8 +7,11 @@
  * @copyright (c) 2011, 2012 <http://rogerluizm.com.br/>
  * @package Loo UI
  *
- * @version 0.3v
+ * @version 0.4v 
+ *		- last update 26.06.2012
  * 		- adding the cross-browser fix scrollTop and scrollLeft, see getScrollPercentage();
+ * 		- adding the button up and down (buttonUp() and buttonDown()) event and animation effect to the scrollTo();
+ * 		- bug of the size (height and width)  of the scroll removed
  *			
  */
 (function(window, document) {
@@ -58,6 +61,13 @@
 		};
 		/** @type {Object|number} */
 		this.point = null;
+		
+		/** @type {Object|number} */
+		this.speed = {x:10, y:10};
+		
+		this.isClicked = false;
+		
+		this.scrollToPos = { x:this.scrub.offsetLeft, y:this.scrub.offsetTop };
 		
 		// Update variables
 		/** @type {Object} */
@@ -128,6 +138,7 @@
 		// Create and added tracker
 		var tracker = document.createElement('div');
 			tracker.setAttribute('id', this.target.id + '_tracker');
+			tracker.setAttribute('class', 'miniscroll_tracker');
 			if(this.args.axis === "y") {
 				tracker.style.width = this.args.size + "px";
 				tracker.style.height = this.target.offsetHeight + "px";
@@ -148,6 +159,7 @@
 		// Create and added scrub
 		var scrub = document.createElement('div');
 			scrub.setAttribute('id', this.target.id + '_scrub');
+			scrub.setAttribute('class', 'miniscroll_scrub');
 			if(this.args.axis === "y") {
 				scrub.style.width = this.args.size + "px";
 				if(this.args.handle === undefined || this.args.handle === 'auto') {
@@ -206,11 +218,14 @@
 				this.scrollbar.style.visibility = "visible";
 			}
 			
+			this.tracker.style.height = this.target.offsetHeight + "px";
+			
 			
 			if(this.target.scrollHeight > this.scrollHeight) {
 				var pct = (-this.target.scrollTop / (-this.target.scrollHeight + this.target.offsetHeight));
 				this.scroll(0, pct * (this.tracker.offsetHeight - this.scrub.offsetHeight));
 			}
+			
 			
 		} else {
 			if(this.args.handle === undefined || this.args.handle === 'auto') {
@@ -222,6 +237,8 @@
 			} else {
 				this.scrollbar.style.visibility = "visible";
 			}
+			
+			this.tracker.style.width = this.target.offsetWidth + "px";
 			
 			if(this.target.scrollWidth > this.scrollWidth) {
 				var pct = (-this.target.scrollLeft / (-this.target.scrollWidth + this.target.offsetHeight));
@@ -275,10 +292,10 @@
 		var self = this;
 		this.dragging = true;
 		this.point = {
-			x:(e.clientX + this.getScrollPercentage().left) - this.findOffsetLeft(this.scrub),
-			y:(e.clientY + this.getScrollPercentage().top) - this.findOffsetTop(this.scrub),
-			offsetX:this.findOffsetLeft(this.tracker),
-			offsetY:this.findOffsetTop(this.tracker)
+			x:(e.clientX + this.getScrollPercentage().left) - this.findOffset(this.scrub).left,
+			y:(e.clientY + this.getScrollPercentage().top) - this.findOffset(this.scrub).top,
+			offsetX:this.findOffset(this.tracker).left,
+			offsetY:this.findOffset(this.tracker).top
 		};
 		
 		this.addEvent(document, "mousemove", function(e) {
@@ -291,26 +308,6 @@
 		});
 	};
 	
-	Miniscroll.prototype.getScrollPercentage = function() {
-		
-		var top;
-		var left;
-		
-		if(document.documentElement && (document.documentElement.scrollTop)) {
-			top = document.documentElement.scrollTop;
-		} else {
-			top = document.body.scrollTop;
-		}
-		
-		if(document.documentElement && (document.documentElement.scrollLeft)) {
-			left = document.documentElement.scrollLeft;
-		} else {
-			left = document.body.scrollLeft;
-		}
-		
-		return {top: top, left: left};
-	};
-	
 	/**
 	 * Scroll the content and scrub
 	 *
@@ -320,13 +317,14 @@
 	Miniscroll.prototype.onMoveDrag = function(e) {
 		var e = window.event || e;
 		var dist = { 
-			x:(e.clientX + document.body.scrollLeft) - this.point.offsetX,
-			y:(e.clientY + document.body.scrollTop) - this.point.offsetY
+			x:(e.clientX + this.getScrollPercentage().left) - this.point.offsetX,
+			y:(e.clientY + this.getScrollPercentage().top) - this.point.offsetY
 		};
 		var offset = { x:dist.x - this.point.x, y:dist.y - this.point.y };
 		
 		if(this.dragging) {
 			this.scroll(offset.x, offset.y);
+			
 		}
 		//
 		this.stopEvent(e);
@@ -341,12 +339,12 @@
 	Miniscroll.prototype.onTrackerMove = function(e) {
 		var e = window.event || e;
 		var pos = {
-			x: e.clientX + document.body.scrollLeft,
-			y: e.clientY + document.body.scrollTop
+			x: e.clientX + this.getScrollPercentage().left,
+			y: e.clientY + this.getScrollPercentage().top
 		};
 		var offset = {
-			x: pos.x - this.findOffsetLeft(this.tracker) - this.scrub.offsetWidth/2,
-			y: pos.y - this.findOffsetTop(this.tracker) - this.scrub.offsetHeight/2
+			x: pos.x - this.findOffset(this.tracker).left - this.scrub.offsetWidth/2,
+			y: pos.y - this.findOffset(this.tracker).top - this.scrub.offsetHeight/2
 		};
 		
 		this.scroll(offset.x, offset.y);
@@ -375,6 +373,7 @@
 	 */
 	Miniscroll.prototype.onStopDrag = function(e) {
 		this.dragging = false;
+		this.scrollToPos = { x:this.scrub.offsetLeft, y:this.scrub.offsetTop };
 		this.removeEvent(document, "mousemove", function(e) {});
 		this.removeEvent(document, "mouseup", function(e) {});
 	};
@@ -412,8 +411,81 @@
 			this.x = x;
 		}
 		
+		if(this.isClicked === false) {
+			this.speed.x = x;
+			this.speed.y = y;
+		} else {
+			this.scrollToPos = { x:this.scrub.offsetLeft, y:this.scrub.offsetTop };
+		}
+		
 		this.contentTo();
 	};
+	
+	Miniscroll.prototype.buttonUp = function(target) {
+		var that = this;
+		var target = document.getElementById(target);
+		var timeout = null;
+		
+		var height = (this.tracker.offsetHeight - this.scrub.offsetHeight) + this.findOffset(this.target).top;
+		var width = (this.tracker.offsetWidth - this.scrub.offsetWidth) + this.findOffset(this.target).left;
+		
+		this.addEvent(target, "mousedown", function() {
+			that.isClicked = true;
+			timeout = window.setInterval(function() {
+				if(that.speed.y < 0) {
+					that.speed.y = 0;
+				}
+				
+				if(that.speed.x < 0) {
+					that.speed.x = 0;
+				}
+				
+				that.speed.y -= (height + that.speed.y) * 0.05;
+				that.speed.x -= (width + that.speed.x) * 0.05;
+				
+				that.scrollTo(that.speed.x, that.speed.y);
+			}, 30);
+			
+		});
+		
+		this.addEvent(target, "mouseup", function() {
+			that.isClicked = false;
+			clearInterval(timeout);
+		});
+	};
+	
+	Miniscroll.prototype.buttonDown = function(target) {
+		var that = this;
+		var target = document.getElementById(target);
+		var timeout = null;
+		
+		var height = (this.tracker.offsetHeight - this.scrub.offsetHeight) + this.findOffset(this.target).top;
+		var width = (this.tracker.offsetWidth - this.scrub.offsetWidth) + this.findOffset(this.target).left;
+		
+		this.addEvent(target, "mousedown", function() {
+			that.isClicked = true;
+			timeout = window.setInterval(function() {
+				if(that.speed.y > height) {
+					that.speed.y = height;
+				}
+				if(that.speed.x > width) {
+					that.speed.x = width;
+				}
+				
+				that.speed.y += (height - that.speed.y) * 0.05;
+				that.speed.x += (width - that.speed.x) * 0.05;
+				
+				that.scrollTo(that.speed.x, that.speed.y);
+			}, 30);
+		});
+		
+		this.addEvent(target, "mouseup", function() {
+			that.isClicked = false;
+			clearInterval(timeout);
+		});
+	};
+	
+	
 	
 	/**
 	 * Move to the scrollbar and content 
@@ -424,7 +496,32 @@
 	 * @see {Function} scroll()
 	 */
 	Miniscroll.prototype.scrollTo = function(x, y) {
-		this.scroll( (x / this.ratio.x), (y / this.ratio.y) );
+		var that = this;
+		if(!that.isClicked) {
+			var set = window.setInterval(function() {
+			 	
+			 	if(Math.round(that.scrollToPos.y) < y) {
+					that.scrollToPos.y += (y - that.scrollToPos.y) * 0.05;
+					that.scrollToPos.x += (x - that.scrollToPos.x) * 0.05;
+				} else if(Math.round(that.scrollToPos.y) > y) {
+					//console.log()
+					that.scrollToPos.y -= (y + that.scrollToPos.y) * 0.05;
+					that.scrollToPos.x -= (x + that.scrollToPos.x) * 0.05;
+				}
+				
+				that.scroll( (that.scrollToPos.x / that.ratio.x), (that.scrollToPos.y / that.ratio.y) );
+				
+				if(that.args.axis === "y" && Math.round(that.scrollToPos.y) === y) {
+					clearInterval(set);
+				} else if(that.args.axis === "x" && Math.round(that.scrollToPos.x) === x) {
+					clearInterval(set);
+				}
+				
+			}, 30);
+		} else {
+			that.scroll( (x / that.ratio.x), (y / that.ratio.y) );
+		}
+		
 	};
 	
 	/**
@@ -441,42 +538,51 @@
 		}
 	};
 	
-	/**
-	 * Find the offset top of the element
-	 *
-	 * @this {Miniscroll}
-	 * @param {Element} element Target to return the position top
-	 * @return {number} Return the offset top
-	 * @author Quirksmode
-	 */
-	Miniscroll.prototype.findOffsetTop  = function(element) {
-		var offset = 0;
-		if (element.offsetParent) {
-			while (element.offsetParent) {
-				offset += element.offsetTop;
-				element  = element.offsetParent;
-			}
+	Miniscroll.prototype.getScrollPercentage = function() {
+		
+		var top;
+		var left;
+		
+		if(document.documentElement && (document.documentElement.scrollTop)) {
+			top = document.documentElement.scrollTop;
+		} else {
+			top = document.body.scrollTop;
 		}
-		return offset;
+		
+		if(document.documentElement && (document.documentElement.scrollLeft)) {
+			left = document.documentElement.scrollLeft;
+		} else {
+			left = document.body.scrollLeft;
+		}
+		
+		return {top: top, left: left};
 	};
 	
 	/**
-	 * Find the offset left of the element
+	 * Find the offset top and the left of the element
 	 *
 	 * @this {Miniscroll}
-	 * @param {Element} element Target to return the position left
-	 * @return {number} Return the offset left
+	 * @param {Element} element Target to return the position top
+	 * @return {number} Return the offset top and left
 	 * @author Quirksmode
 	 */
-	Miniscroll.prototype.findOffsetLeft  = function(element) {
-		var offset = 0;
+	Miniscroll.prototype.findOffset  = function(element) {
+		var top = 0;
 		if (element.offsetParent) {
 			while (element.offsetParent) {
-				offset += element.offsetLeft;
+				top += element.offsetTop;
 				element  = element.offsetParent;
 			}
 		}
-		return offset;
+		
+		var left = 0;
+		if (element.offsetParent) {
+			while (element.offsetParent) {
+				left += element.offsetLeft;
+				element  = element.offsetParent;
+			}
+		}
+		return {top:top, left:left};
 	};
 	
 	/**
