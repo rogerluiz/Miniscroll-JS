@@ -219,7 +219,7 @@
 			}
 			
 			this.tracker.style.height = this.target.offsetHeight + "px";
-			
+			this.scrollbar.style.left = (this.target.offsetWidth - this.args.size) + "px";
 			
 			if(this.target.scrollHeight > this.scrollHeight) {
 				var pct = (-this.target.scrollTop / (-this.target.scrollHeight + this.target.offsetHeight));
@@ -239,6 +239,7 @@
 			}
 			
 			this.tracker.style.width = this.target.offsetWidth + "px";
+			this.scrollbar.style.top = (this.target.offsetHeight - this.args.size) + "px";
 			
 			if(this.target.scrollWidth > this.scrollWidth) {
 				var pct = (-this.target.scrollLeft / (-this.target.scrollWidth + this.target.offsetHeight));
