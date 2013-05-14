@@ -1,11 +1,11 @@
 <legend>Adicione o miniscroll.js em sua página:</legend>
 <pre>
-   &lt;script src=<"miniscroll.js"&gt;&lt;/script&gt;
+   &lt;script src="miniscroll.js"&gt;&lt;/script&gt;
 </pre>
 
 <legend>Marcação HTML:</legend>
 <pre>
-    &lt;div class="scroller"t&gt;
+    &lt;div class="scroller"&gt;
     &lt;/divt&gt;
 </pre>
 
@@ -41,10 +41,10 @@
 
 <legend>Parametros:</legend>
 <pre>
-    <span class="code-var">axis</span>:<br /> eixo do scrollbar <span class="code-attr">ex: "y" ou "x"</span><br /><br />
-    <span class="code-var">size</span>:<br /> a largura do scrollbar <span class="code-attr">ex: 10</span><br /><br />
-    <span class="code-var">sizethumb</span>:<br /> o tamanho do thumb <span class="code-attr">ex: 100 ou "auto"</span><br /><br />
-    <span class="code-var">thumbColor</span>:<br /> cor de fundo do thumb <span class="code-attr">ex: "#0e5066"</span><br /><br />
-    <span class="code-var">trackerColor</span>:<br /> cor de fundo do tracker <span class="code-attr">ex: "#1a8bb2"</span><br /><br />
-    <span class="code-var">scrollbarSize</span>:<br /> tamanho do scrollbar, você pode setar um tamanho fix para o scrollbar <span class="code-attr">ex: 300 isso deixara o scrollbar com a altura de 300px</span>
+    axis:<br /> eixo do scrollbar <span style="color: #d94436">ex: "y" ou "x"</span><br /><br />
+    size:<br /> a largura do scrollbar <span style="color: #d94436">ex: 10</span><br /><br />
+    sizethumb:<br /> o tamanho do thumb <span cstyle="color: #d94436">ex: 100 ou "auto"</span><br /><br />
+    thumbColor:<br /> cor de fundo do thumb <span style="color: #d94436">ex: "#0e5066"</span><br /><br />
+    trackerColor:<br /> cor de fundo do tracker <span style="color: #d94436">ex: "#1a8bb2"</span><br /><br />
+    scrollbarSize:<br /> tamanho do scrollbar, você pode setar um tamanho fix para o scrollbar <span style="color: #d94436">ex: 300 isso deixara o scrollbar com a altura de 300px</span>
 </pre>
