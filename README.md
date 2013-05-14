@@ -1,12 +1,12 @@
 <legend>Adicione o miniscroll.js em sua página:</legend>
 <pre>
-    <script src="miniscroll.js"></script>
+   &lt;script src=<"miniscroll.js"&gt;&lt;/script&gt;
 </pre>
 
 <legend>Marcação HTML:</legend>
 <pre>
-    <div class="scroller">
-    </div>
+    &lt;div class="scroller"t&gt;
+    &lt;/divt&gt;
 </pre>
 
 <legend>Marcação CSS:</legend>
