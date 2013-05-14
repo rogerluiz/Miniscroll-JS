@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset=utf-8>
+        <meta name=description content="">
+
+        <meta property="og:url" content="http://miniscroll.rogerluizm.com.br/" />
+        <meta property="og:site_name" content="Miniscroll" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Miniscroll" />
+        <meta property="og:image" content="http://miniscroll.rogerluizm.com.br/fb.png" />
+        <meta property="og:description" content="Pequeno plugin javascript para scrollbar, feito para ser simples e facil de usar" />
+
+        <meta name=viewport content="width=device-width, initial-scale=1">
+        <title>Miniscroll - Pequeno plug-in em javascript</title>
+        <link rel=stylesheet href="css/boilerplate.css">
+        <link rel=stylesheet href="css/style.css">
+    </head>
+    <body>
+	  	<div id="main-container">
+            <aside id="sidebar">
+                <div class="logo">
+                    <img src="img/logo.png" alt="">
+                </div>
+
+                <div class="download">
+                    <a href="miniscroll.js" class="file">download</a>
+                    <a href="//github.com/rogerluiz/Miniscroll-JS" class="github">github</a>
+                </div>
+
+
+                <div class="code">
+                    <legend>Adicione o miniscroll.js em sua página:</legend>
+                    <code>
+                        <span class="code-tag">&lt;script</span> <span class="code-attr">src</span>=<span class="code-string">"miniscroll.js"</span><span class="code-tag">&gt;&lt;/script&gt;</span>
+                    </code>
+                    
+                    <legend>Marcação HTML:</legend>
+                    <code>
+                       <span class="code-tag"> &lt;div</span> <span class="code-attr">class</span>=<span class="code-string">"scroller"</span><span class="code-tag">&gt;</span><br />
+                            <span class="code-comment">// text here</span><br />
+                        <span class="code-tag">&lt;/div&gt;</span>
+                    </code>
+
+                    <legend>Marcação CSS:</legend>
+                    <code>
+                       .scroller {
+                           width: 400px;
+                           height: 300px;
+                           overflow: hidden;
+                       }
+                    </code>
+
+                    <legend>Simples inicialização:</legend>
+                    <code>
+                        <span class="code-var">new</span> <span class="code-attr">Miniscroll</span>(<span class="code-string">".scroller"</span>, {<br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-tag">axis</span>: <span class="code-string">"y"</span>,<br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-tag">size</span>: <span class="code-number">10</span>,<br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-tag">sizethumb</span>: <span class="code-string">"auto",</span><br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-tag">thumbColor</span>: <span class="code-string">"#0e5066",</span><br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-tag">trackerColor</span>: <span class="code-string">"#1a8bb2"</span><br />
+                        });
+                    </code>
+
+                    <legend>Mude a cor do thumb ou do tracker com css:</legend>
+                    <code>
+                        .<span class="code-var">miniscroll-thumb</span> {<br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-tag">background-color</span>: <span class="code-string">#0e5066</span> <span class="code-attr">!important</span>;<br />
+                        }<br /><br />
+                        .<span class="code-var">miniscroll-tracker</span> {<br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-tag">background-color</span>: <span class="code-string">#1a8bb2</span> <span class="code-attr">!important</span>;<br />
+                        }
+                    </code>
+
+                    <legend>Parametros:</legend>
+                    <code>
+                        <span class="code-var">axis</span>:<br /> eixo do scrollbar <span class="code-attr">ex: "y" ou "x"</span><br /><br />
+                        <span class="code-var">size</span>:<br /> a largura do scrollbar <span class="code-attr">ex: 10</span><br /><br />
+                        <span class="code-var">sizethumb</span>:<br /> o tamanho do thumb <span class="code-attr">ex: 100 ou "auto"</span><br /><br />
+                        <span class="code-var">thumbColor</span>:<br /> cor de fundo do thumb <span class="code-attr">ex: "#0e5066"</span><br /><br />
+                        <span class="code-var">trackerColor</span>:<br /> cor de fundo do tracker <span class="code-attr">ex: "#1a8bb2"</span><br /><br />
+                        <span class="code-var">scrollbarSize</span>:<br /> tamanho do scrollbar, você pode setar um tamanho fix para o scrollbar <span class="code-attr">ex: 300 isso deixara o scrollbar com a altura de 300px</span>
+                    </code>
+                </div>
+            </aside>
+
+            <section id="main">
+                <div class="content">
+                    <article class="box1">
+                        <h1>Exemplo 1:</h1>
+
+                        <div class="scroller">
+                            <p>Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos.</p>
+
+                            <p>Lorem Ipsum sobreviveu não só a cinco séculos, como também ao salto para a editoração eletrônica, permanecendo essencialmente inalterado. Se popularizou na década de 60, quando a Letraset lançou decalques contendo passagens de Lorem Ipsum, e mais recentemente quando passou a ser integrado a softwares de editoração eletrônica como Aldus PageMaker.</p>
+
+                            <p>Ao contrário do que se acredita, Lorem Ipsum não é simplesmente um texto randômico. Com mais de 2000 anos, suas raízes podem ser encontradas em uma obra de literatura latina clássica datada de 45 AC. Richard McClintock, um professor de latim do Hampden-Sydney College na Virginia, pesquisou uma das mais obscuras palavras em latim, consectetur, oriunda de uma passagem de Lorem Ipsum, e, procurando por entre citações da palavra na literatura clássica, descobriu a sua indubitável origem.</p>
+
+                            <p>Lorem Ipsum vem das seções 1.10.32 e 1.10.33 do "de Finibus Bonorum et Malorum" (Os Extremos do Bem e do Mal), de Cícero, escrito em 45 AC. Este livro é um tratado de teoria da ética muito popular na época da Renascença. A primeira linha de Lorem Ipsum, "Lorem Ipsum dolor sit amet..." vem de uma linha na seção 1.10.32.</p>
+                        </div>
+
+                        <code>
+                            <span class="code-var">new</span> <span class="code-attr">Miniscroll</span>(<span class="code-string">".scroller"</span>, {<br />
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-tag">axis</span>: <span class="code-string">"y"</span>,<br />
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-tag">size</span>: <span class="code-number">8</span>,<br />
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-tag">sizethumb</span>: <span class="code-string">"auto",</span><br />
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-tag">thumbColor</span>: <span class="code-string">"#19a291",</span><br />
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-tag">trackerColor</span>: <span class="code-string">"#85efd2"</span><br />
+                            });
+                        </code>
+                        
+                    </article>
+                </div>
+            </section>
+        </div>
+
+        <script type="text/javascript" src="../miniscroll.js"></script>
+        <script type="text/javascript">
+            new Miniscroll("#sidebar", {
+                axis: "y",
+                size: 5,
+                sizethumb: "auto",
+                thumbColor: "#0e5066",
+                trackerColor: "#1a8bb2"
+            });
+
+            new Miniscroll(".scroller", {
+                axis: "y",
+                size: 8,
+                sizethumb: "auto",
+                thumbColor: "#19a291",
+                trackerColor: "#85efd2"
+            });
+        </script>
+    </body>
+</html>

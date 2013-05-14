@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset=utf-8>
+        <title>Miniscroll Test 1</title>
+        <link rel="stylesheet" href="../src/combo.css">
+        <style type="text/css">
+            * {
+                margin: 0;
+                padding: 0;
+            }
+
+            html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            .container {
+                position: absolute;
+                width: 100%;
+                height: 200px;
+            }
+
+            .scrollbar {
+                float: left;
+                width: 300px;
+                height: 200px;
+                background-color: #FAFFFC;
+                overflow: hidden;
+            }
+
+            .scrollbar-two {
+                float: left;
+                width: 300px;
+                height: 200px;
+                margin-left: 20px;
+                background-color: #FAFFFC;
+                overflow: hidden;
+            }
+
+            .box {
+                width: 100%;
+                height: 80px;
+            }
+            
+            .green {
+                background-color: #cef3bc;
+            }
+            .red {
+                background-color: #F00;
+            }
+
+            .roxo {
+                background-color: #9b08e0;
+            }
+            .rosa {
+                background-color: #cf2d9b;
+            }
+
+        </style>
+    </head>
+    <body>
+	  	
+        <div class="container green">
+            <div class="scrollbar">
+                <div class="box red"></div>
+                <div class="box roxo"></div>
+                <div class="box rosa"></div>
+                <div class="box roxo"></div>
+                <div class="box red"></div>
+                <div class="box rosa"></div>
+            </div>
+
+            <div class="scrollbar-two">
+                <div class="box red"></div>
+                <div class="box roxo"></div>
+                <div class="box rosa"></div>
+                <div class="box roxo"></div>
+                <div class="box red"></div>
+                <div class="box rosa"></div>
+            </div>
+
+
+            <div class="dropdown sprite">
+                <span class="dropdown-label"></span>
+                <div class="dropdown-list sprite">
+                    <nav class="dropdown-container scroller">
+                        <ul>
+                            <li data-value="AC">AC</li>
+                            <li data-value="AL">AL</li>
+                            <li data-value="AM">AM</li>
+                            <li data-value="AP">AP</li>
+                            <li data-value="BA">BA</li>
+                            <li data-value="CE">CE</li>
+                            <li data-value="DF">DF</li>
+                            <li data-value="ES">ES</li>
+                            <li data-value="GO">GO</li>
+                            <li data-value="MA">MA</li>
+                            <li data-value="MT">MT</li>
+                            <li data-value="MS">MS</li>
+                            <li data-value="MG">MG</li>
+                            <li data-value="PA">PA</li>
+                            <li data-value="PB">PB</li>
+                            <li data-value="PE">PE</li>
+                            <li data-value="PI">PI</li>
+                            <li data-value="PR">PR</li>
+                            <li data-value="RN">RN</li>
+                            <li data-value="RS">RS</li>
+                            <li data-value="RJ">RJ</li>
+                            <li data-value="RO">RO</li>
+                            <li data-value="RR">RR</li>
+                            <li data-value="SC">SC</li>
+                            <li data-value="SE">SE</li>
+                            <li data-value="SP">SP</li>
+                            <li data-value="TO">TO</li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        
+	  	<script src="../miniscroll.js"></script>
+	  	<script>
+	  		new Miniscroll(".scrollbar", {
+                axis: "y",
+                size: 10,
+                sizethumb: "auto"
+            });
+
+            new Miniscroll(".scrollbar-two", {
+                axis: "y",
+                size: 10,
+                sizethumb: "auto"
+            });
+
+             new Miniscroll(".scroller", {
+                axis: "y",
+                size: 10,
+                sizethumb: "auto"
+            });
+	  	</script>
+    </body>
+</html>
