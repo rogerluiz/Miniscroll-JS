@@ -49,8 +49,11 @@
 	 * Cria o conteiner do scrollbar
 	 */
 	Miniscroll.prototype.buildScrollbar = function () {
+		var idname = (this.target.id) ? this.target.id : this.target.className;
+
 		this.container = this.create(this.target, "div", {
-			"class" : "miniscroll-container"
+			"class" : "miniscroll-container",
+			"id" : "miniscroll-" + idname
 		});
 
 		var scrollHeight = this.settings.scrollbarSize ? this.settings.scrollbarSize : this.offset(this.target).height;

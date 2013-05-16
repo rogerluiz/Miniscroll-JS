@@ -25,7 +25,7 @@
 
                 <div class="download">
                     <a href="miniscroll.js" class="file">download</a>
-                    <a href="//github.com/rogerluiz/Miniscroll-JS" class="github">github</a>
+                    <a href="//github.com/rogerluiz/Miniscroll-JS" class="github" target="_blank">github</a>
                 </div>
 
 
@@ -44,10 +44,10 @@
 
                     <legend>Marcação CSS:</legend>
                     <code>
-                       .scroller {
-                           width: 400px;
-                           height: 300px;
-                           overflow: hidden;
+                       .<span class="code-var">scroller</span> {<br />
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-tag">width</span>: <span class="code-string">400px;</span><br />
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-tag">height</span>: <span class="code-string">300px;</span><br />
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-tag">overflow</span>: <span class="code-string">hidden;</span><br />
                        }
                     </code>
 
@@ -62,12 +62,22 @@
                         });
                     </code>
 
-                    <legend>Mude a cor do thumb ou do tracker com css:</legend>
+                    <legend>Adicione CSS:</legend>
                     <code>
                         .<span class="code-var">miniscroll-thumb</span> {<br />
                             &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-tag">background-color</span>: <span class="code-string">#0e5066</span> <span class="code-attr">!important</span>;<br />
                         }<br /><br />
                         .<span class="code-var">miniscroll-tracker</span> {<br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-tag">background-color</span>: <span class="code-string">#1a8bb2</span> <span class="code-attr">!important</span>;<br />
+                        }
+                    </code>
+
+                    <legend>Adicione CSS para um scroll especifico:</legend>
+                    <code>
+                        <span class="code-attr">#</span><span class="code-var">miniscroll-target</span> .<span class="code-var">miniscroll-thumb</span> {<br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-tag">background-color</span>: <span class="code-string">#0e5066</span> <span class="code-attr">!important</span>;<br />
+                        }<br /><br />
+                        <span class="code-attr">#</span><span class="code-var">miniscroll-target</span> .<span class="code-var">miniscroll-tracker</span> {<br />
                             &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-tag">background-color</span>: <span class="code-string">#1a8bb2</span> <span class="code-attr">!important</span>;<br />
                         }
                     </code>
