@@ -6,16 +6,30 @@
  *
  * @copyright (c) 2011, 2012 <http://rogerluizm.com.br/>
  *
- * @version 1.2.3
+ * @version 1.2.4
  * 		update 1.2.1 | 15/05/2013 - Touch evento adicionado, agora funciona para ipad, iphone e android 
- * 		update 1.2.2 | 18/05/2013 - Adicionado key event, setas do teclado tanto para cima quando para baixo
- * 		update 1.2.3 | 19/05/2013 - scrollbar horizontal e vertical atualizado fixbug posição "x"
+ * 		update 1.2.2 | 17/05/2013 - Adicionado key event, setas do teclado tanto para cima quando para baixo
+ * 		update 1.2.3 | 18/05/2013 - scrollbar horizontal e vertical atualizado fixbug posição "x"
+ * 		update 1.2.4 | 18/05/2013 - fixbug scrollbar, estava dando um erro na hora de pegar a altura ou largura
  */
 (function(window, document) {
 	var config = {
 		touchEvents: ('ontouchstart' in document.documentElement)
 	},
 	
+	/**
+	 * @constructor
+	 * 
+	 * @param { String || Element } selector Class, id ou elemento html ex: ".scroller", "#scroller"
+	 * @param { Object } options Lista de parametros
+	 *					 { axis: "y",
+	 *		               size: 5,
+	 *		               sizethumb: "auto",
+	 *		               thumbColor: "#0e5066",
+	 *		               trackerColor: "#1a8bb2",
+	 *		               isKeyEvent: false // default is true
+	 *		             }
+	 */
 	Miniscroll = function (selector, options) {
 		this.type = "";
 		this.is = "static";
@@ -35,16 +49,36 @@
 		this.initializing();
 	};
 
+	/**
+	 * Inicia o miniscroll
+	 *
+	 * @see this.buildScrollbar();
+	 * @see this.buildScrollbarTracker();
+	 * @see this.buildScrolbarThumb();
+	 * @see this.setupEventHandler();
+	 * @see this.setupTouchEvent();
+	 * @see this.addKeyBoardEvent();
+	 */
 	Miniscroll.prototype.initializing = function () {
+		// Cria o container do scrollbar
 		this.buildScrollbar();
+
+		// Cria o tracker do scrollbar
 		this.buildScrollbarTracker();
+
+		// Cria o thumb do thumb
 		this.buildScrolbarThumb();
 
+		// Verifica se keyEvent é true ou false ou se foi setado, caso não adiciona o default
 		this.settings.isKeyEvent = (typeof this.settings.isKeyEvent === "undefined") ? true : this.settings.isKeyEvent;
+		
+		// Se isKeyEvent for true então configura e adiciona o evento de tecla (keypress)
 		if (this.settings.isKeyEvent) this.addKeyBoardEvent();
 
+		// Verifica se o device atual suporta touch event e adiciona o evento adequado
 		(!config.touchEvents) ? this.setupEventHandler() : this.setupTouchEvent();
 
+		// inicia o update do scrollbar, faz um interval e verifica as mudanças no scroll
 		var _this = this;
 		window.setInterval(function() {
 			_this.update();
@@ -55,23 +89,28 @@
 	 * Cria o conteiner do scrollbar
 	 */
 	Miniscroll.prototype.buildScrollbar = function () {
+		
+		// Verifico se existe um id no target ou classe para o id do container
 		var idname = (this.target.id) ? this.target.id : this.target.className;
 
+		// Cria o container e adiciona a classe e o id
 		this.container = this.create(this.target, "div", {
 			"class" : "miniscroll-container",
 			"id" : "miniscroll-" + idname
 		});
 
-		var scrollHeight = (this.settings.axis === "y") ? this.settings.scrollbarSize : this.offset(this.target).height;
-		var scrollWidth = (this.settings.axis === "x") ? this.settings.scrollbarSize : this.offset(this.target).width;
+		var scrollHeight = (this.settings.scrollbarSize) ? this.settings.scrollbarSize : this.offset(this.target).height;
+		var scrollWidth = (this.settings.scrollbarSize) ? this.settings.scrollbarSize : this.offset(this.target).width;
 		var scrollX = this.offset(this.target).left + (this.offset(this.target).width - this.settings.size);
 		var scrollY = this.offset(this.target).top + (this.offset(this.target).height - this.settings.size);
 
+
+		// Adiciona o css
 		this.css(this.container, {
 			position: "absolute",
 			visibility: "hidden",
-			width: scrollWidth + "px",
-			height: scrollHeight + "px",
+			width: ((this.settings.axis === "x") ? scrollWidth : this.settings.size) + "px",
+			height: ((this.settings.axis === "y") ? scrollHeight : this.settings.size) + "px",
 			top: ((this.settings.axis === "y") ? this.offset(this.target).top : scrollY) + "px",
 			left: ((this.settings.axis === "x") ? this.offset(this.target).left : scrollX) + "px",
 			zIndex: 999
@@ -88,7 +127,7 @@
 
 		var trackerWidth = (this.settings.axis === "x") ? this.offset(this.container).width : this.settings.size;
 		var trackerHeight = (this.settings.axis === "y") ? this.offset(this.container).height : this.settings.size;
-
+		console.log(this.offset(this.target).height)
 		this.css(this.tracker, {
 			width: trackerWidth + "px",
 			height: trackerHeight + "px",
@@ -105,8 +144,13 @@
 		});
 
 		var offset = new Point(
-			(this.offset(this.container).height * this.offset(this.tracker).height) / this.target.scrollHeight,
-			(this.offset(this.container).width * this.offset(this.tracker).width) / this.target.scrollWidth
+			(this.offset(this.container).width * this.offset(this.tracker).width) / this.target.scrollWidth,
+			(this.offset(this.container).height * this.offset(this.tracker).height) / this.target.scrollHeight
+		);
+
+		var offset = new Point(
+			(this.offset(this.container).width * this.offset(this.tracker).width) / this.target.scrollWidth,
+			(this.offset(this.container).height * this.offset(this.tracker).height) / this.target.scrollHeight
 		);
 
 		var thumbSize = new Point(
@@ -124,16 +168,25 @@
 		});
 	};
 
+	/**
+	 * Inicia o evento do scrollbar adiciona "mousedown" e "mousewheel"
+	 */
 	Miniscroll.prototype.setupEventHandler = function () {
 		this.bind(this.thumb, "mousedown", this.onScrollThumbPress);
 		this.bind(this.target, 'mousewheel', this.onScrollThumbWheel);
 	};
 
+	/**
+	 * Inicia dos eventos de touch "touchstart" e "touchmove"
+	 */
 	Miniscroll.prototype.setupTouchEvent = function () {
 		this.bind(this.target, "touchstart", this.onScrollTouchStart);
 		this.bind(this.target, "touchmove", this.onScrollTouchMove);
 	};
 
+	/**
+	 * Verifica se a posição do target é statica, relativa ou absoluta
+	 */
 	Miniscroll.prototype.updateContainerPosition = function () {
 		this.is = this.getCss(this.target, 'position');
 
@@ -187,13 +240,11 @@
 
 				switch (keyCode) {
 					case arrow.up:
-						if (this.percent !== 0) 
-							delta -= 10;
-						
+						if (this.percent !== 0) delta -= 10;
 						break;
+
 					case arrow.down:
-						if (this.percent !== 1) 
-							delta += 10;
+						if (this.percent !== 1) delta += 10;
 						break;
 				}
 
@@ -235,15 +286,8 @@
 		// override the touch event’s normal functionality
 		event.preventDefault();
 
-		var touchMoved = new Point(
-			this.touch.x - touches.pageX,
-			this.touch.y - touches.pageY
-		);
-
-		this.touch = new Point(
-			touches.pageX,
-			touches.pageY
-		);
+		var touchMoved = new Point(this.touch.x - touches.pageX, this.touch.y - touches.pageY);
+		this.touch = new Point(touches.pageX, touches.pageY);
 
 
 		if (this.settings.axis === "y") {
@@ -391,15 +435,16 @@
 		}
 
 		// Atualiza o tamanho e a posição do container do scrollbar
-		var scrollHeight = (this.settings.axis === "y") ? this.settings.scrollbarSize : this.offset(this.target).height;
-		var scrollWidth = (this.settings.axis === "x") ? this.settings.scrollbarSize : this.offset(this.target).width;
+		var scrollHeight = (this.settings.scrollbarSize) ? this.settings.scrollbarSize : this.offset(this.target).height;
+		var scrollWidth = (this.settings.scrollbarSize) ? this.settings.scrollbarSize : this.offset(this.target).width;
 		var scrollX = this.offset(this.target).left + (this.offset(this.target).width - this.settings.size);
 		var scrollY = this.offset(this.target).top + (this.offset(this.target).height - this.settings.size);
 
+
+		// Adiciona o css
 		this.css(this.container, {
-			position: "absolute",
-			width: scrollWidth + "px",
-			height: scrollHeight + "px",
+			width: ((this.settings.axis === "x") ? scrollWidth : this.settings.size) + "px",
+			height: ((this.settings.axis === "y") ? scrollHeight : this.settings.size) + "px",
 			top: ((this.settings.axis === "y") ? this.offset(this.target).top : scrollY) + "px",
 			left: ((this.settings.axis === "x") ? this.offset(this.target).left : scrollX) + "px",
 		});
@@ -413,17 +458,16 @@
 			height: trackerHeight + "px"
 		});
 
-		// Atualiza o tamanho do tracker
+		// Atualiza o tamanho do thumb
 		var offset = new Point(
-			(this.offset(this.container).height * this.offset(this.tracker).height) / this.target.scrollHeight,
-			(this.offset(this.container).width * this.offset(this.tracker).width) / this.target.scrollWidth
+			(this.offset(this.container).width * this.offset(this.tracker).width) / this.target.scrollWidth,
+			(this.offset(this.container).height * this.offset(this.tracker).height) / this.target.scrollHeight
 		);
 
 		var thumbSize = new Point(
 			(this.settings.sizethumb === undefined || this.settings.sizethumb === 'auto') ? offset.x : this.settings.sizethumb,
 			(this.settings.sizethumb === undefined || this.settings.sizethumb === 'auto') ? offset.y : this.settings.sizethumb
 		);
-
 		this.css(this.thumb, {
 			width: ((this.settings.axis === "x") ? thumbSize.x : this.settings.size) + "px",
 			height: ((this.settings.axis === "y") ? thumbSize.y : this.settings.size) + "px"
