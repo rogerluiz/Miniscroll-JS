@@ -2,15 +2,15 @@
 
 ### Adicione o miniscroll.js em sua página:
 
-> <script src="miniscroll.js"></script>
+&gt;script src="miniscroll.js"&gt;&gt;/script&gt;
 
 ***
 
 Marcação HTML:
 
-> <div class="scroller">
+> &gt;div class="scroller"&gt;
 > // text here
-> </div>
+> &gt;/div&gt;
 
 ***
 
