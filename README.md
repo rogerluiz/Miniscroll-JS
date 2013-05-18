@@ -50,7 +50,7 @@ Marcação HTML:
 >     background-color: #0e5066 !important;
 > }
 
-> &\#35;miniscroll-target .miniscroll-tracker {
+> &#35;miniscroll-target .miniscroll-tracker {
 >     background-color: #1a8bb2 !important;
 > }
 
