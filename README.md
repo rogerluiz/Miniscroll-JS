@@ -1,50 +1,76 @@
-<legend>Adicione o miniscroll.js em sua página:</legend>
-<pre>
-   &lt;script src="miniscroll.js"&gt;&lt;/script&gt;
-</pre>
+![Miniscroll](http://miniscroll.rogerluizm.com.br/img/logo.png)
 
-<legend>Marcação HTML:</legend>
-<pre>
-    &lt;div class="scroller"&gt;
-    &lt;/divt&gt;
-</pre>
+### Adicione o miniscroll.js em sua página:
 
-<legend>Marcação CSS:</legend>
-<pre>
-   .scroller {
-       width: 400px;
-       height: 300px;
-       overflow: hidden;
-   }
-</pre>
+> <script src="miniscroll.js"></script>
 
-<legend>Simples inicialização:</legend>
-<pre>
-    new Miniscroll( ".scroller", {
-        axis: "y",
-        size: 10,
-        sizethumb: "auto"
-        thumbColor: "#0e5066",
-        trackerColor: "#1a8bb2"
-    });
-</pre>
+***
 
-<legend>Mude a cor do thumb ou do tracker com css:</legend>
-<pre>
-    .miniscroll-thumb {
-        background-color: #0e5066 !important;
-    }
-    .miniscroll-tracker {
-       background-color: #1a8bb2 !important;
-    }
-</pre>
+Marcação HTML:
 
-<legend>Parametros:</legend>
-<pre>
-    axis:<br /> eixo do scrollbar <span style="color: #d94436">ex: "y" ou "x"</span><br /><br />
-    size:<br /> a largura do scrollbar <span style="color: #d94436">ex: 10</span><br /><br />
-    sizethumb:<br /> o tamanho do thumb <span cstyle="color: #d94436">ex: 100 ou "auto"</span><br /><br />
-    thumbColor:<br /> cor de fundo do thumb <span style="color: #d94436">ex: "#0e5066"</span><br /><br />
-    trackerColor:<br /> cor de fundo do tracker <span style="color: #d94436">ex: "#1a8bb2"</span><br /><br />
-    scrollbarSize:<br /> tamanho do scrollbar, você pode setar um tamanho fix para o scrollbar <span style="color: #d94436">ex: 300 isso deixara o scrollbar com a altura de 300px</span>
-</pre>
+> <div class="scroller">
+> // text here
+> </div>
+
+***
+
+### Marcação CSS:
+> .scroller {
+>     width: 400px;
+>     height: 300px;
+>     overflow: hidden;
+> }
+
+***
+
+### Simples inicialização:
+> new Miniscroll(".scroller", {
+>     axis: "y",
+>     size: 10,
+>     sizethumb: "auto",
+>     thumbColor: "#0e5066",
+>     trackerColor: "#1a8bb2"
+> });
+
+***
+
+### Adicione CSS:
+> .miniscroll-thumb {
+>     background-color: #0e5066 !important;
+> }
+
+> .miniscroll-tracker {
+>     background-color: #1a8bb2 !important;
+> }
+
+***
+
+### Adicione CSS para um scroll especifico:
+> miniscroll-target .miniscroll-thumb {
+>     background-color: #0e5066 !important;
+> }
+
+> miniscroll-target .miniscroll-tracker {
+>     background-color: #1a8bb2 !important;
+> }
+
+***
+
+### Parametros:
+**axis:**
+_eixo do scrollbar ex: "y" ou "x"_
+
+**size:**
+_a largura do scrollbar ex: 10_
+
+**sizethumb:**
+_o tamanho do thumb ex: 100 ou "auto"_
+
+**thumbColor:**
+_cor de fundo do thumb ex: "#0e5066"_
+
+**trackerColor:**
+_cor de fundo do tracker ex: "#1a8bb2"_
+
+**scrollbarSize:**
+_tamanho do scrollbar, você pode setar um tamanho fix para o scrollbar ex: 300 isso deixara o scrollbar com a altura de 300px_
