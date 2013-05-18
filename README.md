@@ -46,11 +46,11 @@ Marcação HTML:
 ***
 
 ### Adicione CSS para um scroll especifico:
-> miniscroll-target .miniscroll-thumb {
+> &#35;miniscroll-target .miniscroll-thumb {
 >     background-color: #0e5066 !important;
 > }
 
-> miniscroll-target .miniscroll-tracker {
+> &\#35;miniscroll-target .miniscroll-tracker {
 >     background-color: #1a8bb2 !important;
 > }
 
