@@ -6,11 +6,12 @@
  *
  * @copyright (c) 2011, 2012 <http://rogerluizm.com.br/>
  *
- * @version 1.2.4
+ * @version 1.2.5
  * 		update 1.2.1 | 15/05/2013 - Touch evento adicionado, agora funciona para ipad, iphone e android 
  * 		update 1.2.2 | 17/05/2013 - Adicionado key event, setas do teclado tanto para cima quando para baixo
  * 		update 1.2.3 | 18/05/2013 - scrollbar horizontal e vertical atualizado fixbug posição "x"
  * 		update 1.2.4 | 18/05/2013 - fixbug scrollbar, estava dando um erro na hora de pegar a altura ou largura
+ * 		update 1.2.5 | 18/05/2013 - fixbug da posição do thumb quando utilizado os key arrows
  */
 (function(window, document) {
 	var config = {
@@ -127,7 +128,7 @@
 
 		var trackerWidth = (this.settings.axis === "x") ? this.offset(this.container).width : this.settings.size;
 		var trackerHeight = (this.settings.axis === "y") ? this.offset(this.container).height : this.settings.size;
-		console.log(this.offset(this.target).height)
+		
 		this.css(this.tracker, {
 			width: trackerWidth + "px",
 			height: trackerHeight + "px",
@@ -233,25 +234,36 @@
 		this.css(this.target, { "outline": "none" });
 		
 		this.bind(this.target, "focus", function (event, el) {
-			var delta = 0;
 			this.bind(el, "keydown", function (event) {
 				var keyCode = event.keyCode || event.which,
      				arrow = { left: 37, up: 38, right: 39, down: 40 };
 
 				switch (keyCode) {
 					case arrow.up:
-						if (this.percent !== 0) delta -= 10;
+						if (this.percent !== 0) this.keypos_thumb.y -= 10;
 						break;
 
 					case arrow.down:
-						if (this.percent !== 1) delta += 10;
+						if (this.percent !== 1) this.keypos_thumb.y += 10;
+						break;
+
+					case arrow.left:
+						if (this.percent !== 0) this.keypos_thumb.x -= 10;
+						break;
+
+					case arrow.right:
+						if (this.percent !== 1) this.keypos_thumb.x += 10;
 						break;
 				}
 
 				if(this.settings.axis === 'y') {
 					this.percent = this.target.scrollTop / (this.target.scrollHeight - this.target.offsetHeight);
 					this.setScrubPosition(this.percent);
-					this.target.scrollTop = delta;
+					this.target.scrollTop = this.keypos_thumb.y;
+				} else {
+					this.percent = this.target.scrollLeft / (this.target.scrollWidth - this.target.offsetWidth);
+					this.setScrubPosition(this.percent);
+					this.target.scrollLeft = this.keypos_thumb.x;
 				}
 
 				if (this.percent >= 1 || this.percent <= 0) {
@@ -355,6 +367,8 @@
 			this.target.scrollLeft = Math.round((this.target.scrollWidth - this.target.offsetWidth) * this.percent.x);
 		}
 
+		this.keypos_thumb = new Point(this.target.scrollLeft, this.target.scrollTop);
+
 		this.updateContainerPosition();
 	};
 
@@ -412,6 +426,8 @@
 		} else {
 			this.preventScrolling = false;
 		}
+
+		this.keypos_thumb = new Point(this.target.scrollLeft, this.target.scrollTop);
 
 		this.updateContainerPosition();
 	};
