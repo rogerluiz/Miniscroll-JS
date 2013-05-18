@@ -7,7 +7,8 @@
  * @copyright (c) 2011, 2012 <http://rogerluizm.com.br/>
  *
  * @version 1.2.1
- * 		update 1.2.1 - Touch evento adicionado, agora funciona para ipad, iphone e android 
+ * 		update 1.2.1 | 15/05/2013 - Touch evento adicionado, agora funciona para ipad, iphone e android 
+ * 		update 1.2.2 | 18/05/2013 - Adicionado key event, setas do teclado tanto para cima quando para baixo
  */
 (function(window, document) {
 	var config = {
@@ -26,6 +27,7 @@
 		this.touch = new Point(0, 0);
 		this.settings = options;
 		this.percent;
+		this.keypos_thumb = new Point(0, 0);
 		this.scrolling = false;
 		this.preventScrolling = false;
 
@@ -36,6 +38,9 @@
 		this.buildScrollbar();
 		this.buildScrollbarTracker();
 		this.buildScrolbarThumb();
+
+		this.settings.isKeyEvent = (typeof this.settings.isKeyEvent === "undefined") ? true : this.settings.isKeyEvent;
+		if (this.settings.isKeyEvent) this.addKeyBoardEvent();
 
 		(!config.touchEvents) ? this.setupEventHandler() : this.setupTouchEvent();
 
@@ -56,15 +61,18 @@
 			"id" : "miniscroll-" + idname
 		});
 
-		var scrollHeight = this.settings.scrollbarSize ? this.settings.scrollbarSize : this.offset(this.target).height;
-		
+		var scrollHeight = (this.settings.axis === "y") ? this.settings.scrollbarSize : this.offset(this.target).height;
+		var scrollWidth = (this.settings.axis === "x") ? this.settings.scrollbarSize : this.offset(this.target).width;
+		var scrollX = this.offset(this.target).left + (this.offset(this.target).width - this.settings.size);
+		var scrollY = this.offset(this.target).top + (this.offset(this.target).height - this.settings.size);
+
 		this.css(this.container, {
 			position: "absolute",
 			visibility: "hidden",
-			width: this.settings.size + "px",
+			width: scrollWidth + "px",
 			height: scrollHeight + "px",
-			top: this.offset(this.target).top + "px",
-			left: this.offset(this.target).left + (this.offset(this.target).width - this.settings.size) + "px",
+			top: ((this.settings.axis === "y") ? this.offset(this.target).top : scrollY) + "px",
+			left: ((this.settings.axis === "x") ? this.offset(this.target).left : scrollX) + "px",
 			zIndex: 999
 		});
 	};
@@ -77,9 +85,12 @@
 			"class" : "miniscroll-tracker"
 		});
 
+		var trackerWidth = (this.settings.axis === "x") ? this.offset(this.container).width : this.settings.size;
+		var trackerHeight = (this.settings.axis === "y") ? this.offset(this.container).height : this.settings.size;
+
 		this.css(this.tracker, {
-			width: this.settings.size + "px",
-			height: this.offset(this.container).height + "px",
+			width: trackerWidth + "px",
+			height: trackerHeight + "px",
 			backgroundColor: this.settings.trackerColor ? this.settings.trackerColor : "#067f41"
 		});
 	};
@@ -92,14 +103,22 @@
 			"class" : "miniscroll-thumb"
 		});
 
-		var offset = (this.offset(this.container).height * this.offset(this.tracker).height) / this.target.scrollHeight;
-		var thumb_height = (this.settings.sizethumb === undefined || this.settings.sizethumb === 'auto') ? offset : this.settings.sizethumb;
+		var offset = new Point(
+			(this.offset(this.container).height * this.offset(this.tracker).height) / this.target.scrollHeight,
+			(this.offset(this.container).width * this.offset(this.tracker).width) / this.target.scrollWidth
+		);
+
+		var thumbSize = new Point(
+			(this.settings.sizethumb === undefined || this.settings.sizethumb === 'auto') ? offset.x : this.settings.sizethumb,
+			(this.settings.sizethumb === undefined || this.settings.sizethumb === 'auto') ? offset.y : this.settings.sizethumb
+		);
 
 		this.css(this.thumb, {
 			position: "absolute",
 			top: 0 + "px",
-			width: this.settings.size + "px",
-			height: thumb_height + "px",
+			left: 0 + "px",
+			width: ((this.settings.axis === "x") ? thumbSize.x : this.settings.size) + "px",
+			height: ((this.settings.axis === "y") ? thumbSize.y : this.settings.size) + "px",
 			backgroundColor: this.settings.thumbColor ? this.settings.thumbColor : "#2AD47D"
 		});
 	};
@@ -154,6 +173,52 @@
 	//=============================
 	// EVENT HANDLERS
 	//=============================
+
+	Miniscroll.prototype.addKeyBoardEvent = function () {
+		this.target.setAttribute("tabindex", "-1");
+		this.css(this.target, { "outline": "none" });
+		
+		this.bind(this.target, "focus", function (event, el) {
+			var delta = 0;
+			this.bind(el, "keydown", function (event) {
+				var keyCode = event.keyCode || event.which,
+     				arrow = { left: 37, up: 38, right: 39, down: 40 };
+
+				switch (keyCode) {
+					case arrow.up:
+						if (this.percent !== 0) 
+							delta -= 10;
+						
+						break;
+					case arrow.down:
+						if (this.percent !== 1) 
+							delta += 10;
+						break;
+				}
+
+				if(this.settings.axis === 'y') {
+					this.percent = this.target.scrollTop / (this.target.scrollHeight - this.target.offsetHeight);
+					this.setScrubPosition(this.percent);
+					//this.target.scrollTop = Math.round(this.target.scrollTop - delta);
+					this.target.scrollTop = delta;
+				}
+
+				if (this.percent >= 1 || this.percent <= 0) {
+					this.preventScrolling = true;
+				} else {
+					this.preventScrolling = false;
+				}
+
+				this.updateContainerPosition();
+			});
+		});
+
+		this.bind(this.target, "click", function (event, el) {
+			document.activeElement = el;
+			
+			el.focus();
+		});
+	};
 
 	Miniscroll.prototype.onScrollTouchStart = function (event) {
 		var touches = event.touches[0];
