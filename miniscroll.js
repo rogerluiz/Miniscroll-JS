@@ -6,9 +6,10 @@
  *
  * @copyright (c) 2011, 2012 <http://rogerluizm.com.br/>
  *
- * @version 1.2.1
+ * @version 1.2.3
  * 		update 1.2.1 | 15/05/2013 - Touch evento adicionado, agora funciona para ipad, iphone e android 
  * 		update 1.2.2 | 18/05/2013 - Adicionado key event, setas do teclado tanto para cima quando para baixo
+ * 		update 1.2.3 | 19/05/2013 - scrollbar horizontal e vertical atualizado fixbug posição "x"
  */
 (function(window, document) {
 	var config = {
@@ -199,7 +200,6 @@
 				if(this.settings.axis === 'y') {
 					this.percent = this.target.scrollTop / (this.target.scrollHeight - this.target.offsetHeight);
 					this.setScrubPosition(this.percent);
-					//this.target.scrollTop = Math.round(this.target.scrollTop - delta);
 					this.target.scrollTop = delta;
 				}
 
@@ -303,8 +303,13 @@
 			Math.max(0, Math.min(1, this.percent.y))
 		);
 
-		this.thumb.style.top = Math.round(this.thumb_pos.y) + 'px';
-		this.target.scrollTop = Math.round((this.target.scrollHeight - this.target.offsetHeight) * this.percent.y);
+		if (this.settings.axis === "y") {
+			this.thumb.style.top = Math.round(this.thumb_pos.y) + 'px';
+			this.target.scrollTop = Math.round((this.target.scrollHeight - this.target.offsetHeight) * this.percent.y);
+		} else {
+			this.thumb.style.left = Math.round(this.thumb_pos.x) + 'px';
+			this.target.scrollLeft = Math.round((this.target.scrollWidth - this.target.offsetWidth) * this.percent.x);
+		}
 
 		this.updateContainerPosition();
 	};
@@ -352,6 +357,10 @@
 			this.percent = this.target.scrollTop / (this.target.scrollHeight - this.target.offsetHeight);
 			this.setScrubPosition(this.percent);
 			this.target.scrollTop = Math.round(this.target.scrollTop - (delta * 10));
+		} else {
+			this.percent = this.target.scrollLeft / (this.target.scrollWidth - this.target.offsetWidth);
+			this.setScrubPosition(this.percent);
+			this.target.scrollLeft = Math.round(this.target.scrollLeft - (delta * 10));
 		}
 
 		if (this.percent >= 1 || this.percent <= 0) {
@@ -381,31 +390,54 @@
 			this.css(this.container, { "visibility": "visible" })
 		}
 
-		var scrollHeight = this.settings.scrollbarSize ? this.settings.scrollbarSize : this.offset(this.target).height;
+		// Atualiza o tamanho e a posição do container do scrollbar
+		var scrollHeight = (this.settings.axis === "y") ? this.settings.scrollbarSize : this.offset(this.target).height;
+		var scrollWidth = (this.settings.axis === "x") ? this.settings.scrollbarSize : this.offset(this.target).width;
+		var scrollX = this.offset(this.target).left + (this.offset(this.target).width - this.settings.size);
+		var scrollY = this.offset(this.target).top + (this.offset(this.target).height - this.settings.size);
 
 		this.css(this.container, {
 			position: "absolute",
-			width: this.settings.size + "px",
+			width: scrollWidth + "px",
 			height: scrollHeight + "px",
-			top: this.offset(this.target).top + "px",
-			left: this.offset(this.target).left + (this.offset(this.target).width - this.settings.size) + "px"
+			top: ((this.settings.axis === "y") ? this.offset(this.target).top : scrollY) + "px",
+			left: ((this.settings.axis === "x") ? this.offset(this.target).left : scrollX) + "px",
 		});
+
+		// Atualiza o tamanho do tracker
+		var trackerWidth = (this.settings.axis === "x") ? this.offset(this.container).width : this.settings.size;
+		var trackerHeight = (this.settings.axis === "y") ? this.offset(this.container).height : this.settings.size;
 
 		this.css(this.tracker, {
-			width: this.settings.size + "px",
-			height: this.offset(this.container).height + "px"
+			width: trackerWidth + "px",
+			height: trackerHeight + "px"
 		});
 
+		// Atualiza o tamanho do tracker
+		var offset = new Point(
+			(this.offset(this.container).height * this.offset(this.tracker).height) / this.target.scrollHeight,
+			(this.offset(this.container).width * this.offset(this.tracker).width) / this.target.scrollWidth
+		);
 
-		var offset = (this.offset(this.container).height * this.offset(this.tracker).height) / this.target.scrollHeight;
-		var thumb_height = (this.settings.sizethumb === undefined || this.settings.sizethumb === 'auto') ? offset : this.settings.sizethumb;
+		var thumbSize = new Point(
+			(this.settings.sizethumb === undefined || this.settings.sizethumb === 'auto') ? offset.x : this.settings.sizethumb,
+			(this.settings.sizethumb === undefined || this.settings.sizethumb === 'auto') ? offset.y : this.settings.sizethumb
+		);
 
 		this.css(this.thumb, {
-			height: thumb_height + "px"
+			width: ((this.settings.axis === "x") ? thumbSize.x : this.settings.size) + "px",
+			height: ((this.settings.axis === "y") ? thumbSize.y : this.settings.size) + "px"
 		});
 
+		// Reposiciona o thumb de acordo com o a posição scrollTop ou scrollLeft
 		if(this.settings.axis === 'y') {
 			this.percent = this.target.scrollTop / (this.target.scrollHeight - this.target.offsetHeight);
+			
+			if (!this.scrolling) {
+				this.setScrubPosition(this.percent);
+			}
+		} else {
+			this.percent = this.target.scrollLeft / (this.target.scrollWidth - this.target.offsetWidth);
 			
 			if (!this.scrolling) {
 				this.setScrubPosition(this.percent);
