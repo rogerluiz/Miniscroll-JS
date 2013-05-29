@@ -23,7 +23,7 @@ HTML markup:
 
 ***
 
-### Simple inicialization:
+### inicialization:
 > new Miniscroll(".scroller", {
 >     axis: "y",
 >     size: 10,
@@ -73,4 +73,4 @@ _the size of thumb ex: "#0e5066"_
 _color of fund of tracker ex: "#1a8bb2"_
 
 **scrollbarSize:**
-_size of scrollbar, you can setar a size fix to scrollbar it ex: 300 this had left scrollbar with the height of 300px_
+_size of scrollbar, you can set a size fix to scrollbar it ex: 300 this had left scrollbar with the height of 300px_
