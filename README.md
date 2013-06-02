@@ -1,12 +1,12 @@
 ![Miniscroll](http://miniscroll.rogerluizm.com.br/img/logo.png)
 
-### Adicione o miniscroll.js em sua página:
+### It adds miniscroll.js in its page:
 
 &lt;script src="miniscroll.js"&gt;&lt;/script&gt;
 
 ***
 
-Marcação HTML:
+HTML markup:
 
 > &lt;div class="scroller"&gt;
 > // text here
@@ -14,7 +14,7 @@ Marcação HTML:
 
 ***
 
-### Marcação CSS:
+### CSS markup:
 > .scroller {
 >     width: 400px;
 >     height: 300px;
@@ -23,7 +23,7 @@ Marcação HTML:
 
 ***
 
-### Simples inicialização:
+### inicialization:
 > new Miniscroll(".scroller", {
 >     axis: "y",
 >     size: 10,
@@ -34,7 +34,7 @@ Marcação HTML:
 
 ***
 
-### Adicione CSS:
+### add CSS end change the color of miniscroll thumb and tracker:
 > .miniscroll-thumb {
 >     background-color: #0e5066 !important;
 > }
@@ -45,7 +45,7 @@ Marcação HTML:
 
 ***
 
-### Adicione CSS para um scroll especifico:
+### CSS for a sigle scrollbar:
 > &#35;miniscroll-target .miniscroll-thumb {
 >     background-color: #0e5066 !important;
 > }
@@ -56,21 +56,21 @@ Marcação HTML:
 
 ***
 
-### Parametros:
+### Parameters:
 **axis:**
-_eixo do scrollbar ex: "y" ou "x"_
+_axle of scrollbar ex: "y" ou "x"_
 
 **size:**
-_a largura do scrollbar ex: 10_
+_the width of scrollbar ex: 10_
 
 **sizethumb:**
 _o tamanho do thumb ex: 100 ou "auto"_
 
 **thumbColor:**
-_cor de fundo do thumb ex: "#0e5066"_
+_the size of thumb ex: "#0e5066"_
 
 **trackerColor:**
-_cor de fundo do tracker ex: "#1a8bb2"_
+_color of fund of tracker ex: "#1a8bb2"_
 
 **scrollbarSize:**
-_tamanho do scrollbar, você pode setar um tamanho fix para o scrollbar ex: 300 isso deixara o scrollbar com a altura de 300px_
+_size of scrollbar, you can set a size fix to scrollbar it ex: 300 this had left scrollbar with the height of 300px_
