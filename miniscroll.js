@@ -13,7 +13,7 @@
  * 		update 1.2.4 | 18/05/2013 - fixbug scrollbar, estava dando um erro na hora de pegar a altura ou largura
  * 		update 1.2.5 | 18/05/2013 - fixbug da posição do thumb quando utilizado os key arrows
  */
-(function(window, document) {
+(function(window, document, prototype) {
 	var config = {
 		touchEvents: ('ontouchstart' in document.documentElement)
 	},
@@ -23,13 +23,14 @@
 	 * 
 	 * @param { String || Element } selector Class, id ou elemento html ex: ".scroller", "#scroller"
 	 * @param { Object } options Lista de parametros
-	 *					 { axis: "y",
-	 *		               size: 5,
-	 *		               sizethumb: "auto",
-	 *		               thumbColor: "#0e5066",
-	 *		               trackerColor: "#1a8bb2",
-	 *		               isKeyEvent: false // default is true
-	 *		             }
+	 *     options: {
+     *         axis: "y",
+	 *		   size: 5,
+	 *		   sizethumb: "auto",
+	 *		   thumbColor: "#0e5066",
+	 *		   trackerColor: "#1a8bb2",
+	 *		   isKeyEvent: false // default is true
+	 *	   }
 	 */
 	Miniscroll = function (selector, options) {
 		this.type = "";
@@ -48,6 +49,13 @@
 		this.preventScrolling = false;
 
 		this.initializing();
+	},
+	
+	Point = function (x, y) {
+		this.x = x != null ? x : 0;
+		this.y = y != null ? y : 0;
+		
+		return { x: this.x, y: this.y };
 	};
 
 	/**
@@ -60,17 +68,17 @@
 	 * @see this.setupTouchEvent();
 	 * @see this.addKeyBoardEvent();
 	 */
-	Miniscroll.prototype.initializing = function () {
+	Miniscroll[prototype].initializing = function () {
 		// Cria o container do scrollbar
 		this.buildScrollbar();
 
 		// Cria o tracker do scrollbar
 		this.buildScrollbarTracker();
 
-		// Cria o thumb do thumb
+		// Cria o thumb do scrollbar
 		this.buildScrolbarThumb();
 
-		// Verifica se keyEvent é true ou false ou se foi setado, caso não adiciona o default
+		// Verifica se isKeyEvent é true ou false ou se foi setado, caso não adiciona o default
 		this.settings.isKeyEvent = (typeof this.settings.isKeyEvent === "undefined") ? true : this.settings.isKeyEvent;
 		
 		// Se isKeyEvent for true então configura e adiciona o evento de tecla (keypress)
@@ -79,7 +87,7 @@
 		// Verifica se o device atual suporta touch event e adiciona o evento adequado
 		(!config.touchEvents) ? this.setupEventHandler() : this.setupTouchEvent();
 
-		// inicia o update do scrollbar, faz um interval e verifica as mudanças no scroll
+		// verifica as mudanças no scroll
 		var _this = this;
 		window.setInterval(function() {
 			_this.update();
@@ -87,9 +95,11 @@
 	};
 
 	/**
-	 * Cria o conteiner do scrollbar
+	 * Create the scrollbar container
+	 *
+	 * @this {Miniscroll}
 	 */
-	Miniscroll.prototype.buildScrollbar = function () {
+	Miniscroll[prototype].buildScrollbar = function () {
 		
 		// Verifico se existe um id no target ou classe para o id do container
 		var idname = (this.target.id) ? this.target.id : this.target.className;
@@ -119,9 +129,11 @@
 	};
 
 	/**
-	 * Cria o tracker do scrollbar e adiciona no container
+	 * Create the tracker and added to scrollbar container
+	 *
+	 * @this {Miniscroll}
 	 */
-	Miniscroll.prototype.buildScrollbarTracker = function () {
+	Miniscroll[prototype].buildScrollbarTracker = function () {
 		this.tracker = this.create(this.container, "div", {
 			"class" : "miniscroll-tracker"
 		});
@@ -137,9 +149,11 @@
 	};
 
 	/**
-	 * Cria o thumb do scrollbar e adiciona no container
+	 * Create the thumb and added to scrollbar container
+	 *
+	 * @this {Miniscroll}
 	 */
-	Miniscroll.prototype.buildScrolbarThumb = function () {
+	Miniscroll[prototype].buildScrolbarThumb = function () {
 		this.thumb = this.create(this.container, "div", {
 			"class" : "miniscroll-thumb"
 		});
@@ -170,29 +184,49 @@
 	};
 
 	/**
-	 * Inicia o evento do scrollbar adiciona "mousedown" e "mousewheel"
+	 * Setup the handler events
+	 *
+	 * @this {Miniscroll}
 	 */
-	Miniscroll.prototype.setupEventHandler = function () {
+	Miniscroll[prototype].setupEventHandler = function () {
 		this.bind(this.thumb, "mousedown", this.onScrollThumbPress);
 		this.bind(this.target, 'mousewheel', this.onScrollThumbWheel);
+        this.bind(this.tracker, 'mousedown', this.onScrollTrackerPress);
+		
+		/*if($.settings.axis === 'y') {
+					$.scrollTo(Utils.mouse(event).y);
+				} else {
+					$.scrollTo(Utils.mouse(event).x);
+				}*/
 	};
 
 	/**
-	 * Inicia dos eventos de touch "touchstart" e "touchmove"
+	 * Setup touch events
+	 *
+	 * @this {Miniscroll}
 	 */
-	Miniscroll.prototype.setupTouchEvent = function () {
+	Miniscroll[prototype].setupTouchEvent = function () {
 		this.bind(this.target, "touchstart", this.onScrollTouchStart);
 		this.bind(this.target, "touchmove", this.onScrollTouchMove);
 	};
 
 	/**
-	 * Verifica se a posição do target é statica, relativa ou absoluta
+	 * Check if the target is static, relative or absolute
+	 * and update the position of the container
+	 *
+	 * @this {Miniscroll}
 	 */
-	Miniscroll.prototype.updateContainerPosition = function () {
+	Miniscroll[prototype].updateContainerPosition = function () {
 		this.is = this.getCss(this.target, 'position');
 
 		if (this.is === "relative" || this.is === "absolute") {
 			if (this.settings.axis === "y") {
+				this.container.style.top = "0px";
+			} else {
+				this.container.style.left = "0px";
+			}
+		} else {
+            if (this.settings.axis === "y") {
 				this.container.style.top = this.target.scrollTop + "px";
 			} else {
 				this.container.style.left = this.target.scrollLeft + "px";
@@ -201,11 +235,12 @@
 	}
 
 	/**
-	 * Adiciona a posição em que o scrub tem que esta
+	 * Update thumb position
 	 *
-	 * @param { Number } percent Valor que diz qual a porcentagem atual da rolagem
+	 * @this {Miniscroll}
+	 * @param {number} percent - value of the percent position of scrollTop
 	 */
-	Miniscroll.prototype.setScrubPosition = function(percent) {
+	Miniscroll[prototype].setScrubPosition = function(percent) {
 		var container_width = this.offset(this.container).width,
 			container_height = this.offset(this.container).height;
 
@@ -228,8 +263,13 @@
 	//=============================
 	// EVENT HANDLERS
 	//=============================
-
-	Miniscroll.prototype.addKeyBoardEvent = function () {
+    
+    /**
+     * Add keyboard event
+     *
+     * @this {Miniscroll}
+     */
+	Miniscroll[prototype].addKeyBoardEvent = function () {
 		this.target.setAttribute("tabindex", "-1");
 		this.css(this.target, { "outline": "none" });
 		
@@ -282,8 +322,15 @@
 			el.focus();
 		});
 	};
-
-	Miniscroll.prototype.onScrollTouchStart = function (event) {
+    
+    
+    /**
+     * Add touch start event
+     * set the start position and bind the touch end event
+     *
+     * @this {Miniscroll}
+     */
+	Miniscroll[prototype].onScrollTouchStart = function (event) {
 		var touches = event.touches[0];
 
 		this.scrolling = true;
@@ -291,8 +338,14 @@
 
 		this.bind(this.target, "touchend", this.onScrollTouchEnd);
 	};
-
-	Miniscroll.prototype.onScrollTouchMove = function (event) {
+    
+    /**
+     * Add touch move event
+     * uodate the position and the end value of the position
+     *
+     * @this {Miniscroll}
+     */
+	Miniscroll[prototype].onScrollTouchMove = function (event) {
 		var touches = event.touches[0];
 
 		// override the touch event’s normal functionality
@@ -315,12 +368,14 @@
 		this.updateContainerPosition();
 	};
 
-	Miniscroll.prototype.onScrollTouchEnd = function (event) {
+	Miniscroll[prototype].onScrollTouchEnd = function (event) {
 		this.scrolling = false;
 		this.unbind(this.target, "touchend", this.onScrollTouchEnd);
 	};
-
-	Miniscroll.prototype.onScrollThumbPress = function (event) {
+    
+    
+    
+	Miniscroll[prototype].onScrollThumbPress = function (event) {
 		event = event ? event : window.event;
 		this.stopEvent(event);
 
@@ -333,7 +388,7 @@
 		this.updateContainerPosition();
 	};
 
-	Miniscroll.prototype.onScrollThumbUpdate = function (event) {
+	Miniscroll[prototype].onScrollThumbUpdate = function (event) {
 		event = event ? event : window.event;
 		this.stopEvent(event);
 
@@ -372,7 +427,7 @@
 		this.updateContainerPosition();
 	};
 
-	Miniscroll.prototype.onScrollThumbWheel = function (event) {
+	Miniscroll[prototype].onScrollThumbWheel = function (event) {
 		event = event ? event : window.event;
 		
 		if (!this.preventScrolling) this.stopEvent(event);
@@ -432,7 +487,7 @@
 		this.updateContainerPosition();
 	};
 
-	Miniscroll.prototype.onScrollThumbRelease = function (event) {
+	Miniscroll[prototype].onScrollThumbRelease = function (event) {
 		event = event ? event : window.event;
 		this.stopEvent(event);
 
@@ -441,8 +496,15 @@
 		this.unbind(document, "mousemove", this.onScrollThumbUpdate);
 		this.unbind(document, "mouseup", this.onScrollThumbRelease);
 	};
+	
+	
+	Miniscroll[prototype].onScrollTrackerPress = function () {
+	};
 
-	Miniscroll.prototype.update = function () {
+	/**
+	 * Update the scrollbar
+	 */
+	Miniscroll[prototype].update = function () {
 		
 		if (this.target.scrollHeight === this.offset(this.target).height) {
 			this.css(this.container, { "visibility": "hidden" });
@@ -511,12 +573,57 @@
 	// UTILS METHODS
 	//=============================
 
+	/*scrollTo: function (value) {
+			var scrollX = Math.max(0, Math.min(this.scrollbar.offsetWidth - this.scrub.offsetWidth, (value - this.target.offsetTop))),
+				scrollY = Math.max(0, Math.min(this.scrollbar.offsetHeight - this.scrub.offsetHeight, (value - this.target.offsetTop)));
+
+			// inicia a animação do scroll
+			update();
+
+			//
+			function update () {
+				// cancela o enter frame
+				window.cancelAnimationFrame( $.animationFrame );
+				
+				// verifica se é vertical
+				if ($.settings.axis === 'y') {
+					$.scrubPos.y += (scrollY - $.scrubPos.y) * 0.1;
+					$.scrub.style.top = Math.round($.scrubPos.y) + 'px';
+					
+					
+					$.scrollPercent = $.scrubPos.y / ($.scrollbar.offsetHeight - $.scrub.offsetHeight);
+					$.scrollPercent = Math.max(0, Math.min(1, $.scrollPercent));
+					
+					$.target.scrollTop = ($.target.scrollHeight - $.target.offsetHeight) * $.scrollPercent;
+				} else {
+					$.scrubPos.x += (scrollX - $.scrubPos.x) * 0.1;
+					$.scrub.style.left = Math.round($.scrubPos.x) + 'px';
+					
+					
+					$.scrollPercent = $.scrubPos.x / ($.scrollbar.offsetWidth - $.scrub.offsetWidth);
+					$.scrollPercent = Math.max( 0, Math.min(1, $.scrollPercent) );
+					
+					$.target.scrollLeft = ($.target.scrollWidth - $.target.offsetWidth) * $.scrollPercent;
+				}
+
+				var min = ($.settings.axis === 'y') ? Math.abs(Math.round($.scrubPos.y) - scrollY) : Math.abs(Math.round($.scrubPos.x) - scrollX);
+				
+				if (min < 1) {
+					window.cancelAnimationFrame($.animationFrame);
+					return;
+				}
+				
+				$.updateScrollbarPosition();
+				$.animationFrame = window.requestAnimationFrame(update);
+			}
+		}*/
+
 	/**
 	 * Pega um seletor css e retorna um elemento html
 	 *
 	 * @param { String | Element } selector
 	 */
-	Miniscroll.prototype.getElement = function (selector) {
+	Miniscroll[prototype].getElement = function (selector) {
 		var element, $ = this;
 
 		// Verifica se o seletor é window, document ou body caso seja retorna document.body
@@ -561,7 +668,7 @@
 		}
 	};
 
-	Miniscroll.prototype.create = function (element, tagName, attrs) {
+	Miniscroll[prototype].create = function (element, tagName, attrs) {
 		var tag = document.createElement(tagName);
 
 		if (attrs) {
@@ -584,7 +691,7 @@
      * @example Miniscroll.css({ width : '200px' });
      *
      */
-	Miniscroll.prototype.css = function (element, arguments) {
+	Miniscroll[prototype].css = function (element, arguments) {
         for ( var prop in arguments) {
             if (prop === 'opacity') {
                 
@@ -608,7 +715,7 @@
      *
      * @return Retorna o valor de uma propriedade css
      */
-    Miniscroll.prototype.getCss = function (element, property) {
+    Miniscroll[prototype].getCss = function (element, property) {
         var result;
 
         if (!window.getComputedStyle) {
@@ -628,7 +735,7 @@
         return result;
     };
 
-    Miniscroll.prototype.offset = function (element) {
+    Miniscroll[prototype].offset = function (element) {
 		var top = element.offsetTop,
 		left = element.offsetLeft;
 
@@ -651,7 +758,7 @@
 	 * @param { Event } event Evento de mouse
 	 * @return Retorna a posição x e y do mouse
 	 */
-	Miniscroll.prototype.mouse = function (event) {
+	Miniscroll[prototype].mouse = function (event) {
 		var posx = 0, posy = 0;
 
 		if (event.pageX || event.pageY) {
@@ -680,7 +787,7 @@
 	 * @param {string} type String type to event
 	 * @param {Function} callBack Function that contains the codes
 	 */
-	Miniscroll.prototype.bind = function(element, eventType, callback) {
+	Miniscroll[prototype].bind = function(element, eventType, callback) {
 		var mousewheel = (/Firefox/i.test(navigator.userAgent)) ? "DOMMouseScroll" : "mousewheel";
 		var _this = this;
 
@@ -719,7 +826,7 @@
 	 * @param {string} type String type to event
 	 * @param {Function} callBack Function that contains the codes
 	 */
-	Miniscroll.prototype.unbind = function(element, eventType, callback) {
+	Miniscroll[prototype].unbind = function(element, eventType, callback) {
 		var mousewheel = (/Firefox/i.test(navigator.userAgent)) ? "DOMMouseScroll" : "mousewheel";
 		
 		if (element.addEventListener) {
@@ -741,7 +848,7 @@
 		}
 	};
 
-	Miniscroll.prototype.stopEvent = function (event) {
+	Miniscroll[prototype].stopEvent = function (event) {
 		if (event.stopPropagation) {
 			event.stopPropagation();
 		} else {
@@ -756,55 +863,4 @@
 	};
 
 	window.Miniscroll = Miniscroll;
-})(window, document);
-
-
-var Point = (function() {
-		
-	Point.prototype.x = 0;
-	Point.prototype.y = 0;
-
-
-	function Point(x, y) {
-		this.x = x != null ? x : 0;
-		this.y = y != null ? y : 0;
-	}
-
-
-	Point.prototype.reset = function() {
-		this.x = 0;
-		this.y = 0;
-
-		return this;
-	};
-
-	/**
-	 * Pega a distancia entre dois items diferentes
-	 *
-	 * @param { Element } b Item para a comparação
-	 */
-	Point.prototype.distanceTo = function( b ) {
-		var x;
-			x = b.x - this.x;
-			x = x * x;
-		var y;
-			y = b.y - this.y;
-			y = y * y;
-
-		return Math.sqrt( x + y ); 
-	};
-
-	/**
-	 * Pega a angle entre dois items diferentes
-	 *
-	 * @param { Element } b Item para a comparação
-	 */
-	Point.prototype.angleTo = function( b ) {
-		var x = this.x - b.x,
-			y = this.y - b.y;
-		
-		return Math.atan2( x, y );
-	};
-
-	return Point;
-})();
+})(window, document, "prototype");
