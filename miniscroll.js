@@ -6,12 +6,13 @@
  *
  * @copyright (c) 2011, 2012 <http://rogerluizm.com.br/>
  *
- * @version 1.2.5
- * 		update 1.2.1 | 15/05/2013 - Touch evento adicionado, agora funciona para ipad, iphone e android 
- * 		update 1.2.2 | 17/05/2013 - Adicionado key event, setas do teclado tanto para cima quando para baixo
- * 		update 1.2.3 | 18/05/2013 - scrollbar horizontal e vertical atualizado fixbug posição "x"
+ * @version 1.2.6
+ *      update 1.2.6 | 21/06/2013 - fix bug the whole scrollbar (not just the handler part) moves down when I drag it.
+ *      update 1.2.5 | 18/05/2013 - fixbug da posição do thumb quando utilizado os key arrows 
  * 		update 1.2.4 | 18/05/2013 - fixbug scrollbar, estava dando um erro na hora de pegar a altura ou largura
- * 		update 1.2.5 | 18/05/2013 - fixbug da posição do thumb quando utilizado os key arrows
+ * 		update 1.2.3 | 18/05/2013 - scrollbar horizontal e vertical atualizado fixbug posição "x"
+ * 		update 1.2.2 | 17/05/2013 - Adicionado key event, setas do teclado tanto para cima quando para baixo 
+ * 		update 1.2.1 | 15/05/2013 - Touch evento adicionado, agora funciona para ipad, iphone e android  
  */
 (function(window, document, prototype) {
 	var config = {
@@ -218,7 +219,7 @@
 	 */
 	Miniscroll[prototype].updateContainerPosition = function () {
 		this.is = this.getCss(this.target, 'position');
-
+        //console.log(this.is)
 		if (this.is === "relative" || this.is === "absolute") {
 			if (this.settings.axis === "y") {
 				this.container.style.top = "0px";
@@ -227,9 +228,10 @@
 			}
 		} else {
             if (this.settings.axis === "y") {
-				this.container.style.top = this.target.scrollTop + "px";
+                //console.log(this.offset(this.target).top)
+				this.container.style.top = this.offset(this.target).top + "px";
 			} else {
-				this.container.style.left = this.target.scrollLeft + "px";
+				this.container.style.left = this.offset(this.target).left + "px";
 			}
 		}
 	}
@@ -505,7 +507,6 @@
 	 * Update the scrollbar
 	 */
 	Miniscroll[prototype].update = function () {
-		
 		if (this.target.scrollHeight === this.offset(this.target).height) {
 			this.css(this.container, { "visibility": "hidden" });
 		} else {
@@ -552,7 +553,7 @@
 		});
 
 		// Reposiciona o thumb de acordo com o a posição scrollTop ou scrollLeft
-		if(this.settings.axis === 'y') {
+		if (this.settings.axis === 'y') {
 			this.percent = this.target.scrollTop / (this.target.scrollHeight - this.target.offsetHeight);
 			
 			if (!this.scrolling) {
@@ -567,12 +568,46 @@
 		}
 
 		this.updateContainerPosition();
-	}
+	};
 
 	//=============================
 	// UTILS METHODS
 	//=============================
-
+    
+    Miniscroll[prototype].scrollTo = function (value) {
+        var _this = this;
+        var scrollX = Math.max(0, Math.min(this.scrollbar.offsetWidth - this.thumb.offsetWidth, (value - this.target.offsetTop)));
+        var scrollY =  Math.max(0, Math.min(this.scrollbar.offsetHeight - this.thumb.offsetHeight, (value - this.target.offsetTop)));
+        
+        
+        
+        var enterframe = window.setInterval(function () {
+            //clearIntrval(enterframe);
+            
+            if(_this.settings.axis === 'y') {
+                //_this.target.scrollTop += (scrollY - _this.) * 0.1;
+                
+                _this.percent.y = _this.target.scrollTop / (_this.target.scrollHeight - _this.target.offsetHeight);
+                _this.setScrubPosition(_this.percent.y);
+                _this.target.scrollTop = Math.round(_this.target.scrollTop - (delta * 10));
+            } else {
+                //_this.percent.x = _this.target.scrollLeft / (_this.target.scrollWidth - _this.target.offsetWidth);
+                //_this.setScrubPosition(_this.percent.x);
+                //_this.target.scrollLeft = Math.round(_this.target.scrollLeft - (delta * 10));
+            }
+    
+            if (_this.percent >= 1 || this.percent <= 0) {
+                _this.preventScrolling = true;
+            } else {
+                _this.preventScrolling = false;
+            }
+    
+            _this.keypos_thumb = new Point(_this.target.scrollLeft, _this.target.scrollTop);
+    
+            _this.updateContainerPosition();
+        }, 30);
+    };
+    
 	/*scrollTo: function (value) {
 			var scrollX = Math.max(0, Math.min(this.scrollbar.offsetWidth - this.scrub.offsetWidth, (value - this.target.offsetTop))),
 				scrollY = Math.max(0, Math.min(this.scrollbar.offsetHeight - this.scrub.offsetHeight, (value - this.target.offsetTop)));
@@ -659,9 +694,9 @@
 			return element;
 		} 
 		// Aqui verifico se o seletor é um objeto jQuery se for retorno um objeto html
-		else if (selector instanceof jQuery) {
+		/*else if (selector instanceof jQuery) {
 			return selector[0];
-		} 
+		}*/
 		// Se o seletor for um elemento html retorno ele mesmo
 		else {
 			return selector;
@@ -692,7 +727,7 @@
      *
      */
 	Miniscroll[prototype].css = function (element, arguments) {
-        for ( var prop in arguments) {
+        for (var prop in arguments) {
             if (prop === 'opacity') {
                 
                 element.style.filter = 'alpha(opacity=' + (arguments[prop] * 100) + ')';
