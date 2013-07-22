@@ -2,7 +2,9 @@
 
 ### It adds miniscroll.js in its page:
 
+<pre>
 &lt;script src="miniscroll.js"&gt;&lt;/script&gt;
+</pre>
 
 ***
 
