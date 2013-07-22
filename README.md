@@ -8,18 +8,22 @@
 
 HTML markup:
 
-> &lt;div class="scroller"&gt;
-> // text here
-> &lt;/div&gt;
+<pre>
+&lt;div class="scroller"&gt;
+     // text here
+&lt;/div&gt;
+</pre>
 
 ***
 
 ### CSS markup:
-> .scroller {
->     width: 400px;
->     height: 300px;
->     overflow: hidden;
-> }
+<pre>
+.scroller {
+     width: 400px;
+     height: 300px;
+     overflow: hidden;
+}
+</pre>
 
 ***
 
@@ -37,6 +41,7 @@ new Miniscroll(".scroller", {
 ***
 
 ### add CSS end change the color of miniscroll thumb and tracker:
+<pre>
 > .miniscroll-thumb {
 >     background-color: #0e5066 !important;
 > }
@@ -44,6 +49,7 @@ new Miniscroll(".scroller", {
 > .miniscroll-tracker {
 >     background-color: #1a8bb2 !important;
 > }
+</pre>
 
 ***
 
