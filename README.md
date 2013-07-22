@@ -24,13 +24,15 @@ HTML markup:
 ***
 
 ### inicialization:
-> new Miniscroll(".scroller", {
->     axis: "y",
->     size: 10,
->     sizethumb: "auto",
->     thumbColor: "#0e5066",
->     trackerColor: "#1a8bb2"
-> });
+<pre>
+new Miniscroll(".scroller", {
+     axis: "y",
+     size: 10,
+     sizethumb: "auto",
+     thumbColor: "#0e5066",
+     trackerColor: "#1a8bb2"
+ });
+</pre>
 
 ***
 
