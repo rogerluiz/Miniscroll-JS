@@ -42,25 +42,27 @@ new Miniscroll(".scroller", {
 
 ### add CSS end change the color of miniscroll thumb and tracker:
 <pre>
-> .miniscroll-thumb {
->     background-color: #0e5066 !important;
-> }
+.miniscroll-thumb {
+     background-color: #0e5066 !important;
+}
 
-> .miniscroll-tracker {
->     background-color: #1a8bb2 !important;
-> }
+.miniscroll-tracker {
+    background-color: #1a8bb2 !important;
+}
 </pre>
 
 ***
 
 ### CSS for a sigle scrollbar:
-> &#35;miniscroll-target .miniscroll-thumb {
->     background-color: #0e5066 !important;
-> }
+<pre>
+&#35;miniscroll-target .miniscroll-thumb {
+    background-color: #0e5066 !important;
+}
 
-> &#35;miniscroll-target .miniscroll-tracker {
->     background-color: #1a8bb2 !important;
-> }
+&#35;miniscroll-target .miniscroll-tracker {
+    background-color: #1a8bb2 !important;
+}
+</pre>
 
 ***
 
