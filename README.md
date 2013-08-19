@@ -3,7 +3,7 @@
 Miniscroll is a little library for touch and desktop scrollbar application. if you found bugs send it to rogerluizm@gmail.com or send to <a href="https://github.com/rogerluiz/Miniscroll-JS/issues?page=1&state=open">issue</a> page
 
 
-### It adds miniscroll.js in its page:
+### Include miniscroll.js into your page:
 
 <pre>
 &lt;script src="miniscroll.js"&gt;&lt;/script&gt;
@@ -11,7 +11,7 @@ Miniscroll is a little library for touch and desktop scrollbar application. if y
 
 ***
 
-HTML markup:
+### Include the html tag and add id or class::
 
 <pre>
 &lt;div class="scroller"&gt;
@@ -21,7 +21,7 @@ HTML markup:
 
 ***
 
-### CSS markup:
+### CSS of the div ".scroller"::
 <pre>
 .scroller {
      width: 400px;
@@ -32,7 +32,7 @@ HTML markup:
 
 ***
 
-### inicialization:
+### Initialize the miniscroll:
 <pre>
 new Miniscroll(".scroller", {
      axis: "y",
@@ -45,7 +45,8 @@ new Miniscroll(".scroller", {
 
 ***
 
-### add CSS end change the color of miniscroll thumb and tracker:
+
+### Change the color and aparence for all miniscroll class:
 <pre>
 .miniscroll-thumb {
      background-color: #0e5066 !important;
@@ -58,7 +59,7 @@ new Miniscroll(".scroller", {
 
 ***
 
-### CSS for a sigle scrollbar:
+### Change the color and aparence for a unique miniscroll id:
 <pre>
 &#35;miniscroll-target .miniscroll-thumb {
     background-color: #0e5066 !important;
@@ -71,7 +72,7 @@ new Miniscroll(".scroller", {
 
 ***
 
-### Parameters:
+### List of parameters:
 **axis:**
 _axle of scrollbar ex: "y" ou "x"_
 
