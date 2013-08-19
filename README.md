@@ -1,4 +1,4 @@
-![Miniscroll](https://raw.github.com/rogerluiz/Miniscroll-JS/master/www/fb.jpg)
+![Miniscroll](http://miniscroll.rogerluizm.com.br/fb.jpg)[width=200]
 
 ### It adds miniscroll.js in its page:
 
