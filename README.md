@@ -2,6 +2,7 @@
 
 Miniscroll is a little library for touch and desktop scrollbar application. if you found bugs send it to rogerluizm@gmail.com or send to <a href="https://github.com/rogerluiz/Miniscroll-JS/issues?page=1&state=open">issue</a> page
 
+_version 1.2.8_
 
 ### Include miniscroll.js into your page:
 
@@ -73,20 +74,25 @@ new Miniscroll(".scroller", {
 ***
 
 ### List of parameters:
-**axis:**
-_axle of scrollbar ex: "y" ou "x"_
-
+**axis:*
+_axle of scrollbar ex: "y" ou "x"_<br />
 **size:**
-_the width of scrollbar ex: 10_
-
+_the width of scrollbar ex: 10_<br />
 **sizethumb:**
-_o tamanho do thumb ex: 100 ou "auto"_
-
+_o tamanho do thumb ex: 100 ou "auto"_<br />
 **thumbColor:**
-_the size of thumb ex: "#0e5066"_
-
+_the size of thumb ex: "#0e5066"_<br />
 **trackerColor:**
-_color of fund of tracker ex: "#1a8bb2"_
-
+_color of fund of tracker ex: "#1a8bb2"_<br />
 **scrollbarSize:**
 _size of scrollbar, you can set a size fix to scrollbar it ex: 300 this had left scrollbar with the height of 300px_
+
+### Last update:
+**update 1.2.8** - _03/09/2013 - add turn off mousewheel, ex: { mousewheel: true }_<br />
+**update 1.2.7** - _03/09/2013 - add scrollTo, now its posible scroll to a custom position_<br />
+**update 1.2.6** - _21/06/2013 - fix bug the whole scrollbar (not just the handler part) moves down when I drag it._<br />
+**update 1.2.5** - _18/05/2013 - fix the position the thumb when key press down and up_<br />
+**update 1.2.4** - _18/05/2013 - fixbug error it's time to catching the width and height_<br />
+**update 1.2.3** - _18/05/2013 - fix scrollbar position "x"_<br />
+**update 1.2.2** - _17/05/2013 - Key event added, now you can press the key down and key up for scrolling_<br />
+**update 1.2.1** - _15/05/2013 - Touch event added, now works for ipad, iphone and android_<br />
