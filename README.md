@@ -87,6 +87,8 @@ _color of fund of tracker ex: "#1a8bb2"_<br />
 **scrollbarSize:**
 _size of scrollbar, you can set a size fix to scrollbar it ex: 300 this had left scrollbar with the height of 300px_
 
+***
+
 ### Last update:
 **update 1.2.8** - _03/09/2013 - add turn off mousewheel, ex: { mousewheel: true }_<br />
 **update 1.2.7** - _03/09/2013 - add scrollTo, now its posible scroll to a custom position_<br />
