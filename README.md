@@ -95,4 +95,9 @@ _size of scrollbar, you can set a size fix to scrollbar it ex: 300 this had left
 **update 1.2.4** - _18/05/2013 - fixbug error it's time to catching the width and height_<br />
 **update 1.2.3** - _18/05/2013 - fix scrollbar position "x"_<br />
 **update 1.2.2** - _17/05/2013 - Key event added, now you can press the key down and key up for scrolling_<br />
+<<<<<<< HEAD
 **update 1.2.1** - _15/05/2013 - Touch event added, now works for ipad, iphone and android_<br />
+=======
+**update 1.2.1** - _15/05/2013 - Touch event added, now works for ipad, iphone and android_<br />
+
+>>>>>>> 0371b5e4d36141eb9155b71fe69c30924eebf464
