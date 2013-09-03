@@ -72,21 +72,21 @@ new Miniscroll(".scroller", {
 
 ***
 
-### List of parameters:<br /><br />
-**axis:**<br />
+### List of parameters:
+**axis:*
 _axle of scrollbar ex: "y" ou "x"_<br />
-**size:**<br />
+**size:**
 _the width of scrollbar ex: 10_<br />
-**sizethumb:**<br />
+**sizethumb:**
 _o tamanho do thumb ex: 100 ou "auto"_<br />
-**thumbColor:**<br />
+**thumbColor:**
 _the size of thumb ex: "#0e5066"_<br />
-**trackerColor:**<br />
+**trackerColor:**
 _color of fund of tracker ex: "#1a8bb2"_<br />
-**scrollbarSize:**<br />
+**scrollbarSize:**
 _size of scrollbar, you can set a size fix to scrollbar it ex: 300 this had left scrollbar with the height of 300px_
 
-### Last update:<br /><br />
+### Last update:
 **update 1.2.8** - _03/09/2013 - add turn off mousewheel, ex: { mousewheel: true }_<br />
 **update 1.2.7** - _03/09/2013 - add scrollTo, now its posible scroll to a custom position_<br />
 **update 1.2.6** - _21/06/2013 - fix bug the whole scrollbar (not just the handler part) moves down when I drag it._<br />
