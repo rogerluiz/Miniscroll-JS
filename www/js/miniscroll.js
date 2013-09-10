@@ -7,10 +7,12 @@
  * @copyright (c) 2011, 2012 <http://rogerluizm.com.br/>
  *
  * @version 1.2.8
+ *		update 1.2.9 | 03/09/2013 - fix error in the scroll when the position is relative or absolute
+ *		update 1.2.9 | 03/09/2013 - fix updating on the x axis
  *      update 1.2.8 | 03/09/2013 - add turn off mousewheel, ex: { mousewheel: true }
  *      update 1.2.7 | 03/09/2013 - add scrollTo, now its posible scroll to a custom position
  *      update 1.2.6 | 21/06/2013 - fix bug the whole scrollbar (not just the handler part) moves down when I drag it.
- *      update 1.2.5 | 18/05/2013 - fixbug thumb position with arrow keys
+ *      update 1.2.5 | 18/05/2013 - fix bug thumb position with arrow keys
  * 		update 1.2.4 | 18/05/2013 - fix error it's time to catching the width and height
  * 		update 1.2.3 | 18/05/2013 - fix scrollbar position "x"
  * 		update 1.2.2 | 17/05/2013 - Key event added, now you can press the key down and key up for scrolling
@@ -232,13 +234,14 @@
         //console.log(this.is)
 		if (this.is === "relative" || this.is === "absolute") {
 			if (this.settings.axis === "y") {
-				this.container.style.top = "0px";
+				this.container.style.top = this.target.scrollTop + "px";
+				this.container.style.left = (this.offset(this.target).width - this.settings.size) + "px";
 			} else {
-				this.container.style.left = "0px";
+				this.container.style.top = (this.offset(this.target).height - this.settings.size) + "px";
+				this.container.style.left = this.target.scrollLeft + "px";
 			}
 		} else {
             if (this.settings.axis === "y") {
-                //console.log(this.offset(this.target).top)
 				this.container.style.top = this.offset(this.target).top + "px";
 			} else {
 				this.container.style.left = this.offset(this.target).left + "px";
@@ -502,7 +505,7 @@
 			deltaX = -1 * orgEvent.wheelDeltaX / 120;
 		}
 
-		if(this.settings.axis === 'y') {
+		if (this.settings.axis === 'y') {
 			this.percent = this.target.scrollTop / (this.target.scrollHeight - this.target.offsetHeight);
 			this.setScrubPosition(this.percent);
 			this.target.scrollTop = Math.round(this.target.scrollTop - (delta * 10));
@@ -578,11 +581,19 @@
 	 * @return {void}
 	 */
 	Miniscroll[prototype].update = function () {
-		if (this.target.scrollHeight === this.offset(this.target).height) {
-			this.css(this.container, { "visibility": "hidden" });
-		} else {
-			this.css(this.container, { "visibility": "visible" })
-		}
+		if (this.settings.axis === 'y') {
+        	if (this.target.scrollHeight === this.offset(this.target).height) {
+                this.css(this.container, { "visibility": "hidden" });
+            } else {
+                this.css(this.container, { "visibility": "visible" })
+            }
+        } else {
+        	if (this.target.scrollWidth === this.offset(this.target).width) {
+                this.css(this.container, { "visibility": "hidden" });
+            } else {
+                this.css(this.container, { "visibility": "visible" })
+            }
+        }
 
 		// Atualiza o tamanho e a posição do container do scrollbar
 		var scrollHeight = (this.settings.scrollbarSize) ? this.settings.scrollbarSize : this.offset(this.target).height;
