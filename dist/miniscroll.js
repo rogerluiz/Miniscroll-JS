@@ -469,7 +469,6 @@
 	 */
 	Miniscroll[prototype].onScrollThumbWheel = function (event) {
 		event = event ? event : window.event;
-		var isMultidimensional = false;
 		
 		if (!this.preventScrolling) this.stopEvent(event);
 
@@ -491,37 +490,32 @@
 		
 		// New school multidimensional scroll (touchpads) deltas
 		deltaY = delta;
-		
+		deltaX = delta;
 		
 		
 		// Gecko
 		if (orgEvent.axis !== undefined && orgEvent.axis === orgEvent.HORIZONTAL_AXIS) {
 		    deltaY = 0;
 		    deltaX = -1 * delta;
-		    
-		    isMultidimensional = true;
 		}
 		
 		// Webkit
 		if (orgEvent.wheelDeltaY !== undefined) {
 			deltaY = orgEvent.wheelDeltaY / 120;
-			isMultidimensional = true;
 		}
 		
 		if (orgEvent.wheelDeltaX !== undefined) {
 			deltaX = -1 * orgEvent.wheelDeltaX / 120;
-			isMultidimensional = true;
 		}
-		console.log(isMultidimensional);
 
 		if (this.settings.axis === 'y') {
 			this.percent = this.target.scrollTop / (this.target.scrollHeight - this.target.offsetHeight);
 			this.setScrubPosition(this.percent);
-			this.target.scrollTop = Math.round(this.target.scrollTop - (((isMultidimensional) ? deltaY : delta) * 10));
+			this.target.scrollTop = Math.round(this.target.scrollTop - deltaY * 10));
 		} else {
 			this.percent = this.target.scrollLeft / (this.target.scrollWidth - this.target.offsetWidth);
 			this.setScrubPosition(this.percent);
-			this.target.scrollLeft = Math.round(this.target.scrollLeft - (((isMultidimensional) ? deltaX : delta) * 10));
+			this.target.scrollLeft = Math.round(this.target.scrollLeft - deltaX * 10));
 		}
 		
 		if (this.percent >= 1 || this.percent <= 0) {
