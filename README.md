@@ -85,7 +85,12 @@ _the size of thumb ex: "#0e5066"_<br />
 **trackerColor:**
 _color of fund of tracker ex: "#1a8bb2"_<br />
 **scrollbarSize:**
-_size of scrollbar, you can set a size fix to scrollbar it ex: 300 this had left scrollbar with the height of 300px_
+_size of scrollbar, you can set a size fix to scrollbar it ex: 300 this had left scrollbar with the height of 300px_<br />
+**isKeyEvent:**
+_Add arrow key event, by default is true_<br />
+**turnOffWheel:**
+_toggle on or off a mousewheel event, by default turnOffWheel is true_
+
 
 ***
 
