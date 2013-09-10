@@ -6,13 +6,14 @@
  *
  * @copyright (c) 2011, 2012 <http://rogerluizm.com.br/>
  *
- * @version 1.2.8
- *		update 1.2.9 | 03/09/2013 - fix error in the scroll when the position is relative or absolute
- *		update 1.2.9 | 03/09/2013 - fix updating on the x axis
- *      update 1.2.8 | 03/09/2013 - add turn off mousewheel, ex: { mousewheel: true }
- *      update 1.2.7 | 03/09/2013 - add scrollTo, now its posible scroll to a custom position
- *      update 1.2.6 | 21/06/2013 - fix bug the whole scrollbar (not just the handler part) moves down when I drag it.
- *      update 1.2.5 | 18/05/2013 - fix bug thumb position with arrow keys
+ * @version 1.2.9
+ *		update 1.2.9 | 10/09/2013 - fix multidimensional scrollwheel
+ *		update 1.2.9 | 10/09/2013 - fix error in the scroll when the position is relative or absolute
+ *		update 1.2.9 | 10/09/2013 - fix updating on the x axis
+ *		update 1.2.8 | 03/09/2013 - add turn off mousewheel, ex: { mousewheel: true }
+ *		update 1.2.7 | 03/09/2013 - add scrollTo, now its posible scroll to a custom position
+ *		update 1.2.6 | 21/06/2013 - fix bug the whole scrollbar (not just the handler part) moves down when I drag it.
+ *		update 1.2.5 | 18/05/2013 - fix bug thumb position with arrow keys
  * 		update 1.2.4 | 18/05/2013 - fix error it's time to catching the width and height
  * 		update 1.2.3 | 18/05/2013 - fix scrollbar position "x"
  * 		update 1.2.2 | 17/05/2013 - Key event added, now you can press the key down and key up for scrolling
@@ -490,10 +491,14 @@
 		// New school multidimensional scroll (touchpads) deltas
 		deltaY = delta;
 		
+		var isMultidimensional = false;
+		
 		// Gecko
 		if (orgEvent.axis !== undefined && orgEvent.axis === orgEvent.HORIZONTAL_AXIS) {
 		    deltaY = 0;
 		    deltaX = -1 * delta;
+		    
+		    isMultidimensional = true;
 		}
 		
 		// Webkit
@@ -508,13 +513,13 @@
 		if (this.settings.axis === 'y') {
 			this.percent = this.target.scrollTop / (this.target.scrollHeight - this.target.offsetHeight);
 			this.setScrubPosition(this.percent);
-			this.target.scrollTop = Math.round(this.target.scrollTop - (delta * 10));
+			this.target.scrollTop = Math.round(this.target.scrollTop - (((isMultidimensional) ? deltaY : delta) * 10));
 		} else {
 			this.percent = this.target.scrollLeft / (this.target.scrollWidth - this.target.offsetWidth);
 			this.setScrubPosition(this.percent);
-			this.target.scrollLeft = Math.round(this.target.scrollLeft - (delta * 10));
+			this.target.scrollLeft = Math.round(this.target.scrollLeft - (((isMultidimensional) ? deltaX : delta) * 10));
 		}
-
+		
 		if (this.percent >= 1 || this.percent <= 0) {
 			this.preventScrolling = true;
 		} else {
