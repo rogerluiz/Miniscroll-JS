@@ -469,6 +469,7 @@
 	 */
 	Miniscroll[prototype].onScrollThumbWheel = function (event) {
 		event = event ? event : window.event;
+		var isMultidimensional = false;
 		
 		if (!this.preventScrolling) this.stopEvent(event);
 
@@ -491,7 +492,7 @@
 		// New school multidimensional scroll (touchpads) deltas
 		deltaY = delta;
 		
-		var isMultidimensional = false;
+		
 		
 		// Gecko
 		if (orgEvent.axis !== undefined && orgEvent.axis === orgEvent.HORIZONTAL_AXIS) {
@@ -504,11 +505,14 @@
 		// Webkit
 		if (orgEvent.wheelDeltaY !== undefined) {
 			deltaY = orgEvent.wheelDeltaY / 120;
+			isMultidimensional = true;
 		}
 		
 		if (orgEvent.wheelDeltaX !== undefined) {
 			deltaX = -1 * orgEvent.wheelDeltaX / 120;
+			isMultidimensional = true;
 		}
+		console.log(isMultidimensional);
 
 		if (this.settings.axis === 'y') {
 			this.percent = this.target.scrollTop / (this.target.scrollHeight - this.target.offsetHeight);
