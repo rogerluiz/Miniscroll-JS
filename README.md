@@ -91,7 +91,7 @@ _size of scrollbar, you can set a size fix to scrollbar it ex: 300 this had left
 
 ### Last update:
 **update 1.2.8** - _03/09/2013 - add turn off mousewheel, ex: { mousewheel: true }_<br />
-**update 1.2.7** - _03/09/2013 - add scrollTo, now its posible scroll to a custom position_<br />
+**update 1.2.7** - _03/09/2013 - add scrollTo, now goto to a position_<br />
 **update 1.2.6** - _21/06/2013 - fix bug the whole scrollbar (not just the handler part) moves down when I drag it._<br />
 **update 1.2.5** - _18/05/2013 - fix the position the thumb when key press down and up_<br />
 **update 1.2.4** - _18/05/2013 - fixbug error it's time to catching the width and height_<br />
