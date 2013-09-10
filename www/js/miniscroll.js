@@ -511,11 +511,11 @@
 		if (this.settings.axis === 'y') {
 			this.percent = this.target.scrollTop / (this.target.scrollHeight - this.target.offsetHeight);
 			this.setScrubPosition(this.percent);
-			this.target.scrollTop = Math.round(this.target.scrollTop - deltaY * 10));
+			this.target.scrollTop = Math.round(this.target.scrollTop - (deltaY * 10));
 		} else {
 			this.percent = this.target.scrollLeft / (this.target.scrollWidth - this.target.offsetWidth);
 			this.setScrubPosition(this.percent);
-			this.target.scrollLeft = Math.round(this.target.scrollLeft - deltaX * 10));
+			this.target.scrollLeft = Math.round(this.target.scrollLeft - (deltaX * 10));
 		}
 		
 		if (this.percent >= 1 || this.percent <= 0) {
@@ -523,6 +523,11 @@
 		} else {
 			this.preventScrolling = false;
 		}
+		
+		// caso seja multidimensional adiciona o prevent scroll
+		if (orgEvent.wheelDeltaY !== undefined) {
+        	this.preventScrolling = true;
+        }
 
 		this.keypos_thumb = new Point(this.target.scrollLeft, this.target.scrollTop);
 
