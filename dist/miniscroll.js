@@ -526,7 +526,7 @@
 		
 		// caso seja multidimensional adiciona o prevent scroll
 		if (orgEvent.wheelDeltaY !== undefined) {
-        	this.preventScrolling = true;
+        	//this.preventScrolling = true;
         }
 
 		this.keypos_thumb = new Point(this.target.scrollLeft, this.target.scrollTop);
