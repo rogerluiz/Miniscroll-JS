@@ -77,11 +77,17 @@
                 sizethumb: "auto"
             });
 
-            document.getElementById("teste").addEventListener("click", onMove, false);
+            if (window.addEventListener) {
+                document.getElementById("teste").addEventListener("click", onMove, false);
+            } else if (window.attachEvent) {
+                document.getElementById("teste").attachEvent("onclick", onMove);                
+            }
 
             function onMove(event) {
-                event.preventDefault();
-
+                event.returnValue = false;
+                if(event.preventDefault) {
+                    event.preventDefault();
+                }
                 mini.scrollTo(50);
             }
 	  	</script>

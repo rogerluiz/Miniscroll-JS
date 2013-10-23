@@ -290,6 +290,9 @@
 		this.css(this.target, { "outline": "none" });
 		
 		this.bind(this.target, "focus", function (event, el) {
+            if (!('onkeydown' in el) && ('onkeydown' in document)) {
+                el = document;
+            }
 			this.bind(el, "keydown", function (event) {
 				var keyCode = event.keyCode || event.which,
      				arrow = { left: 37, up: 38, right: 39, down: 40 };
@@ -335,8 +338,9 @@
 		});
 
 		this.bind(this.target, "click", function (event, el) {
-			document.activeElement = el;
-			
+            try {
+                document.activeElement = el;
+            } catch (err) {}			
 			el.focus();
 		});
 	};
