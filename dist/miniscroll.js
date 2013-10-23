@@ -338,8 +338,9 @@
 		});
 
 		this.bind(this.target, "click", function (event, el) {
-			document.activeElement = el;
-			
+            try {
+                document.activeElement = el;
+            } catch (err) {}			
 			el.focus();
 		});
 	};
