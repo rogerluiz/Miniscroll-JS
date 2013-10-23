@@ -290,7 +290,7 @@
 		this.css(this.target, { "outline": "none" });
 		
 		this.bind(this.target, "focus", function (event, el) {
-            if (!('onkeydown' in el)) {
+            if (!('onkeydown' in el) && ('onkeydown' in document)) {
                 el = document;
             }
 			this.bind(el, "keydown", function (event) {
