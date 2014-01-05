@@ -6,9 +6,9 @@ _version 1.2.8_
 
 ### Include miniscroll.js into your page:
 
-<pre>
-&lt;script src="miniscroll.js"&gt;&lt;/script&gt;
-</pre>
+```html
+<script src="miniscroll.js"></script>
+```
 
 ***
 
@@ -16,25 +16,25 @@ _version 1.2.8_
 
 ```html
 <div class="scroller">
-     // text here
+     <!-- text here -->
 </div>
 ```
 
 ***
 
 ### CSS of the div ".scroller"::
-<pre>
+```css
 .scroller {
      width: 400px;
      height: 300px;
      overflow: hidden;
 }
-</pre>
+```
 
 ***
 
 ### Initialize the miniscroll:
-<pre>
+```javascript
 new Miniscroll(".scroller", {
      axis: "y",
      size: 10,
@@ -42,13 +42,13 @@ new Miniscroll(".scroller", {
      thumbColor: "#0e5066",
      trackerColor: "#1a8bb2"
  });
-</pre>
+```
 
 ***
 
 
 ### Change the color and aparence for all miniscroll class:
-<pre>
+```css
 .miniscroll-thumb {
      background-color: #0e5066 !important;
 }
@@ -56,20 +56,20 @@ new Miniscroll(".scroller", {
 .miniscroll-tracker {
     background-color: #1a8bb2 !important;
 }
-</pre>
+```
 
 ***
 
 ### Change the color and aparence for a unique miniscroll id:
-<pre>
-&#35;miniscroll-target .miniscroll-thumb {
+```css
+#miniscroll-target .miniscroll-thumb {
     background-color: #0e5066 !important;
 }
 
-&#35;miniscroll-target .miniscroll-tracker {
+#miniscroll-target .miniscroll-tracker {
     background-color: #1a8bb2 !important;
 }
-</pre>
+```
 
 ***
 
