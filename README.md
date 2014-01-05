@@ -14,10 +14,10 @@ _version 1.2.8_
 
 ### Include the html tag and add id or class::
 
-```
-&lt;div class="scroller"&gt;
+```html
+<div class="scroller">
      // text here
-&lt;/div&gt;
+</div>
 ```
 
 ***
