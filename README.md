@@ -10,7 +10,6 @@ _version 1.2.8_
 <script src="miniscroll.js"></script>
 ```
 
-***
 
 ### Include the html tag and add id or class::
 
@@ -20,7 +19,6 @@ _version 1.2.8_
 </div>
 ```
 
-***
 
 ### CSS of the div ".scroller"::
 ```css
@@ -31,7 +29,6 @@ _version 1.2.8_
 }
 ```
 
----
 
 ### Initialize the miniscroll:
 ```javascript
@@ -43,8 +40,6 @@ new Miniscroll(".scroller", {
      trackerColor: "#1a8bb2"
  });
 ```
-
-***
 
 
 ### Change the color and aparence for all miniscroll class:
@@ -58,8 +53,6 @@ new Miniscroll(".scroller", {
 }
 ```
 
-***
-
 ### Change the color and aparence for a unique miniscroll id:
 ```css
 #miniscroll-target .miniscroll-thumb {
@@ -71,28 +64,19 @@ new Miniscroll(".scroller", {
 }
 ```
 
-***
-
 ### List of parameters:
-**axis:*
-_axle of scrollbar ex: "y" ou "x"_<br />
-**size:**
-_the width of scrollbar ex: 10_<br />
-**sizethumb:**
-_o tamanho do thumb ex: 100 ou "auto"_<br />
-**thumbColor:**
-_the size of thumb ex: "#0e5066"_<br />
-**trackerColor:**
-_color of fund of tracker ex: "#1a8bb2"_<br />
-**scrollbarSize:**
-_size of scrollbar, you can set a size fix to scrollbar it ex: 300 this had left scrollbar with the height of 300px_<br />
-**isKeyEvent:**
-_Add arrow key event, by default is true_<br />
-**turnOffWheel:**
-_toggle on or off a mousewheel event, by default turnOffWheel is true_
 
+| Parameters    | Desc                             |
+|---------------|----------------------------------|
+| axis          | axle of scrollbar ex: "y" ou "x" |
+| size          | the width of scrollbar ex: 10 |
+| sizethumb     | the height of thumb  ex: 100 ou "auto" |
+| scrollbarSize | size of scrollbar, you can set a size fix to scrollbar it ex: 300 this had left scrollbar with the height of 300px |
+| thumbColor    | the size of thumb ex: "#0e5066" |
+| trackerColor  | color of fund of tracker ex: "#1a8bb2" |
+| isKeyEvent    | Add arrow key event, by default is true |
+| turnOffWheel  | toggle on or off a mousewheel event, by default turnOffWheel is true |
 
-***
 
 ### Last update:
 
