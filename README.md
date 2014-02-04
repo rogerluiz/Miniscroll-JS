@@ -11,7 +11,7 @@ _version 1.2.8_
 ```
 
 
-### Include the html tag and add id or class::
+### Include the html tag and add id or class:
 
 ```html
 <div class="scroller">
@@ -20,7 +20,7 @@ _version 1.2.8_
 ```
 
 
-### CSS of the div ".scroller"::
+### CSS of the div ".scroller":
 ```css
 .scroller {
      width: 400px;
