@@ -95,17 +95,21 @@ _toggle on or off a mousewheel event, by default turnOffWheel is true_
 ***
 
 ### Last update:
-**update 1.2.9** - _10/09/2013 - fix multidimensional scrollwheel_<br />
-**update 1.2.9** - _10/09/2013 - fix error in the scroll when the position is relative or absolute_<br />
-**update 1.2.9** - _10/09/2013 - fix updating on the x axis_<br />
-**update 1.2.8** - _03/09/2013 - add turn off mousewheel, ex: { mousewheel: true }_<br />
-**update 1.2.7** - _03/09/2013 - add scrollTo, now its posible scroll to a custom position_<br />
-**update 1.2.6** - _21/06/2013 - fix bug the whole scrollbar (not just the handler part) moves down when I drag it._<br />
-**update 1.2.5** - _18/05/2013 - fix the position the thumb when key press down and up_<br />
-**update 1.2.4** - _18/05/2013 - fixbug error it's time to catching the width and height_<br />
-**update 1.2.3** - _18/05/2013 - fix scrollbar position "x"_<br />
-**update 1.2.2** - _17/05/2013 - Key event added, now you can press the key down and key up for scrolling_<br />
-**update 1.2.1** - _15/05/2013 - Touch event added, now works for ipad, iphone and android_<br />
+
+| Version | Date       | Update                           |
+|---------|------------|----------------------------------|
+| 1.2.9   | 10/09/2013 | fix multidimensional scrollwheel |
+| 1.2.9   | 10/09/2013 | fix error in the scroll when the position is relative or absolute |
+| 1.2.9   | 10/09/2013 | fix updating on the x axis |
+| 1.2.8   | 03/09/2013 | add turn off mousewheel, ex: { mousewheel: true } |
+| 1.2.7   | 03/09/2013 | add scrollTo, now its posible scroll to a custom positio |
+| 1.2.6   | 03/09/2013 | fix bug the whole scrollbar (not just the handler part) moves down when I drag it |
+| 1.2.5   | 03/09/2013 | fix the position the thumb when key press down and up |
+| 1.2.4   | 03/09/2013 | fixbug error it's time to catching the width and height |
+| 1.2.3   | 03/09/2013 | fix scrollbar position "x" |
+| 1.2.2   | 03/09/2013 | Key event added, now you can press the key down and key up for scrolling |
+| 1.2.1   | 03/09/2013 | Touch event added, now works for ipad, iphone and android |
+
 
 ***
 
