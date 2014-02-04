@@ -31,7 +31,7 @@ _version 1.2.8_
 }
 ```
 
-***
+---
 
 ### Initialize the miniscroll:
 ```javascript
