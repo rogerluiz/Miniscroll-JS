@@ -45,12 +45,12 @@
 		this.container;
 		this.tracker;
 		this.thumb;
-		this.thumb_delta = new Point(0, 0);
-		this.thumb_pos = new Point(0, 0);
-		this.touch = new Point(0, 0);
+		this.thumb_delta = Point(0, 0);
+		this.thumb_pos = Point(0, 0);
+		this.touch = Point(0, 0);
 		this.settings = options;
 		this.percent;
-		this.keypos_thumb = new Point(0, 0);
+		this.keypos_thumb = Point(0, 0);
 		this.scrolling = false;
 		this.preventScrolling = false;
 		this.turnOffWheel = true;
@@ -59,17 +59,22 @@
 	},
 	
 	/**
-	 * [ description]
+	 * Point
+	 * https://github.com/jbmonroe
 	 * 
-	 * @param  {[type]} x [description]
-	 * @param  {[type]} y [description]
-	 * @return {[type]}   [description]
+	 * @param  {number} x - [description]
+	 * @param  {number} y - [description]
+	 * @return {number}   Return an object with 2 points
 	 */
 	Point = function (x, y) {
-		this.x = x != null ? x : 0;
-		this.y = y != null ? y : 0;
+		if (!(this instanceof Point)) {
+			return new Point(x,y);
+		}
 		
-		return { x: this.x, y: this.y };
+		this.x = (!!x) ? x : 0;
+		this.y = (!!y) ? y : 0;
+		
+		return this;
 	};
 
 	/**
@@ -174,17 +179,17 @@
 			"class" : "miniscroll-thumb"
 		});
 
-		var offset = new Point(
+		var offset = Point(
 			(this.offset(this.container).width * this.offset(this.tracker).width) / this.target.scrollWidth,
 			(this.offset(this.container).height * this.offset(this.tracker).height) / this.target.scrollHeight
 		);
 
-		var offset = new Point(
+		var offset = Point(
 			(this.offset(this.container).width * this.offset(this.tracker).width) / this.target.scrollWidth,
 			(this.offset(this.container).height * this.offset(this.tracker).height) / this.target.scrollHeight
 		);
 
-		var thumbSize = new Point(
+		var thumbSize = Point(
 			(this.settings.sizethumb === undefined || this.settings.sizethumb === 'auto') ? offset.x : this.settings.sizethumb,
 			(this.settings.sizethumb === undefined || this.settings.sizethumb === 'auto') ? offset.y : this.settings.sizethumb
 		);
@@ -263,7 +268,7 @@
 		var thumb_width = this.offset(this.thumb).width,
 			thumb_height = this.offset(this.thumb).height;
 
-		this.thumb_pos = new Point( 
+		this.thumb_pos = Point( 
 			Math.round((container_width - thumb_width) * percent), 
 			Math.round((container_height - thumb_height) * percent)
 		);
@@ -290,9 +295,16 @@
 		this.css(this.target, { "outline": "none" });
 		
 		this.bind(this.target, "focus", function (event, el) {
+            if (!('onkeydown' in el) && ('onkeydown' in document)) {
+                el = document;
+            }
 			this.bind(el, "keydown", function (event) {
+				if (event.target != this.target) {return;} // Avoid to block form related elements
+
 				var keyCode = event.keyCode || event.which,
-     				arrow = { left: 37, up: 38, right: 39, down: 40 };
+     				arrow = { left: 37, up: 38, right: 39, down: 40 },
+     				arrowPressed = true,
+     				finalKey;
 
 				switch (keyCode) {
 					case arrow.up:
@@ -310,33 +322,41 @@
 					case arrow.right:
 						if (this.percent !== 1) this.keypos_thumb.x += 10;
 						break;
+
+					default:
+						arrowPressed = false;
 				}
 
 				if(this.settings.axis === 'y') {
 					this.percent = this.target.scrollTop / (this.target.scrollHeight - this.target.offsetHeight);
 					this.setScrubPosition(this.percent);
 					this.target.scrollTop = this.keypos_thumb.y;
+					finalKey = [38,40]
 				} else {
 					this.percent = this.target.scrollLeft / (this.target.scrollWidth - this.target.offsetWidth);
 					this.setScrubPosition(this.percent);
 					this.target.scrollLeft = this.keypos_thumb.x;
+					finalKey = [37,39]
 				}
 
-
-
-				if (this.percent >= 1 || this.percent <= 0) {
+				if ((this.percent >= 1 && keyCode == finalKey[1]) || (this.percent <= 0 && keyCode == finalKey[0])) {
 					this.preventScrolling = true;
 				} else {
 					this.preventScrolling = false;
 				}
+
+				if (!this.preventScrolling && arrowPressed) this.stopEvent(event);
 
 				this.updateContainerPosition();
 			});
 		});
 
 		this.bind(this.target, "click", function (event, el) {
-			document.activeElement = el;
-			
+			if (event.target != this.target) {return;} // Avoid to block form related elements
+
+            try {
+                document.activeElement = el;
+            } catch (err) {}			
 			el.focus();
 		});
 	};
@@ -352,7 +372,7 @@
 		var touches = event.touches[0];
 
 		this.scrolling = true;
-		this.touch = new Point(touches.pageX, touches.pageY);
+		this.touch = Point(touches.pageX, touches.pageY);
 
 		this.bind(this.target, "touchend", this.onScrollTouchEnd);
 	};
@@ -369,8 +389,8 @@
 		// override the touch event’s normal functionality
 		event.preventDefault();
 
-		var touchMoved = new Point(this.touch.x - touches.pageX, this.touch.y - touches.pageY);
-		this.touch = new Point(touches.pageX, touches.pageY);
+		var touchMoved = Point(this.touch.x - touches.pageX, this.touch.y - touches.pageY);
+		this.touch = Point(touches.pageX, touches.pageY);
 
 
 		if (this.settings.axis === "y") {
@@ -408,7 +428,7 @@
 		this.stopEvent(event);
 
 		this.scrolling = true;
-		this.thumb_delta = new Point(this.thumb_pos.x - this.mouse(event).x, this.thumb_pos.y - this.mouse(event).y);
+		this.thumb_delta = Point(this.thumb_pos.x - this.mouse(event).x, this.thumb_pos.y - this.mouse(event).y);
 
 		this.bind(document, "mousemove", this.onScrollThumbUpdate);
 		this.bind(document, "mouseup", this.onScrollThumbRelease);
@@ -428,22 +448,22 @@
 
 		if (!this.scrolling) return false;
 
-		this.thumb_pos = new Point(
+		this.thumb_pos = Point(
 			this.mouse(event).x + this.thumb_delta.x,
 			this.mouse(event).y + this.thumb_delta.y
 		);
 
-		this.thumb_pos = new Point(
+		this.thumb_pos = Point(
 			Math.max( 0, Math.min(this.container.offsetWidth - this.thumb.offsetWidth, this.thumb_pos.x) ),
 			Math.max( 0, Math.min(this.container.offsetHeight - this.thumb.offsetHeight, this.thumb_pos.y) )
 		);
 
-		this.percent = new Point(
+		this.percent = Point(
 			this.thumb_pos.x / (this.container.offsetWidth - this.thumb.offsetWidth),
 			this.thumb_pos.y / (this.container.offsetHeight - this.thumb.offsetHeight)
 		);
 
-		this.percent = new Point(
+		this.percent = Point(
 			Math.max(0, Math.min(1, this.percent.x)),
 			Math.max(0, Math.min(1, this.percent.y))
 		);
@@ -456,7 +476,7 @@
 			this.target.scrollLeft = Math.round((this.target.scrollWidth - this.target.offsetWidth) * this.percent.x);
 		}
 
-		this.keypos_thumb = new Point(this.target.scrollLeft, this.target.scrollTop);
+		this.keypos_thumb = Point(this.target.scrollLeft, this.target.scrollTop);
 
 		this.updateContainerPosition();
 	};
@@ -470,14 +490,15 @@
 	Miniscroll[prototype].onScrollThumbWheel = function (event) {
 		event = event ? event : window.event;
 		
-		if (!this.preventScrolling) this.stopEvent(event);
+		// if (!this.preventScrolling) this.stopEvent(event);
 
 		var orgEvent = event || window.event, 
 			args = [].slice.call(arguments, 1), 
 			delta = 0, 
 			returnValue = true, 
 			deltaX = 0, 
-			deltaY = 0;
+			deltaY = 0,
+			finalDelta;
 		
 		// Old school scrollwheel delta
 		if (orgEvent.wheelDelta) {
@@ -492,8 +513,13 @@
 		deltaY = delta;
 		deltaX = delta;
 		
-		
-		// Gecko
+		// Gecko (17 and above)
+		if (!!orgEvent.deltaMode) {
+		    deltaY = -orgEvent.deltaY/3;
+		    deltaX = -orgEvent.deltaX/3;
+		}
+
+		// Gecko (16 and earlier)
 		if (orgEvent.axis !== undefined && orgEvent.axis === orgEvent.HORIZONTAL_AXIS) {
 		    deltaY = 0;
 		    deltaX = -1 * delta;
@@ -512,24 +538,28 @@
 			this.percent = this.target.scrollTop / (this.target.scrollHeight - this.target.offsetHeight);
 			this.setScrubPosition(this.percent);
 			this.target.scrollTop = Math.round(this.target.scrollTop - (deltaY * 10));
+			finalDelta = deltaY;
 		} else {
 			this.percent = this.target.scrollLeft / (this.target.scrollWidth - this.target.offsetWidth);
 			this.setScrubPosition(this.percent);
 			this.target.scrollLeft = Math.round(this.target.scrollLeft - (deltaX * 10));
+			finalDelta = deltaX;
 		}
 		
-		if (this.percent >= 1 || this.percent <= 0) {
+		if ((this.percent >= 1 && finalDelta < 0) || (this.percent <= 0 && finalDelta > 0) || finalDelta == 0) {
 			this.preventScrolling = true;
 		} else {
 			this.preventScrolling = false;
 		}
 		
 		// caso seja multidimensional adiciona o prevent scroll
-		if (orgEvent.wheelDeltaY !== undefined) {
-        	this.preventScrolling = true;
-        }
+		// if (orgEvent.wheelDeltaY !== undefined) {
+        	// this.preventScrolling = true;
+        // }
 
-		this.keypos_thumb = new Point(this.target.scrollLeft, this.target.scrollTop);
+        if (!this.preventScrolling) this.stopEvent(event);
+
+		this.keypos_thumb = Point(this.target.scrollLeft, this.target.scrollTop);
 
 		this.updateContainerPosition();
 	};
@@ -628,12 +658,12 @@
 		});
 
 		// Atualiza o tamanho do thumb
-		var offset = new Point(
+		var offset = Point(
 			(this.offset(this.container).width * this.offset(this.tracker).width) / this.target.scrollWidth,
 			(this.offset(this.container).height * this.offset(this.tracker).height) / this.target.scrollHeight
 		);
 
-		var thumbSize = new Point(
+		var thumbSize = Point(
 			(this.settings.sizethumb === undefined || this.settings.sizethumb === 'auto') ? offset.x : this.settings.sizethumb,
 			(this.settings.sizethumb === undefined || this.settings.sizethumb === 'auto') ? offset.y : this.settings.sizethumb
 		);
@@ -845,7 +875,9 @@
 	 * @param {Function} callBack Function that contains the codes
 	 */
 	Miniscroll[prototype].bind = function(element, eventType, callback) {
-		var mousewheel = (/Firefox/i.test(navigator.userAgent)) ? "DOMMouseScroll" : "mousewheel";
+		var mousewheel = "onwheel" in document.createElement("div") ? "wheel" : // Modern browsers support "wheel"
+						 document.onmousewheel !== undefined ? "mousewheel" : // Webkit and IE support at least "mousewheel"
+						 "DOMMouseScroll"; // let's assume that remaining browsers are older Firefox
 		var _this = this;
 
 		
@@ -884,7 +916,9 @@
 	 * @param {Function} callBack Function that contains the codes
 	 */
 	Miniscroll[prototype].unbind = function(element, eventType, callback) {
-		var mousewheel = (/Firefox/i.test(navigator.userAgent)) ? "DOMMouseScroll" : "mousewheel";
+		var mousewheel = "onwheel" in document.createElement("div") ? "wheel" : // Modern browsers support "wheel"
+						 document.onmousewheel !== undefined ? "mousewheel" : // Webkit and IE support at least "mousewheel"
+						 "DOMMouseScroll"; // let's assume that remaining browsers are older Firefox
 		
 		if (element.addEventListener) {
 			if(eventType === "mousewheel") {

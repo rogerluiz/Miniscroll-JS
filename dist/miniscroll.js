@@ -299,8 +299,12 @@
                 el = document;
             }
 			this.bind(el, "keydown", function (event) {
+				if (event.target != this.target) {return;} // Avoid to block form related elements
+
 				var keyCode = event.keyCode || event.which,
-     				arrow = { left: 37, up: 38, right: 39, down: 40 };
+     				arrow = { left: 37, up: 38, right: 39, down: 40 },
+     				arrowPressed = true,
+     				finalKey;
 
 				switch (keyCode) {
 					case arrow.up:
@@ -318,31 +322,38 @@
 					case arrow.right:
 						if (this.percent !== 1) this.keypos_thumb.x += 10;
 						break;
+
+					default:
+						arrowPressed = false;
 				}
 
 				if(this.settings.axis === 'y') {
 					this.percent = this.target.scrollTop / (this.target.scrollHeight - this.target.offsetHeight);
 					this.setScrubPosition(this.percent);
 					this.target.scrollTop = this.keypos_thumb.y;
+					finalKey = [38,40]
 				} else {
 					this.percent = this.target.scrollLeft / (this.target.scrollWidth - this.target.offsetWidth);
 					this.setScrubPosition(this.percent);
 					this.target.scrollLeft = this.keypos_thumb.x;
+					finalKey = [37,39]
 				}
 
-
-
-				if (this.percent >= 1 || this.percent <= 0) {
+				if ((this.percent >= 1 && keyCode == finalKey[1]) || (this.percent <= 0 && keyCode == finalKey[0])) {
 					this.preventScrolling = true;
 				} else {
 					this.preventScrolling = false;
 				}
+
+				if (!this.preventScrolling && arrowPressed) this.stopEvent(event);
 
 				this.updateContainerPosition();
 			});
 		});
 
 		this.bind(this.target, "click", function (event, el) {
+			if (event.target != this.target) {return;} // Avoid to block form related elements
+
             try {
                 document.activeElement = el;
             } catch (err) {}			
@@ -479,14 +490,15 @@
 	Miniscroll[prototype].onScrollThumbWheel = function (event) {
 		event = event ? event : window.event;
 		
-		if (!this.preventScrolling) this.stopEvent(event);
+		// if (!this.preventScrolling) this.stopEvent(event);
 
 		var orgEvent = event || window.event, 
 			args = [].slice.call(arguments, 1), 
 			delta = 0, 
 			returnValue = true, 
 			deltaX = 0, 
-			deltaY = 0;
+			deltaY = 0,
+			finalDelta;
 		
 		// Old school scrollwheel delta
 		if (orgEvent.wheelDelta) {
@@ -501,8 +513,13 @@
 		deltaY = delta;
 		deltaX = delta;
 		
-		
-		// Gecko
+		// Gecko (17 and above)
+		if (!!orgEvent.deltaMode) {
+		    deltaY = -orgEvent.deltaY/3;
+		    deltaX = -orgEvent.deltaX/3;
+		}
+
+		// Gecko (16 and earlier)
 		if (orgEvent.axis !== undefined && orgEvent.axis === orgEvent.HORIZONTAL_AXIS) {
 		    deltaY = 0;
 		    deltaX = -1 * delta;
@@ -521,22 +538,26 @@
 			this.percent = this.target.scrollTop / (this.target.scrollHeight - this.target.offsetHeight);
 			this.setScrubPosition(this.percent);
 			this.target.scrollTop = Math.round(this.target.scrollTop - (deltaY * 10));
+			finalDelta = deltaY;
 		} else {
 			this.percent = this.target.scrollLeft / (this.target.scrollWidth - this.target.offsetWidth);
 			this.setScrubPosition(this.percent);
 			this.target.scrollLeft = Math.round(this.target.scrollLeft - (deltaX * 10));
+			finalDelta = deltaX;
 		}
 		
-		if (this.percent >= 1 || this.percent <= 0) {
+		if ((this.percent >= 1 && finalDelta < 0) || (this.percent <= 0 && finalDelta > 0) || finalDelta == 0) {
 			this.preventScrolling = true;
 		} else {
 			this.preventScrolling = false;
 		}
 		
 		// caso seja multidimensional adiciona o prevent scroll
-		if (orgEvent.wheelDeltaY !== undefined) {
-        	//this.preventScrolling = true;
-        }
+		// if (orgEvent.wheelDeltaY !== undefined) {
+        	// this.preventScrolling = true;
+        // }
+
+        if (!this.preventScrolling) this.stopEvent(event);
 
 		this.keypos_thumb = Point(this.target.scrollLeft, this.target.scrollTop);
 
@@ -854,7 +875,9 @@
 	 * @param {Function} callBack Function that contains the codes
 	 */
 	Miniscroll[prototype].bind = function(element, eventType, callback) {
-		var mousewheel = (/Firefox/i.test(navigator.userAgent)) ? "DOMMouseScroll" : "mousewheel";
+		var mousewheel = "onwheel" in document.createElement("div") ? "wheel" : // Modern browsers support "wheel"
+						 document.onmousewheel !== undefined ? "mousewheel" : // Webkit and IE support at least "mousewheel"
+						 "DOMMouseScroll"; // let's assume that remaining browsers are older Firefox
 		var _this = this;
 
 		
@@ -893,7 +916,9 @@
 	 * @param {Function} callBack Function that contains the codes
 	 */
 	Miniscroll[prototype].unbind = function(element, eventType, callback) {
-		var mousewheel = (/Firefox/i.test(navigator.userAgent)) ? "DOMMouseScroll" : "mousewheel";
+		var mousewheel = "onwheel" in document.createElement("div") ? "wheel" : // Modern browsers support "wheel"
+						 document.onmousewheel !== undefined ? "mousewheel" : // Webkit and IE support at least "mousewheel"
+						 "DOMMouseScroll"; // let's assume that remaining browsers are older Firefox
 		
 		if (element.addEventListener) {
 			if(eventType === "mousewheel") {
