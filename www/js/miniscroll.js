@@ -561,15 +561,6 @@
 
 		this.keypos_thumb = Point(this.target.scrollLeft, this.target.scrollTop);
 
-        if(!document.createEvent){
-            var scrollEvent = document.createEventObject();
-            this.target.fireEvent("onscroll", scrollEvent);
-        }else{
-            var scrollEvent = document.createEvent("HTMLEvents");
-            scrollEvent.initEvent("scroll", true, false);
-            this.target.dispatchEvent(scrollEvent);
-        }
-
 		this.updateContainerPosition();
 	};
 
