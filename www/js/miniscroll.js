@@ -23,10 +23,10 @@
 	var config = {
 		touchEvents: ('ontouchstart' in document.documentElement)
 	},
-	
+
 	/**
 	 * @constructor
-	 * 
+	 *
 	 * @param { String || Element } selector Class, id ou elemento html ex: ".scroller", "#scroller"
 	 * @param { Object } options Lista de parametros
 	 *     options: {
@@ -57,11 +57,11 @@
 
 		this.initializing();
 	},
-	
+
 	/**
 	 * Point
 	 * https://github.com/jbmonroe
-	 * 
+	 *
 	 * @param  {number} x - [description]
 	 * @param  {number} y - [description]
 	 * @return {number}   Return an object with 2 points
@@ -70,10 +70,10 @@
 		if (!(this instanceof Point)) {
 			return new Point(x,y);
 		}
-		
+
 		this.x = (!!x) ? x : 0;
 		this.y = (!!y) ? y : 0;
-		
+
 		return this;
 	};
 
@@ -99,7 +99,7 @@
 
 		// Verifica se isKeyEvent é true ou false ou se foi setado, caso não adiciona o default
 		this.settings.isKeyEvent = (typeof this.settings.isKeyEvent === "undefined") ? true : this.settings.isKeyEvent;
-		
+
 		this.turnOffWheel = (typeof this.settings.turnOffWheel === "undefined") ? this.turnOffWheel : this.settings.turnOffWheel;
 
 		// Se isKeyEvent for true então configura e adiciona o evento de tecla (keypress)
@@ -121,7 +121,7 @@
 	 * @this {Miniscroll}
 	 */
 	Miniscroll[prototype].buildScrollbar = function () {
-		
+
 		// Verifico se existe um id no target ou classe para o id do container
 		var idname = (this.target.id) ? this.target.id : this.target.className;
 
@@ -161,7 +161,7 @@
 
 		var trackerWidth = (this.settings.axis === "x") ? this.offset(this.container).width : this.settings.size;
 		var trackerHeight = (this.settings.axis === "y") ? this.offset(this.container).height : this.settings.size;
-		
+
 		this.css(this.tracker, {
 			width: trackerWidth + "px",
 			height: trackerHeight + "px",
@@ -268,8 +268,8 @@
 		var thumb_width = this.offset(this.thumb).width,
 			thumb_height = this.offset(this.thumb).height;
 
-		this.thumb_pos = Point( 
-			Math.round((container_width - thumb_width) * percent), 
+		this.thumb_pos = Point(
+			Math.round((container_width - thumb_width) * percent),
 			Math.round((container_height - thumb_height) * percent)
 		);
 
@@ -284,7 +284,7 @@
 	//=============================
 	// EVENT HANDLERS
 	//=============================
-    
+
     /**
      * Add keyboard event
      *
@@ -293,7 +293,7 @@
 	Miniscroll[prototype].addKeyBoardEvent = function () {
 		this.target.setAttribute("tabindex", "-1");
 		this.css(this.target, { "outline": "none" });
-		
+
 		this.bind(this.target, "focus", function (event, el) {
             if (!('onkeydown' in el) && ('onkeydown' in document)) {
                 el = document;
@@ -356,12 +356,12 @@
 
             try {
                 document.activeElement = el;
-            } catch (err) {}			
+            } catch (err) {}
 			el.focus();
 		});
 	};
-    
-    
+
+
     /**
      * Add touch start event
      * set the start position and bind the touch end event
@@ -376,7 +376,7 @@
 
 		this.bind(this.target, "touchend", this.onScrollTouchEnd);
 	};
-    
+
     /**
      * Add touch move event
      * uodate the position and the end value of the position
@@ -408,7 +408,7 @@
 
 	/**
 	 * [ description]
-	 * 
+	 *
 	 * @param  {[type]} event [description]
 	 * @return {[type]}       [description]
 	 */
@@ -416,10 +416,10 @@
 		this.scrolling = false;
 		this.unbind(this.target, "touchend", this.onScrollTouchEnd);
 	};
-    
+
     /**
      * [ description]
-     * 
+     *
      * @param  {[type]} event [description]
      * @return {[type]}       [description]
      */
@@ -438,7 +438,7 @@
 
 	/**
 	 * [ description]
-	 * 
+	 *
 	 * @param  {[type]} event [description]
 	 * @return {[type]}       [description]
 	 */
@@ -483,23 +483,23 @@
 
 	/**
 	 * [ description]
-	 * 
+	 *
 	 * @param  {[type]} event [description]
 	 * @return {[type]}       [description]
 	 */
 	Miniscroll[prototype].onScrollThumbWheel = function (event) {
 		event = event ? event : window.event;
-		
+
 		// if (!this.preventScrolling) this.stopEvent(event);
 
-		var orgEvent = event || window.event, 
-			args = [].slice.call(arguments, 1), 
-			delta = 0, 
-			returnValue = true, 
-			deltaX = 0, 
+		var orgEvent = event || window.event,
+			args = [].slice.call(arguments, 1),
+			delta = 0,
+			returnValue = true,
+			deltaX = 0,
 			deltaY = 0,
 			finalDelta;
-		
+
 		// Old school scrollwheel delta
 		if (orgEvent.wheelDelta) {
 			delta = orgEvent.wheelDelta/120;
@@ -508,11 +508,11 @@
 		if (orgEvent.detail) {
 			delta = -orgEvent.detail/3;
 		}
-		
+
 		// New school multidimensional scroll (touchpads) deltas
 		deltaY = delta;
 		deltaX = delta;
-		
+
 		// Gecko (17 and above)
 		if (!!orgEvent.deltaMode) {
 		    deltaY = -orgEvent.deltaY/3;
@@ -524,12 +524,12 @@
 		    deltaY = 0;
 		    deltaX = -1 * delta;
 		}
-		
+
 		// Webkit
 		if (orgEvent.wheelDeltaY !== undefined) {
 			deltaY = orgEvent.wheelDeltaY / 120;
 		}
-		
+
 		if (orgEvent.wheelDeltaX !== undefined) {
 			deltaX = -1 * orgEvent.wheelDeltaX / 120;
 		}
@@ -545,13 +545,13 @@
 			this.target.scrollLeft = Math.round(this.target.scrollLeft - (deltaX * 10));
 			finalDelta = deltaX;
 		}
-		
+
 		if ((this.percent >= 1 && finalDelta < 0) || (this.percent <= 0 && finalDelta > 0) || finalDelta == 0) {
 			this.preventScrolling = true;
 		} else {
 			this.preventScrolling = false;
 		}
-		
+
 		// caso seja multidimensional adiciona o prevent scroll
 		// if (orgEvent.wheelDeltaY !== undefined) {
         	// this.preventScrolling = true;
@@ -566,7 +566,7 @@
 
 	/**
 	 * [ description]
-	 * 
+	 *
 	 * @param  {[type]} event [description]
 	 * @return {[type]}       [description]
 	 */
@@ -579,10 +579,10 @@
 		this.unbind(document, "mousemove", this.onScrollThumbUpdate);
 		this.unbind(document, "mouseup", this.onScrollThumbRelease);
 	};
-	
+
 	/**
 	 * [ description]
-	 * 
+	 *
 	 * @param  {[type]} event [description]
 	 * @return {[type]}       [description]
 	 */
@@ -596,7 +596,7 @@
 
 	/**
 	 * [ description]
-	 * 
+	 *
 	 * @param  {[type]} value [description]
 	 * @return {[type]}       [description]
 	 */
@@ -604,7 +604,7 @@
 	     var scrollY =  Math.max(0, Math.min(this.offset(this.target).height - this.offset(this.thumb).height, value));
 
          if(this.settings.axis === 'y') {
-			this.thumb_pos.y = scrollY; 
+			this.thumb_pos.y = scrollY;
 			this.thumb.style.top = Math.round(this.thumb_pos.y) + "px";
 
 			this.target.scrollTop = scrollY;
@@ -615,7 +615,7 @@
 
 	/**
 	 * Update the scrollbar
-	 * 
+	 *
 	 * @return {void}
 	 */
 	Miniscroll[prototype].update = function () {
@@ -675,13 +675,13 @@
 		// Reposiciona o thumb de acordo com o a posição scrollTop ou scrollLeft
 		if (this.settings.axis === 'y') {
 			this.percent = this.target.scrollTop / (this.target.scrollHeight - this.target.offsetHeight);
-			
+
 			if (!this.scrolling) {
 				this.setScrubPosition(this.percent);
 			}
 		} else {
 			this.percent = this.target.scrollLeft / (this.target.scrollWidth - this.target.offsetWidth);
-			
+
 			if (!this.scrolling) {
 				this.setScrubPosition(this.percent);
 			}
@@ -694,10 +694,10 @@
 	// UTILS METHODS
 	//=============================
 
-   
+
 	/**
 	 * Pega um seletor css e retorna um elemento html
-	 * 
+	 *
 	 * @param  {String|Element} selector [description]
 	 * @return {Element}
 	 */
@@ -713,27 +713,27 @@
 		// e retorna um elemento html
 		if (typeof selector === 'string' || selector instanceof String) {
 			var token = selector.replace(/^\s+/, '').replace(/\s+$/, ''), element;
-			
+
 			if (token.indexOf("#") > -1) {
 				this.type = 'id';
 				var match = token.split('#');
 				element = document.getElementById( match[1] );
 			}
-			
+
 			if (token.indexOf(".") > -1) {
 				this.type = 'class';
 				var match = token.split('.'),
 					tags = document.getElementsByTagName('*'),
 					len = tags.length, found = [], count = 0;
-					
-				
+
+
 				for (var i = 0; i < len; i++) {
 					if (tags[i].className && tags[i].className.match(new RegExp("(^|\\s)" + match[1] + "(\\s|$)"))) {
 						element = tags[i];
 					}
 				}
 			}
-			
+
 			return element;
 		}
 		// Se o seletor for um elemento html retorno ele mesmo
@@ -744,7 +744,7 @@
 
 	/**
 	 * [ description]
-	 * 
+	 *
 	 * @param  {[type]} element [description]
 	 * @param  {[type]} tagName [description]
 	 * @param  {[type]} attrs   [description]
@@ -775,7 +775,7 @@
 	Miniscroll[prototype].css = function (element, arguments) {
         for (var prop in arguments) {
             if (prop === 'opacity') {
-                
+
                 element.style.filter = 'alpha(opacity=' + (arguments[prop] * 100) + ')';
                 element.style.KhtmlOpacity = arguments[prop];
                 element.style.MozOpacity = arguments[prop];
@@ -818,7 +818,7 @@
 
     /**
      * [ description]
-     * 
+     *
      * @param  {[type]} element [description]
      * @return {[type]}         [description]
      */
@@ -835,7 +835,7 @@
 		if (typeof element.offsetWidth === "undefined") {
 			width = parseInt(this.getCss(element, "width"));
 		}
-		
+
 		return { top: top, left: left, width: width, height: height };
 	};
 
@@ -856,7 +856,7 @@
 			posx = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
 			posy = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
 		}
-		
+
 		return { x: posx, y: posy };
 	};
 
@@ -865,7 +865,7 @@
 	 * Bind Event
 	 *
 	 * cross browser DOM evento, verifica se tem a propriedade addEventListener, se tiver
-	 * adiciona o evento usando o metodo addEventListener ou segue para proxima 
+	 * adiciona o evento usando o metodo addEventListener ou segue para proxima
 	 * verificação. se não existir o metodo addEventListener é utilizado o attachEvent ou elemeto.on[type]
 	 *
 	 * @this {Miniscroll}
@@ -880,7 +880,7 @@
 						 "DOMMouseScroll"; // let's assume that remaining browsers are older Firefox
 		var _this = this;
 
-		
+
 		//callback.call(this, event, $);
 		if(element.addEventListener) {
 			if( eventType === "mousewheel" ) {
@@ -902,11 +902,11 @@
 			};
 		}
 	};
-	
+
 	/**
-	 * Unbind Event 
+	 * Unbind Event
 	 * cross browser DOM evento, verifica se tem a propriedade addEventListener se tiver
-	 * remove o evento usando o metodo removeEventListener ou segue para a próxima 
+	 * remove o evento usando o metodo removeEventListener ou segue para a próxima
 	 * verificação. se não existir o metodo addEventListener é utilizado o detachEvent ou elemeto.on[type] = null
 	 *
 	 * @this {Miniscroll}
@@ -919,7 +919,7 @@
 		var mousewheel = "onwheel" in document.createElement("div") ? "wheel" : // Modern browsers support "wheel"
 						 document.onmousewheel !== undefined ? "mousewheel" : // Webkit and IE support at least "mousewheel"
 						 "DOMMouseScroll"; // let's assume that remaining browsers are older Firefox
-		
+
 		if (element.addEventListener) {
 			if(eventType === "mousewheel") {
 				element.removeEventListener(mousewheel, function(event) {
@@ -941,7 +941,7 @@
 
 	/**
 	 * [ description]
-	 * 
+	 *
 	 * @param  {[type]} event [description]
 	 * @return {[type]}       [description]
 	 */
@@ -951,7 +951,7 @@
 		} else {
 			event.cancelBubble = true;
 		}
-	
+
 		if (event.preventDefault) {
 			event.preventDefault();
 		} else {
