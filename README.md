@@ -36,6 +36,7 @@ new Miniscroll(".scroller", {
      axis: "y",
      size: 10,
      sizethumb: "auto",
+     onScroll: function(percent, offset) {},
      thumbColor: "#0e5066",
      trackerColor: "#1a8bb2"
  });
