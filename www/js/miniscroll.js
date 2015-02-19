@@ -35,6 +35,7 @@
 	 *		   sizethumb: "auto",
 	 *		   thumbColor: "#0e5066",
 	 *		   trackerColor: "#1a8bb2",
+	 *		   onScroll: function(percent, offset){},
 	 *		   isKeyEvent: false // default is true
 	 *	   }
 	 */
@@ -331,11 +332,15 @@
 					this.percent = this.target.scrollTop / (this.target.scrollHeight - this.target.offsetHeight);
 					this.setScrubPosition(this.percent);
 					this.target.scrollTop = this.keypos_thumb.y;
+					if (this.settings.onScroll)
+						this.settings.onScroll(this.percent, this.target.scrollTop);
 					finalKey = [38,40]
 				} else {
 					this.percent = this.target.scrollLeft / (this.target.scrollWidth - this.target.offsetWidth);
 					this.setScrubPosition(this.percent);
 					this.target.scrollLeft = this.keypos_thumb.x;
+					if (this.settings.onScroll)
+						this.settings.onScroll(this.percent, this.target.scrollLeft);
 					finalKey = [37,39]
 				}
 
@@ -397,10 +402,14 @@
 			this.percent = this.target.scrollTop / (this.target.scrollHeight - this.target.offsetHeight);
 			this.setScrubPosition(this.percent);
 			this.target.scrollTop = this.target.scrollTop + touchMoved.y;
+			if (this.settings.onScroll)
+				this.settings.onScroll(this.percent, this.target.scrollTop);
 		} else {
 			this.percent = this.target.scrollLeft / (this.target.scrollWidth - this.target.offsetWidth);
 			this.setScrubPosition(this.percent);
 			this.target.scrollLeft = this.target.scrollLeft + touchMoved.x;
+			if (this.settings.onScroll)
+				this.settings.onScroll(this.percent, this.target.scrollLeft);
 		}
 
 		this.updateContainerPosition();
@@ -471,9 +480,13 @@
 		if (this.settings.axis === "y") {
 			this.thumb.style.top = Math.round(this.thumb_pos.y) + 'px';
 			this.target.scrollTop = Math.round((this.target.scrollHeight - this.target.offsetHeight) * this.percent.y);
+			if (this.settings.onScroll)
+				this.settings.onScroll(this.percent.y, this.target.scrollTop);
 		} else {
 			this.thumb.style.left = Math.round(this.thumb_pos.x) + 'px';
 			this.target.scrollLeft = Math.round((this.target.scrollWidth - this.target.offsetWidth) * this.percent.x);
+			if (this.settings.onScroll)
+				this.settings.onScroll(this.percent.x, this.target.scrollLeft);
 		}
 
 		this.keypos_thumb = Point(this.target.scrollLeft, this.target.scrollTop);
@@ -539,11 +552,15 @@
 			this.setScrubPosition(this.percent);
 			this.target.scrollTop = Math.round(this.target.scrollTop - (deltaY * 10));
 			finalDelta = deltaY;
+			if (this.settings.onScroll)
+				this.settings.onScroll(this.percent, this.target.scrollTop);
 		} else {
 			this.percent = this.target.scrollLeft / (this.target.scrollWidth - this.target.offsetWidth);
 			this.setScrubPosition(this.percent);
 			this.target.scrollLeft = Math.round(this.target.scrollLeft - (deltaX * 10));
 			finalDelta = deltaX;
+			if (this.settings.onScroll)
+				this.settings.onScroll(this.percent, this.target.scrollLeft);
 		}
 
 		if ((this.percent >= 1 && finalDelta < 0) || (this.percent <= 0 && finalDelta > 0) || finalDelta == 0) {
