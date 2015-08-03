@@ -5,11 +5,11 @@
  */
 
 /**
- * @class Miniscroll.Utils
+ * @class Miniscroll.Point
  * 
- * @param  {[type]} x represents the horizontal axis
- * @param  {[type]} y represents the vertical axis
- * @return {[type]}   Defines a cartesian pair of coordinates
+ * @param  {number} x represents the horizontal axis
+ * @param  {number} y represents the vertical axis
+ * @return {object}   Defines a cartesian pair of coordinates
  * 
  * @use new Miniscroll.Point(x, y)
  */
