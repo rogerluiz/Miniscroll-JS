@@ -32,7 +32,7 @@ _version 1.2.8_
 
 ### Initialize the miniscroll:
 ```javascript
-new Miniscroll(".scroller", {
+var mini = new Miniscroll.Scroll(".scroller", {
      axis: "y",
      size: 10,
      sizethumb: "auto",
@@ -76,6 +76,7 @@ new Miniscroll(".scroller", {
 | thumbColor    | the size of thumb ex: "#0e5066" |
 | trackerColor  | color of fund of tracker ex: "#1a8bb2" |
 | isKeyEvent    | Add arrow key event, by default is true |
+| onScroll      | onScroll: function(percent, offset) {} |
 | turnOffWheel  | toggle on or off a mousewheel event, by default turnOffWheel is true |
 
 
@@ -94,32 +95,3 @@ new Miniscroll(".scroller", {
 | 1.2.3   | 03/09/2013 | fix scrollbar position "x" |
 | 1.2.2   | 03/09/2013 | Key event added, now you can press the key down and key up for scrolling |
 | 1.2.1   | 03/09/2013 | Touch event added, now works for ipad, iphone and android |
-
-
-***
-
-
-### The MIT License (MIT)
-
-Copyright (c) <year> <copyright holders>
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-
-
-

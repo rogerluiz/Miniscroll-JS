@@ -63,5 +63,93 @@ var Miniscroll.Utils = {
 		}
 	},
 	
+	/**
+	 * Get Element
+	 * 
+	 * @method Miniscroll.Utils.get
+	 * @param  {string|element} selector Query string or a element
+	 * @return {element} get the element usign a query selector
+	 */
+	get: function(selector) {
+		var element = null;
+		var self = this;
+
+
+		if (selector === window || selector === document || selector === "body" || selector === "body, html")
+		{
+			return document.body;
+		}
+
+		// if the browser support querySelectorAll usign this
+		if (document.querySelectorAll && typeof selector == "string")
+		{
+			return document.querySelectorAll(selector)[0];
+		}
+
+		// else the browser not support using a custom selector
+		else
+		{
+			if (typeof selector === 'string' || selector instanceof String)
+			{
+				var token = selector.replace(/^\s+/, '').replace(/\s+$/, '');
+
+				if (token.indexOf("#") > -1)
+				{
+					this.type = 'id';
+					var match = token.split('#');
+
+					element = document.getElementById(match[1]);
+				}
+
+				if (token.indexOf(".") > -1)
+				{
+					this.type = 'class';
+
+					var match = token.split('.');
+					var tags = document.getElementsByTagName('*');
+					var len = tags.length;
+					var found = [];
+					var count = 0;
+
+					for (var i = 0; i < len; i++)
+					{
+						if (tags[i].className && tags[i].className.match(new RegExp("(^|\\s)" + match[1] + "(\\s|$)")))
+						{
+							element = tags[i];
+						}
+					}
+				}
+
+				return element;
+			}
+			else
+			{
+				return selector;
+			}
+		}
+	},
 	
+	/**
+	 * Returns the current mouse position
+	 * 
+	 * @method Miniscroll.Utils.pointer
+	 * @param  {event} event String type to event
+	 * @return {Miniscroll.Point} Pair of coordinates
+	 */
+	pointer: function(event) {
+		var posx = 0, posy = 0;
+
+		if (event.pageX || event.pageY)
+		{
+			posx = event.pageX;
+			posy = event.pageY;
+		}
+		else if (event.clientX || event.clientY)
+		{
+			posx = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+			posy = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+		}
+
+		return new Miniscroll.Point(posx, posy);
+	}
 };
