@@ -94,6 +94,14 @@ Miniscroll.Event = {
 		}
 	},
 	
+	preventDefault: function(event) {
+		if (event.preventDefault) {
+			event.preventDefault();
+		} else {
+			event.returnValue = false;
+		}
+	},
+	
 	/**
 	 * Name
 	 * 

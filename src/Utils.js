@@ -13,8 +13,8 @@ var Miniscroll.Utils = {
 	 * Gets the value of a css property
 	 * 
 	 * @method Miniscroll.Utils.getCss
-	 * @param  {element} element - HTMLElement to be call
-	 * @param  {string} property - CSS property to search
+	 * @param  {element} element HTMLElement to be call
+	 * @param  {string} property CSS property to search
 	 * @return {*} Returns the value of the css property searched
 	 *
 	 * @example Miniscroll.Utils.getCss(element, property);
@@ -39,8 +39,8 @@ var Miniscroll.Utils = {
 	 * Add css inline in the element
 	 * 
 	 * @method Miniscroll.Utils.setCss
-	 * @param  {element} element  - HTMLElement to be call
-	 * @param  {object} arguments - Group of parameters that defines the style element
+	 * @param  {element} element HTMLElement to be call
+	 * @param  {object} arguments Group of parameters that defines the style element
 	 * @return {void}
 	 * 
 	 * @example Miniscroll.Utils.setCss({ width : '200px' });
@@ -127,6 +127,44 @@ var Miniscroll.Utils = {
 				return selector;
 			}
 		}
+	},
+	
+	/**
+	 * Offset
+	 * 
+	 * @method Miniscroll.Utils.offset
+	 * param {element} element HTMLElement to be call
+	 */
+	offset = function (element, target)
+	{
+		var positionType = this.getCss(target, 'position');
+
+		var style = new Miniscroll.Point(
+			(element.style.left == "") ? 0 : parseInt(element.style.left),
+			(element.style.top == "") ? 0 : parseInt(element.style.top)
+		);
+
+		var top = (positionType == "relative") ? style.y : element.offsetTop;
+		var left = (positionType == "relative") ? style.x : element.offsetLeft;
+		var height = element.offsetHeight;
+		var width = element.offsetWidth;
+
+		if (typeof element.offsetHeight === "undefined")
+		{
+			height = parseInt(this.getCss(element, "height"));
+		}
+		
+		if (typeof element.offsetWidth === "undefined")
+		{
+			width = parseInt(this.getCss(element, "width"));
+		}
+
+		return {
+			top: top,
+			left: left,
+			width: width,
+			height: height
+		};
 	},
 	
 	/**

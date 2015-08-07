@@ -1,0 +1,26 @@
+{
+  "name": "miniscroll_js",
+  "version": "2.0.0",
+  "main" : "miniscroll.js",
+  "title": "Miniscroll JS",
+  "description": "Miniscroll-JS",
+  "homepage": "https://github.com/rogerluiz/Miniscroll-JS",
+  "author": {
+    "name": "Roger Luiz",
+    "email": "rogerluizm@gmail.com",
+    "url": "rogerluizm.com.br"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rogerluiz/Miniscroll-JS.git"
+  },
+  "devDependencies": {
+    "gulp": "~3.9.0",
+    "gulp-less": "~3.0.3",
+    "gulp-rename": "~1.2.2",
+    "gulp-concat": "~2.6.0",
+    "gulp-plumber": "~1.0.1",
+    "gulp-header": "~1.2.2",
+    "gulp-uglify": "~1.2.0"
+  }
+}

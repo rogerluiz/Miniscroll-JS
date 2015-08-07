@@ -1,0 +1,34 @@
+{
+  "name": "Miniscroll",
+  "version": "2.0.0",
+  "description": "Simple scrollbar for desktop and mobile",
+  "main": "miniscroll.js",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "miniscroll",
+    "mobile",
+    "desktop",
+    "scrollbar",
+    "scroll"
+  ],
+  "authors": [
+    "Roger Luiz"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/rogerluiz/Miniscroll-JS",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "jquery": "~2.1.4",
+    "modernizr": "~2.8.3",
+    "less": "~2.5.1",
+    "html5shiv": "~3.7.3"
+  }
+}
