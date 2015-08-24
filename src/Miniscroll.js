@@ -20,10 +20,21 @@
 		VERSION: '2.0.0',
 	};
 	
-	Miniscroll.Scroll = function(element, options) {
+	/**
+	 * 
+	 * 
+	 * @param {string|element} selector
+	 * @param {object} options 
+	 */
+	Miniscroll.Scroll = function(selector, options) {
+		// set a variable to get this
 		root = this;
 		
+		// 
+		this.target = Miniscroll.Utils.get(selector);
 		
+		// 
+		Miniscroll.Utils.extend(root.settings, options);
 	};
 	
 	/**
@@ -53,15 +64,14 @@
 		onScroll: function() {}
 	};
 	
+	/**
+	 * The target element
+	 * 
+	 * @constant
+	 * @type {element}
+	 */
+	Miniscroll.Scroll.target = null;
+	
 	Miniscroll.Scroll.prototype.constructor = Miniscroll.Scroll;
 	
-	(function () {
-		if (window.jQuery) {
-			jQuery.fn.miniscroll = function (options) {
-				return new Miniscroll.Scroll(this, options);
-			};
-		}
-	}());
 	
-	window.Miniscroll = Miniscroll;
-})(window, document);

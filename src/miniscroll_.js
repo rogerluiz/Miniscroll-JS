@@ -99,10 +99,15 @@ TODO:
 		};
 
 		this.extend(this.settings, options);
-
+		
+		// scrollbar div element target
 		this.target = this.getElement(selector);
+		
+		// scrollbar container
 		this.container;
+		// scrollbar tracker
 		this.tracker;
+		// scrollbar thumb
 		this.thumb;
 		
 		//
@@ -110,7 +115,8 @@ TODO:
 		this.thumb_delta = new Point(0, 0);
 		this.thumb_pos = new Point(0, 0);
 		this.percent = new Point(0, 0);
-
+		
+		//
 		this.positionType = this.getCss(this.target, 'position');
 
 		this.init();

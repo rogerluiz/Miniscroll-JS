@@ -1,7 +1,7 @@
 {
   "name": "miniscroll_js",
   "version": "2.0.0",
-  "main" : "miniscroll.js",
+  "main": "miniscroll.js",
   "title": "Miniscroll JS",
   "description": "Miniscroll-JS",
   "homepage": "https://github.com/rogerluiz/Miniscroll-JS",
@@ -20,7 +20,8 @@
     "gulp-rename": "~1.2.2",
     "gulp-concat": "~2.6.0",
     "gulp-plumber": "~1.0.1",
-    "gulp-header": "~1.2.2",
-    "gulp-uglify": "~1.2.0"
+    "gulp-header": "~1.5.0",
+    "gulp-uglify": "~1.2.0",
+    "gulp-jsmin": "~0.1.5"
   }
 }
