@@ -34,7 +34,17 @@ gulp.task('copy', function() {
  * Concat files in one
  */
 gulp.task('merge', function() {
-	return gulp.src(['./src/Miniscroll.js', './src/Utils.js', './src/Point.js', './src/Event.js', './src/End.js', './src/polyfills.js'])
+	return gulp.src([
+			'./src/Miniscroll.js',
+			'./src/Utils.js', 
+			'./src/Point.js', 
+			'./src/Event.js', 
+			'./src/core/Update.js', 
+			'./src/core/Destroy.js', 
+			'./src/core/Create.js', 
+			'./src/Outro.js', 
+			'./src/polyfills.js'
+		])
 		.pipe(concat('miniscroll.js'))
 		.pipe(gulp.dest('./build'));
 });

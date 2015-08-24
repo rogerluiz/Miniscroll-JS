@@ -20,9 +20,61 @@
 		VERSION: '2.0.0',
 	};
 	
-	Miniscroll.Scroll = function(element, options) {
+	/**
+	 * Scrollbar constructor
+	 * 
+	 * @class Miniscroll.Scroll
+	 * @constructor
+	 * @param {string|element} selector
+	 * @param {object} options 
+	 */
+	Miniscroll.Scroll = function(selector, options) {
+		
+		/**
+		 * set a variable to get this
+		 * 
+		 * @constant
+		 * @type {Class}
+		 */
 		root = this;
 		
+		/**
+		 * get the div he ought to contain the scrollbar
+		 * 
+		 * @constant
+		 * @type {element}
+		 */
+		this.target = Miniscroll.Utils.get(selector);
+
+		/**
+		 * The container of scrollbar
+		 * 
+		 * @constant
+		 * @type {element}
+		 */
+		this.container = null;
+
+		/**
+		 * The thumb of scrollbar
+		 * 
+		 * @constant
+		 * @type {element}
+		 */
+		this.thumb = null;
+
+		/**
+		 * The tracker of scrollbar
+		 * 
+		 * @constant
+		 * @type {element}
+		 */
+		this.tracker = null;
+		
+		// concat options and settings
+		Miniscroll.Utils.concat(root.settings, options);
+		
+		this.create = new Miniscroll.Create(this);
+		this.create.init();
 		
 	};
 	
@@ -53,7 +105,18 @@
 		onScroll: function() {}
 	};
 	
-	Miniscroll.Scroll.prototype.constructor = Miniscroll.Scroll;
+	
+	
+	// add a constructor name
+	//Miniscroll.Scroll.prototype.constructor = Miniscroll.Scroll;
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 
@@ -167,6 +230,33 @@
 				}
 			}
 		},
+		
+		/**
+		 * Create an element and add attributes
+		 * 
+		 * @method Miniscroll.Utils.create
+		 * @param  {element} element container for the new element
+		 * @param  {string} tagName Type of the new element ex: (div, article, etc..)
+		 * @param  {object} attrs Atributes for the new element
+		 * @return {element} New element
+		 */
+		create: function(element, tagName, attrs) {
+			
+			var tag = document.createElement(tagName);
+
+			if (attrs) {
+				for (var key in attrs) {
+					if (attrs.hasOwnProperty(key)) {
+						tag.setAttribute(key, attrs[key]);
+					}
+				}
+
+				element.appendChild(tag);
+			}
+
+			return tag;
+		},
+
 
 		/**
 		 * Offset
@@ -174,7 +264,7 @@
 		 * @method Miniscroll.Utils.offset
 		 * param {element} element HTMLElement to be call
 		 */
-		offset: function (element, target) {
+		offset: function(element, target) {
 			var positionType = this.getCss(target, 'position');
 
 			var style = new Miniscroll.Point(
@@ -225,6 +315,24 @@
 			}
 
 			return new Miniscroll.Point(posx, posy);
+		},
+		
+		/**
+		 * Extend a object to other
+		 * 
+		 * @method Miniscroll.Utils.extend
+		 * @return {object} list of parameters
+		 */
+		concat: function() {
+			for (var i = 1; i < arguments.length; i++) {
+				for (var key in arguments[i]) {
+					if (arguments[i].hasOwnProperty(key)) {
+						arguments[0][key] = arguments[i][key];
+					}
+				}
+			}
+
+			return arguments[0];
 		}
 	};
 
@@ -377,6 +485,149 @@
 		mousewheel: function(element, callback, root) {
 		}
 	};
+	/**
+	 * @author       Roger Luiz <rogerluizm@gmail.com>
+	 * @copyright    2015 Roger Luiz Ltd.
+	 * @license      {@link https://github.com/rogerluiz/Miniscroll-JS/blob/master/license.txt|MIT License}
+	 */
+
+	/**
+	 * Update
+	 * 
+	 * @class Miniscroll.Update
+	 * @constructor
+	 */
+	Miniscroll.Update = function() {
+		// code here for update staffs
+	};
+	
+	// add a constructor name
+	//Miniscroll.Update.prototype.constructor = Miniscroll.Update;
+	/**
+	 * @author       Roger Luiz <rogerluizm@gmail.com>
+	 * @copyright    2015 Roger Luiz Ltd.
+	 * @license      {@link https://github.com/rogerluiz/Miniscroll-JS/blob/master/license.txt|MIT License}
+	 */
+
+	/**
+	 * Destroy
+	 * 
+	 * @class Miniscroll.Destroy
+	 * @constructor
+	 */
+	Miniscroll.Destroy = function() {
+		// code here for destroy/cancel/remove staffs
+	};
+	
+	// add a constructor name
+	//Miniscroll.Destroy.prototype.constructor = Miniscroll.Destroy;
+	/**
+	 * @author       Roger Luiz <rogerluizm@gmail.com>
+	 * @copyright    2015 Roger Luiz Ltd.
+	 * @license      {@link https://github.com/rogerluiz/Miniscroll-JS/blob/master/license.txt|MIT License}
+	 */
+
+	/**
+	 * Destroy
+	 * 
+	 * @class Miniscroll.Destroy
+	 * @constructor
+	 */
+	Miniscroll.Create = function(scroll) {
+		this.scroll = scroll;
+		this.prefix = "miniscroll-";
+		this.scrollName = "miniscroll";
+		
+		return this;
+	};
+	
+	Miniscroll.Create.prototype = {
+		/**
+		 * Initialize.
+		 *
+		 * @method Miniscroll.Create#boot
+		 * @protected
+		 */
+		init: function () {
+			this.addContainer();
+			this.addTracker();
+			this.addThumb();
+		},
+		
+		/**
+		 * Create a HTMLElement for the thumb and tracker.
+		 *
+		 * @method Miniscroll.Create#addContainer
+		 * @protected
+		 */
+		addContainer: function() {
+			var typeId = (this.scroll.target.getAttribute("id") !== null) ? true : false;
+			var typeClass = (this.scroll.target.getAttribute("class") !== null) ? true : false;
+			
+			if (typeId) {
+				this.scrollName = this.scroll.target.getAttribute("id");
+			} else if (typeClass) {
+				this.scrollName = this.scroll.target.getAttribute("class");
+			}
+			
+			this.scroll.container = new Miniscroll.Utils.create(this.scroll.target, "div", {
+				"id": this.prefix + this.scrollName,
+				"class": this.prefix + "container"
+			});
+		},
+		
+		/**
+		 * Create a HTMLElement for the thumb and tracker.
+		 *
+		 * @method Miniscroll.Create#addContainer
+		 * @protected
+		 */
+		addTracker: function() {
+			console.log("addTracker");
+		},
+		
+		/**
+		 * Create a HTMLElement for the thumb and tracker.
+		 *
+		 * @method Miniscroll.Create#addContainer
+		 * @protected
+		 */
+		addThumb: function() {
+			console.log("addThumb");
+		}
+	};
+
+	/*var miniscrollId = "mini";
+
+    	if (this.target.getAttribute("id") != null) {
+    		miniscrollId = this.target.getAttribute("id");
+    	} else if (this.target.getAttribute("class") != null) {
+    		miniscrollId = this.target.getAttribute("class");
+    	}
+
+    	this.container = this.create(this.target, "div", {
+    		"class": "miniscroll-container",
+    		"id": "miniscroll-" + miniscrollId
+    	});
+
+
+    	var scrollHeight = (this.settings.scrollbarSize != "auto") ? this.settings.scrollbarSize : this.offset(this.target).height;
+    	var scrollWidth = (this.settings.scrollbarSize != "auto") ? this.settings.scrollbarSize : this.offset(this.target).width;
+    	var scrollX = this.offset(this.target).left + (scrollWidth - this.settings.size);
+    	var scrollY = this.offset(this.target).top + (scrollHeight - this.settings.size);
+
+    	this.setCss(this.container, {
+			position: "absolute",
+			//visibility: "hidden",
+			width: ((this.settings.axis == "x") ? scrollWidth : this.settings.size) + "px",
+			height: ((this.settings.axis == "y") ? scrollHeight : this.settings.size) + "px",
+			top: ((this.settings.axis == "y") ? this.offset(this.target).top : scrollY) + "px",
+			left: ((this.settings.axis == "x") ? this.offset(this.target).left : scrollX) + "px",
+			zIndex: 999
+    	});*/
+	
+	// add a constructor name
+	//Miniscroll.Create.prototype.constructor = Miniscroll.Create;
 	(function () {
 		if (window.jQuery) {
 			jQuery.fn.miniscroll = function (options) {

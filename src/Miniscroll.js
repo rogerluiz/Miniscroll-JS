@@ -21,20 +21,61 @@
 	};
 	
 	/**
+	 * Scrollbar constructor
 	 * 
-	 * 
+	 * @class Miniscroll.Scroll
+	 * @constructor
 	 * @param {string|element} selector
 	 * @param {object} options 
 	 */
 	Miniscroll.Scroll = function(selector, options) {
-		// set a variable to get this
+		
+		/**
+		 * set a variable to get this
+		 * 
+		 * @constant
+		 * @type {Class}
+		 */
 		root = this;
 		
-		// 
+		/**
+		 * get the div he ought to contain the scrollbar
+		 * 
+		 * @constant
+		 * @type {element}
+		 */
 		this.target = Miniscroll.Utils.get(selector);
+
+		/**
+		 * The container of scrollbar
+		 * 
+		 * @constant
+		 * @type {element}
+		 */
+		this.container = null;
+
+		/**
+		 * The thumb of scrollbar
+		 * 
+		 * @constant
+		 * @type {element}
+		 */
+		this.thumb = null;
+
+		/**
+		 * The tracker of scrollbar
+		 * 
+		 * @constant
+		 * @type {element}
+		 */
+		this.tracker = null;
 		
-		// 
-		Miniscroll.Utils.extend(root.settings, options);
+		// concat options and settings
+		Miniscroll.Utils.concat(root.settings, options);
+		
+		this.create = new Miniscroll.Create(this);
+		this.create.init();
+		
 	};
 	
 	/**
@@ -64,14 +105,17 @@
 		onScroll: function() {}
 	};
 	
-	/**
-	 * The target element
-	 * 
-	 * @constant
-	 * @type {element}
-	 */
-	Miniscroll.Scroll.target = null;
 	
-	Miniscroll.Scroll.prototype.constructor = Miniscroll.Scroll;
+	
+	// add a constructor name
+	//Miniscroll.Scroll.prototype.constructor = Miniscroll.Scroll;
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	

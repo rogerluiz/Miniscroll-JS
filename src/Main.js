@@ -1,4 +1,4 @@
 window.onload = function() {
 	
-	var mini = new Miniscroll.Scroll();
+	var mini = new Miniscroll.Scroll("#scroll-container", {});
 }

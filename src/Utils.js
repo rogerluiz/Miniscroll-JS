@@ -109,6 +109,33 @@
 				}
 			}
 		},
+		
+		/**
+		 * Create an element and add attributes
+		 * 
+		 * @method Miniscroll.Utils.create
+		 * @param  {element} element container for the new element
+		 * @param  {string} tagName Type of the new element ex: (div, article, etc..)
+		 * @param  {object} attrs Atributes for the new element
+		 * @return {element} New element
+		 */
+		create: function(element, tagName, attrs) {
+			
+			var tag = document.createElement(tagName);
+
+			if (attrs) {
+				for (var key in attrs) {
+					if (attrs.hasOwnProperty(key)) {
+						tag.setAttribute(key, attrs[key]);
+					}
+				}
+
+				element.appendChild(tag);
+			}
+
+			return tag;
+		},
+
 
 		/**
 		 * Offset
@@ -116,7 +143,7 @@
 		 * @method Miniscroll.Utils.offset
 		 * param {element} element HTMLElement to be call
 		 */
-		offset: function (element, target) {
+		offset: function(element, target) {
 			var positionType = this.getCss(target, 'position');
 
 			var style = new Miniscroll.Point(
@@ -175,7 +202,7 @@
 		 * @method Miniscroll.Utils.extend
 		 * @return {object} list of parameters
 		 */
-		extend: function() {
+		concat: function() {
 			for (var i = 1; i < arguments.length; i++) {
 				for (var key in arguments[i]) {
 					if (arguments[i].hasOwnProperty(key)) {
