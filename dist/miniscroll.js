@@ -847,6 +847,58 @@
 
 		return { top: top, left: left, width: width, height: height };
 	};
+	
+       /**
+	* Get the highest z-index
+	* 
+	* @method Miniscroll.getZindex
+	* @return {intiger} the highest z-index
+	*/
+	Miniscroll[prototype].getZindex = function(target) {
+		/**
+		 * @property {interger} topZIndex - the highest 'z-index'
+		 * @protected
+		 */
+		var topZIndex = 0;
+			
+		/**
+		 * @property {interger} zIndex - the z-index
+		 * @protected
+		 */
+		var zIndex = 0;
+			
+		/**
+		 * @property {interger} scroll - Get original 'position' property
+		 * @protected
+		 */
+		var pos = 0;
+			
+		/**
+		 * @property {HTMLElement|Array} tags - Get all HTMLElements inside the 'target'
+		 * @protected
+		 */
+		var tags = target.getElementsByTagName('*');
+			
+		for (var i = 0; i < tags.length; i++) {
+			// Get the original 'position' property
+			pos = new Miniscroll.Utils.getCss(tags[i]).position;
+				
+			// Set it temporarily to 'relative'
+			tags[i].style.position = "relative";
+				
+			// Grab the z-index
+			zIndex = new Miniscroll.Utils.getCss(tags[i]).zIndex;
+				
+			// Reset the 'position'
+			tags[i].style.position = pos;
+				
+			if (zIndex > topZIndex) {
+				topZIndex = zIndex;
+			}
+		}
+			
+		return topZIndex;
+	};
 
     /**
 	 * Returna a posição atual do mouse
