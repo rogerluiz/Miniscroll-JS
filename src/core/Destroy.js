@@ -15,4 +15,4 @@
 	};
 	
 	// add a constructor name
-	//Miniscroll.Destroy.prototype.constructor = Miniscroll.Destroy;
+	Miniscroll.Destroy.prototype.constructor = Miniscroll.Destroy;

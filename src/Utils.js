@@ -152,7 +152,7 @@
 		 * 
 		 */
 		offset: function(element) {
-			var positionType = new Miniscroll.Utils.getCss(element, 'position');
+			var positionType = Miniscroll.Utils.getCss(element, 'position');
 
 			var style = new Miniscroll.Point(
 				(element.style.left == "") ? 0 : parseInt(element.style.left),
@@ -165,11 +165,11 @@
 			var width = element.offsetWidth;
 
 			if (typeof element.offsetHeight === "undefined") {
-				height = parseInt(new Miniscroll.Utils.getCss(element, "height"));
+				height = parseInt(Miniscroll.Utils.getCss(element, "height"));
 			}
 
 			if (typeof element.offsetWidth === "undefined") {
-				width = parseInt(new Miniscroll.Utils.getCss(element, "width"));
+				width = parseInt(Miniscroll.Utils.getCss(element, "width"));
 			}
 
 			return {
@@ -255,19 +255,19 @@
 			
 			for (var i = 0; i < tags.length; i++) {
 				// Get the original 'position' property
-				pos = new Miniscroll.Utils.getCss(tags[i]).position;
+				pos = Miniscroll.Utils.getCss(tags[i], "position");
 				
 				// Set it temporarily to 'relative'
 				tags[i].style.position = "relative";
 				
 				// Grab the z-index
-				zIndex = new Miniscroll.Utils.getCss(tags[i]).zIndex;
+				zIndex = Number(Miniscroll.Utils.getCss(tags[i], "z-index"));
 				
 				// Reset the 'position'
 				tags[i].style.position = pos;
 				
 				if (zIndex > topZIndex) {
-					topZIndex = zIndex;
+					topZIndex = zIndex + 1;
 				}
 			}
 			

@@ -266,7 +266,7 @@
 		 * 
 		 */
 		offset: function(element) {
-			var positionType = new Miniscroll.Utils.getCss(element, 'position');
+			var positionType = Miniscroll.Utils.getCss(element, 'position');
 
 			var style = new Miniscroll.Point(
 				(element.style.left == "") ? 0 : parseInt(element.style.left),
@@ -279,11 +279,11 @@
 			var width = element.offsetWidth;
 
 			if (typeof element.offsetHeight === "undefined") {
-				height = parseInt(new Miniscroll.Utils.getCss(element, "height"));
+				height = parseInt(Miniscroll.Utils.getCss(element, "height"));
 			}
 
 			if (typeof element.offsetWidth === "undefined") {
-				width = parseInt(new Miniscroll.Utils.getCss(element, "width"));
+				width = parseInt(Miniscroll.Utils.getCss(element, "width"));
 			}
 
 			return {
@@ -369,19 +369,19 @@
 			
 			for (var i = 0; i < tags.length; i++) {
 				// Get the original 'position' property
-				pos = new Miniscroll.Utils.getCss(tags[i]).position;
+				pos = Miniscroll.Utils.getCss(tags[i], "position");
 				
 				// Set it temporarily to 'relative'
 				tags[i].style.position = "relative";
 				
 				// Grab the z-index
-				zIndex = new Miniscroll.Utils.getCss(tags[i]).zIndex;
+				zIndex = Number(Miniscroll.Utils.getCss(tags[i], "z-index"));
 				
 				// Reset the 'position'
 				tags[i].style.position = pos;
 				
 				if (zIndex > topZIndex) {
-					topZIndex = zIndex;
+					topZIndex = zIndex + 1;
 				}
 			}
 			
@@ -578,7 +578,7 @@
 	};
 	
 	// add a constructor name
-	//Miniscroll.Destroy.prototype.constructor = Miniscroll.Destroy;
+	Miniscroll.Destroy.prototype.constructor = Miniscroll.Destroy;
 	/**
 	 * @author       Roger Luiz <rogerluizm@gmail.com>
 	 * @copyright    2015 Roger Luiz Ltd.
@@ -724,6 +724,81 @@
 	
 	// add a constructor name
 	//Miniscroll.Create.prototype.constructor = Miniscroll.Create;
+	/**
+	 * @author       Roger Luiz <rogerluizm@gmail.com>
+	 * @copyright    2015 Roger Luiz Ltd.
+	 * @license      {@link https://github.com/rogerluiz/Miniscroll-JS/blob/master/license.txt|MIT License}
+	 */
+
+
+	/**
+	 * Miniscroll.Mouse The Mouse class is responsible for handling all aspects of mouse interaction with the browser.
+	 *
+	 * @class Miniscroll.Input
+	 * @constructor
+	 * @param {Miniscroll.Scroll} scroll - A reference to the currently running game.
+	 */
+	Miniscroll.Mouse = function(scroll) {
+		this.scroll = scroll;
+	};
+	
+	Miniscroll.Mouse.prototype = {
+		 /**
+		  * Starts the event listeners running.
+		  * 
+		  * @method Miniscroll.Mouse#start
+		  */
+		 start: function () {}
+	};
+
+	Miniscroll.Mouse.prototype.constructor = Miniscroll.Mouse;
+	/**
+	 * @author       Roger Luiz <rogerluizm@gmail.com>
+	 * @copyright    2015 Roger Luiz Ltd.
+	 * @license      {@link https://github.com/rogerluiz/Miniscroll-JS/blob/master/license.txt|MIT License}
+	 */
+
+
+	/**
+	 * Miniscroll.Touch handles touch events with scroll.
+	 *
+	 * @class Miniscroll.Touch
+	 * @constructor
+	 * @param {Miniscroll.Scroll} scroll - A reference to the currently running game.
+	 */
+	Miniscroll.Touch = function(scroll) {
+		this.scroll = scroll;
+	};
+
+	Miniscroll.Touch.prototype = {
+		 /**
+		  * Starts the event listeners running.
+		  * 
+		  * @method Miniscroll.Touch#start
+		  */
+		 start: function () {}
+	};
+	
+	Miniscroll.Touch.prototype.constructor = Miniscroll.Touch;
+	/**
+	 * @author       Roger Luiz <rogerluizm@gmail.com>
+	 * @copyright    2015 Roger Luiz Ltd.
+	 * @license      {@link https://github.com/rogerluiz/Miniscroll-JS/blob/master/license.txt|MIT License}
+	 */
+
+
+	/**
+	 * Miniscroll.Input is the Input Manager for all types of Input, including mouse, keyboard and touch.
+	 *
+	 * @class Miniscroll.Input
+	 * @constructor
+	 * @param {Miniscroll.Scroll} scroll - A reference to the currently running game.
+	 */
+	Miniscroll.Input = function(scroll) {
+		this.scroll = scroll;
+	};
+	
+	Miniscroll.Input.prototype.constructor = Miniscroll.Input;
 	(function () {
 		if (window.jQuery) {
 			jQuery.fn.miniscroll = function (options) {

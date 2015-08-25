@@ -42,6 +42,9 @@ gulp.task('merge', function() {
 			'./src/core/Update.js', 
 			'./src/core/Destroy.js', 
 			'./src/core/Create.js', 
+			'./src/input/Mouse.js', 
+			'./src/input/Touch.js', 
+			'./src/input/Input.js', 
 			'./src/Outro.js', 
 			'./src/polyfills.js'
 		])
