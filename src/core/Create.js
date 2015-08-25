@@ -109,6 +109,8 @@
 			
 			// set the position Y of scrollbar for default is on bottom
 			this.scrollPos.y = new Miniscroll.Utils.offset(this.scroll.target).top + (this._scrollSize.y - this._settings.size);
+			
+			console.log(this._topZindex);
 		},
 		
 		/**

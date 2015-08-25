@@ -149,7 +149,7 @@
 		 * param {HTMLElement} element - HTMLElement to be call
 		 */
 		offset: function(element, target) {
-			var positionType = this.getCss(target, 'position');
+			var positionType = new Miniscroll.Utils.getCss(target, 'position');
 
 			var style = new Miniscroll.Point(
 				(element.style.left == "") ? 0 : parseInt(element.style.left),
@@ -162,11 +162,11 @@
 			var width = element.offsetWidth;
 
 			if (typeof element.offsetHeight === "undefined") {
-				height = parseInt(this.getCss(element, "height"));
+				height = parseInt(new Miniscroll.Utils.getCss(element, "height"));
 			}
 
 			if (typeof element.offsetWidth === "undefined") {
-				width = parseInt(this.getCss(element, "width"));
+				width = parseInt(new Miniscroll.Utils.getCss(element, "width"));
 			}
 
 			return {
@@ -221,13 +221,13 @@
 		
 		getZindex: function(target) {
 			/**
-			 * @property {interger} topZIndex - the highest 'zindex'
+			 * @property {interger} topZIndex - the highest 'z-index'
 			 * @protected
 			 */
 			var topZIndex = 0;
 			
 			/**
-			 * @property {interger} zIndex - the zindex
+			 * @property {interger} zIndex - the z-index
 			 * @protected
 			 */
 			var zIndex = 0;
