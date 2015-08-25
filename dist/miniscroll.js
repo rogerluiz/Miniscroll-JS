@@ -145,7 +145,7 @@
 			height: ((this.settings.axis === "y") ? scrollHeight : this.settings.size) + "px",
 			top: ((this.settings.axis === "y") ? this.offset(this.target).top : scrollY) + "px",
 			left: ((this.settings.axis === "x") ? this.offset(this.target).left : scrollX) + "px",
-			zIndex: 999
+			zIndex: this.getZindex(this.target)
 		});
 	};
 
@@ -881,13 +881,13 @@
 			
 		for (var i = 0; i < tags.length; i++) {
 			// Get the original 'position' property
-			pos = new Miniscroll.Utils.getCss(tags[i]).position;
+			pos = this.getCss(tags[i]).position;
 				
 			// Set it temporarily to 'relative'
 			tags[i].style.position = "relative";
 				
 			// Grab the z-index
-			zIndex = new Miniscroll.Utils.getCss(tags[i]).zIndex;
+			zIndex = this.getCss(tags[i]).zIndex;
 				
 			// Reset the 'position'
 			tags[i].style.position = pos;
