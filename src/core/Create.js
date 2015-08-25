@@ -41,7 +41,17 @@
 		 */
 		this._scrollPos = new Miniscroll.Point(0, 0);
 		
+		/**
+		 * @property {object} _settings - Reference to the 'Miniscroll.Scroll.settings'.
+		 * @private
+		 */
 		this._settings = this.scroll.settings;
+		
+		/**
+		 * @property {intiger} _topZindex - The top zindex.
+		 * @private
+		 */
+		this._topZindex = new Miniscroll.Utils.getZindex(this.scroll.target);
 		
 		return this;
 	};
@@ -123,10 +133,7 @@
 	};
 
 	/*
-    	var scrollHeight = (this.settings.scrollbarSize != "auto") ? this.settings.scrollbarSize : this.offset(this.target).height;
-    	var scrollWidth = (this.settings.scrollbarSize != "auto") ? this.settings.scrollbarSize : this.offset(this.target).width;
-    	var scrollX = this.offset(this.target).left + (scrollWidth - this.settings.size);
-    	var scrollY = this.offset(this.target).top + (scrollHeight - this.settings.size);
+    	
 
     	this.setCss(this.container, {
 			position: "absolute",
