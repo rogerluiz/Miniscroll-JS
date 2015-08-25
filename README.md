@@ -2,7 +2,7 @@
 
 Miniscroll is a little library for touch and desktop scrollbar application. if you found bugs send it to rogerluizm@gmail.com or send to <a href="https://github.com/rogerluiz/Miniscroll-JS/issues?page=1&state=open">issue</a> page
 
-_check my dev brach_
+_check my dev branch_
 
 _version 1.3.0_
 
