@@ -1,4 +1,8 @@
-
+	/**
+	 * @author       Roger Luiz <rogerluizm@gmail.com>
+	 * @copyright    2015 Roger Luiz Ltd.
+	 * @license      {@link https://github.com/rogerluiz/Miniscroll-JS/blob/master/license.txt|MIT License}
+	 */
 
 	/**
 	 * @class Miniscroll.Event
@@ -9,10 +13,10 @@
 		 * Name
 		 * 
 		 * @method Miniscroll.Event.on
-		 * @param  {element} element HTMLElement to be call the event listener
-		 * @param  {string} type The type of event
-		 * @param  {function} callback Function that contains the codes
-		 * @param  {Miniscroll} root Reference to the current miniscroll instance
+		 * @param  {HTMLElement} element - HTMLElement to be call the event listener
+		 * @param  {string} type - The type of event
+		 * @param  {function} callback - Function that contains the codes
+		 * @param  {Miniscroll} root - Reference to the current miniscroll instance
 		 * @return {void}
 		 *
 		 * @example Miniscroll.Event.on(element, eventType, callback, this);
@@ -54,16 +58,16 @@
 		 * Name
 		 * 
 		 * @method Miniscroll.Event.off
-		 * @param  {element} element HTMLElement to be call the event listener
-		 * @param  {string} type The type of event
-		 * @param  {function} callback Function that contains the codes
-		 * @param  {Miniscroll} r Reference to the current miniscroll instance
+		 * @param  {HTMLElement} element - HTMLElement to be call the event listener
+		 * @param  {string} type - The type of event
+		 * @param  {function} callback - Function that contains the codes
+		 * @param  {Miniscroll} root - Reference to the current miniscroll instance
 		 * @return {void}
 		 *
-		 * @example Miniscroll.Event.off(element, eventType, callback, r);
+		 * @example Miniscroll.Event.off(element, eventType, callback, root);
 		 */
-		off: function(element, type, callback, r) {
-			var self = r;
+		off: function(element, type, callback, root) {
+			var self = root;
 			var mousewheel = (/Firefox/i.test(navigator.userAgent)) ? "DOMMouseScroll" : "mousewheel";
 
 			if (element.addEventListener)
@@ -102,9 +106,9 @@
 		 * Name
 		 * 
 		 * @method Miniscroll.Event.mousewheel
-		 * @param  {element} element HTMLElement to be call the event listener
-		 * @param  {function} callback Function that contains the codes
-		 * @param  {Miniscroll} root Reference to the current miniscroll instance
+		 * @param  {HTMLElement} element - HTMLElement to be call the event listener
+		 * @param  {function} callback - Function that contains the codes
+		 * @param  {Miniscroll} root - Reference to the current miniscroll instance
 		 * @return {void}
 		 *
 		 * @example Miniscroll.Event.mousewheel(element, callback, this);

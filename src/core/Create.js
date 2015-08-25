@@ -11,9 +11,37 @@
 	 * @constructor
 	 */
 	Miniscroll.Create = function(scroll) {
+		/**
+		 * @property {Miniscroll.Scroll} scroll - Reference to the scroll.
+		 */
 		this.scroll = scroll;
+		
+		/**
+		  * @property {string} prefix - Prefix name.
+		  * @protected
+		  */
 		this.prefix = "miniscroll-";
+		
+		/**
+		 * The id or class name od scrollbar target
+		 * 
+		 * @property {string} scrollName - Reference to the math helper.
+		 */
 		this.scrollName = "miniscroll";
+		
+		 /**
+		  * @property {Miniscroll.Point} _scrollSize - Private internal var.
+		  * @private
+		  */
+		this._scrollSize = new Miniscroll.Point(0, 0);
+		
+		/**
+		 * @property {Miniscroll.Point} _scrollPos - Private internal var.
+		 * @private
+		 */
+		this._scrollPos = new Miniscroll.Point(0, 0);
+		
+		this._settings = this.scroll.settings;
 		
 		return this;
 	};
@@ -38,7 +66,14 @@
 		 * @protected
 		 */
 		addContainer: function() {
+			/**
+			 * Check if id exist
+			 */
 			var typeId = (this.scroll.target.getAttribute("id") !== null) ? true : false;
+			
+			/**
+			 * Check if class exist
+			 */
 			var typeClass = (this.scroll.target.getAttribute("class") !== null) ? true : false;
 			
 			if (typeId) {
@@ -47,10 +82,23 @@
 				this.scrollName = this.scroll.target.getAttribute("class");
 			}
 			
+			// create a empty HTMLElement for the scrollbar elements
 			this.scroll.container = new Miniscroll.Utils.create(this.scroll.target, "div", {
 				"id": this.prefix + this.scrollName,
 				"class": this.prefix + "container"
 			});
+			
+			// get the scrollbar width
+			this._scrollSize.x = (this._settings.scrollbarSize != "auto") ? this._settings.scrollbarSize : new Miniscroll.Utils.offset(this.scroll.target).width;
+			
+			// get the scrollbar height
+			this._scrollSize.y = (this._settings.scrollbarSize != "auto") ? this._settings.scrollbarSize : new Miniscroll.Utils.offset(this.scroll.target).height;
+			
+			// set the position X of scrollbar for default is on right
+			this.scrollPos.x = new Miniscroll.Utils.offset(this.scroll.target).left + (this._scrollSize.x - this._settings.size);
+			
+			// set the position Y of scrollbar for default is on bottom
+			this.scrollPos.y = new Miniscroll.Utils.offset(this.scroll.target).top + (this._scrollSize.y - this._settings.size);
 		},
 		
 		/**
@@ -74,20 +122,7 @@
 		}
 	};
 
-	/*var miniscrollId = "mini";
-
-    	if (this.target.getAttribute("id") != null) {
-    		miniscrollId = this.target.getAttribute("id");
-    	} else if (this.target.getAttribute("class") != null) {
-    		miniscrollId = this.target.getAttribute("class");
-    	}
-
-    	this.container = this.create(this.target, "div", {
-    		"class": "miniscroll-container",
-    		"id": "miniscroll-" + miniscrollId
-    	});
-
-
+	/*
     	var scrollHeight = (this.settings.scrollbarSize != "auto") ? this.settings.scrollbarSize : this.offset(this.target).height;
     	var scrollWidth = (this.settings.scrollbarSize != "auto") ? this.settings.scrollbarSize : this.offset(this.target).width;
     	var scrollX = this.offset(this.target).left + (scrollWidth - this.settings.size);

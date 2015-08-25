@@ -1,3 +1,8 @@
+	/**
+	 * @author       Roger Luiz <rogerluizm@gmail.com>
+	 * @copyright    2015 Roger Luiz Ltd.
+	 * @license      {@link https://github.com/rogerluiz/Miniscroll-JS/blob/master/license.txt|MIT License}
+	 */
 
 	/**
 	 * @class Miniscroll.Utils
@@ -8,8 +13,8 @@
 		 * Gets the value of a css property
 		 * 
 		 * @method Miniscroll.Utils.getCss
-		 * @param  {element} element HTMLElement to be call
-		 * @param  {string} property CSS property to search
+		 * @param  {HTMLElement} element - HTMLElement to be call
+		 * @param  {string} property - CSS property to search
 		 * @return {*} Returns the value of the css property searched
 		 *
 		 * @example Miniscroll.Utils.getCss(element, property);
@@ -34,8 +39,8 @@
 		 * Add css inline in the element
 		 * 
 		 * @method Miniscroll.Utils.setCss
-		 * @param  {element} element HTMLElement to be call
-		 * @param  {object} arguments Group of parameters that defines the style element
+		 * @param  {HTMLElement} element - HTMLElement to be call
+		 * @param  {object} arguments - Group of parameters that defines the style element
 		 * @return {void}
 		 * 
 		 * @example Miniscroll.Utils.setCss({ width : '200px' });
@@ -62,8 +67,8 @@
 		 * Get Element
 		 * 
 		 * @method Miniscroll.Utils.get
-		 * @param  {string|element} selector Query string or a element
-		 * @return {element} get the element usign a query selector
+		 * @param  {string|element} selector - Query string or a element
+		 * @return {HTMLElement} get the element usign a query selector
 		 */
 		get: function(selector) {
 			var element = null;
@@ -114,10 +119,10 @@
 		 * Create an element and add attributes
 		 * 
 		 * @method Miniscroll.Utils.create
-		 * @param  {element} element container for the new element
-		 * @param  {string} tagName Type of the new element ex: (div, article, etc..)
-		 * @param  {object} attrs Atributes for the new element
-		 * @return {element} New element
+		 * @param  {HTMLElement} element - container for the new element
+		 * @param  {string} tagName - Type of the new element ex: (div, article, etc..)
+		 * @param  {object} attrs - Atributes for the new element
+		 * @return {HTMLElement} New HTMLElement
 		 */
 		create: function(element, tagName, attrs) {
 			
@@ -141,7 +146,7 @@
 		 * Offset
 		 * 
 		 * @method Miniscroll.Utils.offset
-		 * param {element} element HTMLElement to be call
+		 * param {HTMLElement} element - HTMLElement to be call
 		 */
 		offset: function(element, target) {
 			var positionType = this.getCss(target, 'position');
@@ -176,7 +181,7 @@
 		 * Returns the current mouse position
 		 * 
 		 * @method Miniscroll.Utils.pointer
-		 * @param  {event} event String type to event
+		 * @param  {event} event - String type to event
 		 * @return {Miniscroll.Point} Pair of coordinates
 		 */
 		pointer: function(event) {
