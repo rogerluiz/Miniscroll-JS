@@ -13,6 +13,9 @@
 	 * @param {Miniscroll.Scroll} scroll - A reference to the currently running game.
 	 */
 	Miniscroll.Touch = function(scroll) {
+		/**
+		 * @property {Miniscroll.Scroll} scroll - Reference to the scroll.
+		 */
 		this.scroll = scroll;
 	};
 
@@ -22,7 +25,15 @@
 		  * 
 		  * @method Miniscroll.Touch#start
 		  */
-		 start: function () {}
+		 start: function () {},
+		
+		/**
+		 * Destroy all events
+		 * 
+		 * @method Miniscroll.Touch#destroy
+		 */
+		destroy: function() {
+		}
 	};
 	
 	Miniscroll.Touch.prototype.constructor = Miniscroll.Touch;

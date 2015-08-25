@@ -13,7 +13,46 @@
 	 * @param {Miniscroll.Scroll} scroll - A reference to the currently running game.
 	 */
 	Miniscroll.Input = function(scroll) {
+		/**
+		 * @property {Miniscroll.Scroll} scroll - Reference to the scroll.
+		 */
 		this.scroll = scroll;
+		
+		this.mouse = new Miniscroll.Mouse(this.scroll);
+		this.touch = new Miniscroll.Touch(this.scroll);
+	};
+
+	Miniscroll.Input.prototype = {
+		
+		/**
+		 * Initialize.
+		 *
+		 * @method Miniscroll.Input#init
+		 * @protected
+		 */
+		init: function () {
+			if (!Miniscroll.TOUCH_EVENTS) {
+				this.mouse.start();
+			} else {
+				this.touch.start();
+			}
+		},
+		
+		update: function() {
+		},
+		
+		/**
+		 * Destroy all events
+		 * 
+		 * @method Miniscroll.Input#destroy
+		 */
+		destroy: function() {
+			if (!Miniscroll.TOUCH_EVENTS) {
+				this.mouse.destroy();
+			} else {
+				this.touch.destroy();
+			}
+		}
 	};
 	
 	Miniscroll.Input.prototype.constructor = Miniscroll.Input;

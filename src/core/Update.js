@@ -11,7 +11,10 @@
 	 * @constructor
 	 */
 	Miniscroll.Update = function() {
-		// code here for update staffs
+		/**
+		 * @property {Miniscroll.Scroll} scroll - Reference to the scroll.
+		 */
+		this.scroll = scroll;
 	};
 	
 	// add a constructor name

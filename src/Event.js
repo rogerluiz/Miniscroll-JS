@@ -9,8 +9,9 @@
 	 * @static
 	 */
 	Miniscroll.Event = {
+		
 		/**
-		 * Name
+		 * Polyfill for addEventListener
 		 * 
 		 * @method Miniscroll.Event.on
 		 * @param  {HTMLElement} element - HTMLElement to be call the event listener
@@ -55,7 +56,7 @@
 		},
 
 		/**
-		 * Name
+		 * Polyfill for removeEventListener
 		 * 
 		 * @method Miniscroll.Event.off
 		 * @param  {HTMLElement} element - HTMLElement to be call the event listener

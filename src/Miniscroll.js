@@ -6,7 +6,7 @@
 (function(window, document) {
 	"use strict";
 	
-    var root = this;
+	var root = this;
 
 	/**
 	 * @namespace Miniscroll
@@ -18,6 +18,8 @@
 		 * @type {string}
 		 */
 		VERSION: '2.0.0',
+		
+		TOUCH_EVENTS: ('ontouchstart' in document.documentElement),
 		
 		/**
 		 * Settigns of scrollbar
@@ -52,8 +54,8 @@
 	 * 
 	 * @class Miniscroll.Scroll
 	 * @constructor
-	 * @param {string|element} selector
-	 * @param {object} options 
+	 * @param {string|element} selector - id or class of a HTMLElement with will contain the role scrollbar
+	 * @param {object} options - list of settings
 	 */
 	Miniscroll.Scroll = function(selector, options) {
 		
@@ -101,11 +103,15 @@
 		
 		// concat options and settings
 		Miniscroll.Utils.concat(this.settings, options);
-		console.log(this.target);
+		
 		
 		this.create = new Miniscroll.Create(this);
-		this.create.init();
+		this.input = new Miniscroll.Input(this);
 		
+		
+		// init
+		this.create.init();
+		this.input.init();
 	};
 	
 	

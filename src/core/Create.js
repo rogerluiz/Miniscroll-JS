@@ -42,6 +42,24 @@
 		this._scrollPos = new Miniscroll.Point(0, 0);
 		
 		/**
+		  * @property {Miniscroll.Point} _trackerSize - Private internal var.
+		  * @private
+		  */
+		this._trackerSize = new Miniscroll.Point(0, 0);
+		
+		/**
+		  * @property {Miniscroll.Point} _thumbSize - Private internal var.
+		  * @private
+		  */
+		this._thumbSize = new Miniscroll.Point(0, 0);
+		
+		/**
+		  * @property {Miniscroll.Point} _offset - Private internal var.
+		  * @private
+		  */
+		this._offset = new Miniscroll.Point(0, 0);
+		
+		/**
 		 * @property {object} _settings - Reference to the 'Miniscroll.Scroll.settings'.
 		 * @private
 		 */
@@ -121,25 +139,60 @@
 		},
 		
 		/**
-		 * Create a HTMLElement for the thumb and tracker.
+		 * Create tracker.
 		 *
-		 * @method Miniscroll.Create#addContainer
+		 * @method Miniscroll.Create#addTracker
 		 * @protected
 		 */
 		addTracker: function() {
-			console.log("addTracker");
+			
+			// create a empty HTMLElement for the scrollbar elements
+			this.scroll.tracker = new Miniscroll.Utils.create(this.scroll.container, "div", {
+				"class": this.prefix + "tracker"
+			});
+			
+			this._trackerSize.x = (this._settings.axis === "x") ? Miniscroll.Utils.offset(this.scroll.container).width : this._settings.size;
+			this._trackerSize.y = (this._settings.axis === "y") ? Miniscroll.Utils.offset(this.scroll.container).height : this._settings.size;
+			
+			Miniscroll.Utils.setCss(this.scroll.tracker, {
+				width: this._trackerSize.x + "px",
+				height: this._trackerSize.y + "px",
+				backgroundColor: this._settings.trackerColor
+			});
 		},
 		
 		/**
-		 * Create a HTMLElement for the thumb and tracker.
+		 * Create thumb.
 		 *
-		 * @method Miniscroll.Create#addContainer
+		 * @method Miniscroll.Create#addThumb
 		 * @protected
 		 */
 		addThumb: function() {
-			console.log("addThumb");
+			
+			// create a empty HTMLElement for the scrollbar elements
+			this.scroll.thumb = new Miniscroll.Utils.create(this.scroll.container, "div", {
+				"class": this.prefix + "thumb"
+			});
+			
+			var containerOffset = Miniscroll.Utils.offset(this.scroll.container);
+			var trackerOffset = Miniscroll.Utils.offset(this.scroll.tracker);
+			
+			this._offset.x = (containerOffset.width * trackerOffset.width) / this.scroll.target.scrollWidth;
+			this._offset.y = (containerOffset.height * trackerOffset.height) / this.scroll.target.scrollHeight;
+			
+			this._thumbSize.x = (this._settings.sizethumb === 'auto') ? this._offset.x : this._settings.sizethumb;
+			this._thumbSize.y = (this._settings.sizethumb === 'auto') ? this._offset.y : this._settings.sizethumb;
+			
+			Miniscroll.Utils.setCss(this.scroll.thumb, {
+				position: "absolute",
+				top: "0px",
+				left: "0px",
+				width: ((this._settings.axis === "x") ? this._thumbSize.x : this._settings.size) + "px",
+				height: ((this._settings.axis === "y") ? this._thumbSize.y : this._settings.size) + "px",
+				backgroundColor: this._settings.thumbColor
+			});
+			
 		}
 	};
 	
-	// add a constructor name
-	//Miniscroll.Create.prototype.constructor = Miniscroll.Create;
+	Miniscroll.Create.prototype.constructor = Miniscroll.Create;

@@ -13,16 +13,27 @@
 	 * @param {Miniscroll.Scroll} scroll - A reference to the currently running game.
 	 */
 	Miniscroll.Mouse = function(scroll) {
+		/**
+		 * @property {Miniscroll.Scroll} scroll - Reference to the scroll.
+		 */
 		this.scroll = scroll;
 	};
 	
 	Miniscroll.Mouse.prototype = {
-		 /**
-		  * Starts the event listeners running.
-		  * 
-		  * @method Miniscroll.Mouse#start
-		  */
-		 start: function () {}
+		/**
+		 * Starts the event listeners running.
+		 * 
+		 * @method Miniscroll.Mouse#start
+		 */
+		start: function () {},
+		
+		/**
+		 * Destroy all events
+		 * 
+		 * @method Miniscroll.Mouse#destroy
+		 */
+		destroy: function() {
+		}
 	};
 
 	Miniscroll.Mouse.prototype.constructor = Miniscroll.Mouse;

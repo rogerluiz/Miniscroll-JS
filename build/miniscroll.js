@@ -6,7 +6,7 @@
 (function(window, document) {
 	"use strict";
 	
-    var root = this;
+	var root = this;
 
 	/**
 	 * @namespace Miniscroll
@@ -18,6 +18,8 @@
 		 * @type {string}
 		 */
 		VERSION: '2.0.0',
+		
+		TOUCH_EVENTS: ('ontouchstart' in document.documentElement),
 		
 		/**
 		 * Settigns of scrollbar
@@ -101,11 +103,15 @@
 		
 		// concat options and settings
 		Miniscroll.Utils.concat(this.settings, options);
-		console.log(this.target);
+		
 		
 		this.create = new Miniscroll.Create(this);
-		this.create.init();
+		this.input = new Miniscroll.Input(this);
 		
+		
+		// init
+		this.create.init();
+		this.input.init();
 	};
 	
 	
@@ -436,8 +442,9 @@
 	 * @static
 	 */
 	Miniscroll.Event = {
+		
 		/**
-		 * Name
+		 * Polyfill for addEventListener
 		 * 
 		 * @method Miniscroll.Event.on
 		 * @param  {HTMLElement} element - HTMLElement to be call the event listener
@@ -482,7 +489,7 @@
 		},
 
 		/**
-		 * Name
+		 * Polyfill for removeEventListener
 		 * 
 		 * @method Miniscroll.Event.off
 		 * @param  {HTMLElement} element - HTMLElement to be call the event listener
@@ -556,7 +563,10 @@
 	 * @constructor
 	 */
 	Miniscroll.Update = function() {
-		// code here for update staffs
+		/**
+		 * @property {Miniscroll.Scroll} scroll - Reference to the scroll.
+		 */
+		this.scroll = scroll;
 	};
 	
 	// add a constructor name
@@ -574,7 +584,10 @@
 	 * @constructor
 	 */
 	Miniscroll.Destroy = function() {
-		// code here for destroy/cancel/remove staffs
+		/**
+		 * @property {Miniscroll.Scroll} scroll - Reference to the scroll.
+		 */
+		this.scroll = scroll;
 	};
 	
 	// add a constructor name
@@ -621,6 +634,24 @@
 		 * @private
 		 */
 		this._scrollPos = new Miniscroll.Point(0, 0);
+		
+		/**
+		  * @property {Miniscroll.Point} _trackerSize - Private internal var.
+		  * @private
+		  */
+		this._trackerSize = new Miniscroll.Point(0, 0);
+		
+		/**
+		  * @property {Miniscroll.Point} _thumbSize - Private internal var.
+		  * @private
+		  */
+		this._thumbSize = new Miniscroll.Point(0, 0);
+		
+		/**
+		  * @property {Miniscroll.Point} _offset - Private internal var.
+		  * @private
+		  */
+		this._offset = new Miniscroll.Point(0, 0);
 		
 		/**
 		 * @property {object} _settings - Reference to the 'Miniscroll.Scroll.settings'.
@@ -702,28 +733,64 @@
 		},
 		
 		/**
-		 * Create a HTMLElement for the thumb and tracker.
+		 * Create tracker.
 		 *
-		 * @method Miniscroll.Create#addContainer
+		 * @method Miniscroll.Create#addTracker
 		 * @protected
 		 */
 		addTracker: function() {
-			console.log("addTracker");
+			
+			// create a empty HTMLElement for the scrollbar elements
+			this.scroll.tracker = new Miniscroll.Utils.create(this.scroll.container, "div", {
+				"class": this.prefix + "tracker"
+			});
+			
+			this._trackerSize.x = (this._settings.axis === "x") ? Miniscroll.Utils.offset(this.scroll.container).width : this._settings.size;
+			this._trackerSize.y = (this._settings.axis === "y") ? Miniscroll.Utils.offset(this.scroll.container).height : this._settings.size;
+			
+			Miniscroll.Utils.setCss(this.scroll.tracker, {
+				width: this._trackerSize.x + "px",
+				height: this._trackerSize.y + "px",
+				backgroundColor: this._settings.trackerColor
+			});
 		},
 		
 		/**
-		 * Create a HTMLElement for the thumb and tracker.
+		 * Create thumb.
 		 *
-		 * @method Miniscroll.Create#addContainer
+		 * @method Miniscroll.Create#addThumb
 		 * @protected
 		 */
 		addThumb: function() {
-			console.log("addThumb");
+			
+			// create a empty HTMLElement for the scrollbar elements
+			this.scroll.thumb = new Miniscroll.Utils.create(this.scroll.container, "div", {
+				"class": this.prefix + "thumb"
+			});
+			
+			var containerOffset = Miniscroll.Utils.offset(this.scroll.container);
+			var trackerOffset = Miniscroll.Utils.offset(this.scroll.tracker);
+			
+			this._offset.x = (containerOffset.width * trackerOffset.width) / this.scroll.target.scrollWidth;
+			this._offset.y = (containerOffset.height * trackerOffset.height) / this.scroll.target.scrollHeight;
+			
+			this._thumbSize.x = (this._settings.sizethumb === 'auto') ? this._offset.x : this._settings.sizethumb;
+			this._thumbSize.y = (this._settings.sizethumb === 'auto') ? this._offset.y : this._settings.sizethumb;
+			
+			Miniscroll.Utils.setCss(this.scroll.thumb, {
+				position: "absolute",
+				top: "0px",
+				left: "0px",
+				width: ((this._settings.axis === "x") ? this._thumbSize.x : this._settings.size) + "px",
+				height: ((this._settings.axis === "y") ? this._thumbSize.y : this._settings.size) + "px",
+				backgroundColor: this._settings.thumbColor
+			});
+			
 		}
 	};
 	
-	// add a constructor name
-	//Miniscroll.Create.prototype.constructor = Miniscroll.Create;
+	Miniscroll.Create.prototype.constructor = Miniscroll.Create;
+
 	/**
 	 * @author       Roger Luiz <rogerluizm@gmail.com>
 	 * @copyright    2015 Roger Luiz Ltd.
@@ -739,19 +806,31 @@
 	 * @param {Miniscroll.Scroll} scroll - A reference to the currently running game.
 	 */
 	Miniscroll.Mouse = function(scroll) {
+		/**
+		 * @property {Miniscroll.Scroll} scroll - Reference to the scroll.
+		 */
 		this.scroll = scroll;
 	};
 	
 	Miniscroll.Mouse.prototype = {
-		 /**
-		  * Starts the event listeners running.
-		  * 
-		  * @method Miniscroll.Mouse#start
-		  */
-		 start: function () {}
+		/**
+		 * Starts the event listeners running.
+		 * 
+		 * @method Miniscroll.Mouse#start
+		 */
+		start: function () {},
+		
+		/**
+		 * Destroy all events
+		 * 
+		 * @method Miniscroll.Mouse#destroy
+		 */
+		destroy: function() {
+		}
 	};
 
 	Miniscroll.Mouse.prototype.constructor = Miniscroll.Mouse;
+
 	/**
 	 * @author       Roger Luiz <rogerluizm@gmail.com>
 	 * @copyright    2015 Roger Luiz Ltd.
@@ -767,6 +846,9 @@
 	 * @param {Miniscroll.Scroll} scroll - A reference to the currently running game.
 	 */
 	Miniscroll.Touch = function(scroll) {
+		/**
+		 * @property {Miniscroll.Scroll} scroll - Reference to the scroll.
+		 */
 		this.scroll = scroll;
 	};
 
@@ -776,10 +858,19 @@
 		  * 
 		  * @method Miniscroll.Touch#start
 		  */
-		 start: function () {}
+		 start: function () {},
+		
+		/**
+		 * Destroy all events
+		 * 
+		 * @method Miniscroll.Touch#destroy
+		 */
+		destroy: function() {
+		}
 	};
 	
 	Miniscroll.Touch.prototype.constructor = Miniscroll.Touch;
+
 	/**
 	 * @author       Roger Luiz <rogerluizm@gmail.com>
 	 * @copyright    2015 Roger Luiz Ltd.
@@ -795,10 +886,51 @@
 	 * @param {Miniscroll.Scroll} scroll - A reference to the currently running game.
 	 */
 	Miniscroll.Input = function(scroll) {
+		/**
+		 * @property {Miniscroll.Scroll} scroll - Reference to the scroll.
+		 */
 		this.scroll = scroll;
+		
+		this.mouse = new Miniscroll.Mouse(this.scroll);
+		this.touch = new Miniscroll.Touch(this.scroll);
+	};
+
+	Miniscroll.Input.prototype = {
+		
+		/**
+		 * Initialize.
+		 *
+		 * @method Miniscroll.Input#init
+		 * @protected
+		 */
+		init: function () {
+			if (!Miniscroll.TOUCH_EVENTS) {
+				this.mouse.start();
+			} else {
+				this.touch.start();
+			}
+		},
+		
+		update: function() {
+		},
+		
+		/**
+		 * Destroy all events
+		 * 
+		 * @method Miniscroll.Input#destroy
+		 */
+		destroy: function() {
+			if (!Miniscroll.TOUCH_EVENTS) {
+				this.mouse.destroy();
+			} else {
+				this.touch.destroy();
+			}
+		}
 	};
 	
 	Miniscroll.Input.prototype.constructor = Miniscroll.Input;
+
+
 	(function () {
 		if (window.jQuery) {
 			jQuery.fn.miniscroll = function (options) {
@@ -926,6 +1058,34 @@ if (typeof Array.prototype.indexOf !== "function")
 		return -1;
    };
 }
+
+
+
+(function() {
+    var lastTime = 0;
+    var vendors = ['webkit', 'moz'];
+	
+    for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+        window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
+        window.cancelAnimationFrame = window[vendors[x]+'CancelAnimationFrame'] || window[vendors[x]+'CancelRequestAnimationFrame'];
+    }
+
+    if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = function(callback, element) {
+            var currTime = new Date().getTime();
+            var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+            var id = window.setTimeout(function() { callback(currTime + timeToCall); }, timeToCall);
+            lastTime = currTime + timeToCall;
+            return id;
+        };
+	}
+
+    if (!window.cancelAnimationFrame) {
+        window.cancelAnimationFrame = function(id) {
+            clearTimeout(id);
+        };
+	}
+}());
 
 /**
  * Also fix for the absent console in IE9

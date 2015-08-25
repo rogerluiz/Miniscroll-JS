@@ -11,7 +11,10 @@
 	 * @constructor
 	 */
 	Miniscroll.Destroy = function() {
-		// code here for destroy/cancel/remove staffs
+		/**
+		 * @property {Miniscroll.Scroll} scroll - Reference to the scroll.
+		 */
+		this.scroll = scroll;
 	};
 	
 	// add a constructor name
