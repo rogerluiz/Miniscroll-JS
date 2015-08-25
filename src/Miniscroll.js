@@ -69,7 +69,7 @@
 		 * get the div he ought to contain the scrollbar
 		 * 
 		 * @constant
-		 * @type {element}
+		 * @type {HTMLElement}
 		 */
 		this.target = Miniscroll.Utils.get(selector);
 
@@ -77,7 +77,7 @@
 		 * The container of scrollbar
 		 * 
 		 * @constant
-		 * @type {element}
+		 * @type {HTMLElement}
 		 */
 		this.container = null;
 
@@ -85,7 +85,7 @@
 		 * The thumb of scrollbar
 		 * 
 		 * @constant
-		 * @type {element}
+		 * @type {HTMLElement}
 		 */
 		this.thumb = null;
 
@@ -93,7 +93,7 @@
 		 * The tracker of scrollbar
 		 * 
 		 * @constant
-		 * @type {element}
+		 * @type {HTMLElement}
 		 */
 		this.tracker = null;
 		
@@ -101,7 +101,8 @@
 		
 		// concat options and settings
 		Miniscroll.Utils.concat(this.settings, options);
-		console.log(this.settings);
+		console.log(this.target);
+		
 		this.create = new Miniscroll.Create(this);
 		this.create.init();
 		
@@ -110,4 +111,4 @@
 	
 	
 	// add a constructor name
-	//Miniscroll.Scroll.prototype.constructor = Miniscroll.Scroll;
+	Miniscroll.Scroll.prototype.constructor = Miniscroll.Scroll;

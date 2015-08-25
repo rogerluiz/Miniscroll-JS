@@ -69,7 +69,7 @@
 		 * get the div he ought to contain the scrollbar
 		 * 
 		 * @constant
-		 * @type {element}
+		 * @type {HTMLElement}
 		 */
 		this.target = Miniscroll.Utils.get(selector);
 
@@ -77,7 +77,7 @@
 		 * The container of scrollbar
 		 * 
 		 * @constant
-		 * @type {element}
+		 * @type {HTMLElement}
 		 */
 		this.container = null;
 
@@ -85,7 +85,7 @@
 		 * The thumb of scrollbar
 		 * 
 		 * @constant
-		 * @type {element}
+		 * @type {HTMLElement}
 		 */
 		this.thumb = null;
 
@@ -93,7 +93,7 @@
 		 * The tracker of scrollbar
 		 * 
 		 * @constant
-		 * @type {element}
+		 * @type {HTMLElement}
 		 */
 		this.tracker = null;
 		
@@ -101,7 +101,8 @@
 		
 		// concat options and settings
 		Miniscroll.Utils.concat(this.settings, options);
-		console.log(this.settings);
+		console.log(this.target);
+		
 		this.create = new Miniscroll.Create(this);
 		this.create.init();
 		
@@ -110,7 +111,7 @@
 	
 	
 	// add a constructor name
-	//Miniscroll.Scroll.prototype.constructor = Miniscroll.Scroll;
+	Miniscroll.Scroll.prototype.constructor = Miniscroll.Scroll;
 	/**
 	 * @author       Roger Luiz <rogerluizm@gmail.com>
 	 * @copyright    2015 Roger Luiz Ltd.
@@ -125,7 +126,7 @@
 		/**
 		 * Gets the value of a css property
 		 * 
-		 * @method Miniscroll.Utils.getCss
+		 * @method Miniscroll.Utils#getCss
 		 * @param  {HTMLElement} element - HTMLElement to be call
 		 * @param  {string} property - CSS property to search
 		 * @return {*} Returns the value of the css property searched
@@ -134,7 +135,7 @@
 		 */
 		getCss: function(element, property) {
 			var result;
-
+			
 			if (!window.getComputedStyle) {
 				if (document.defaultView && document.defaultView.getComputedStyle) {
 					result = document.defaultView.getComputedStyle.getPropertyValue(property);
@@ -142,6 +143,8 @@
 					result = (element.currentStyle) ? element.currentStyle[property] : element.style[property];
 				}
 			} else {
+				
+				//result = window.getComputedStyle(element, null).getPropertyValue(property);
 				result = window.getComputedStyle(element).getPropertyValue(property);
 			}
 
@@ -151,7 +154,7 @@
 		/**
 		 * Add css inline in the element
 		 * 
-		 * @method Miniscroll.Utils.setCss
+		 * @method Miniscroll.Utils#setCss
 		 * @param  {HTMLElement} element - HTMLElement to be call
 		 * @param  {object} arguments - Group of parameters that defines the style element
 		 * @return {void}
@@ -179,7 +182,7 @@
 		/**
 		 * Get Element
 		 * 
-		 * @method Miniscroll.Utils.get
+		 * @method Miniscroll.Utils#get
 		 * @param  {string|element} selector - Query string or a element
 		 * @return {HTMLElement} get the element usign a query selector
 		 */
@@ -231,7 +234,7 @@
 		/**
 		 * Create an element and add attributes
 		 * 
-		 * @method Miniscroll.Utils.create
+		 * @method Miniscroll.Utils#create
 		 * @param  {HTMLElement} element - container for the new element
 		 * @param  {string} tagName - Type of the new element ex: (div, article, etc..)
 		 * @param  {object} attrs - Atributes for the new element
@@ -258,11 +261,12 @@
 		/**
 		 * Offset
 		 * 
-		 * @method Miniscroll.Utils.offset
+		 * @method Miniscroll.Utils#offset
 		 * param {HTMLElement} element - HTMLElement to be call
+		 * 
 		 */
-		offset: function(element, target) {
-			var positionType = new Miniscroll.Utils.getCss(target, 'position');
+		offset: function(element) {
+			var positionType = new Miniscroll.Utils.getCss(element, 'position');
 
 			var style = new Miniscroll.Point(
 				(element.style.left == "") ? 0 : parseInt(element.style.left),
@@ -293,7 +297,7 @@
 		/**
 		 * Returns the current mouse position
 		 * 
-		 * @method Miniscroll.Utils.pointer
+		 * @method Miniscroll.Utils#pointer
 		 * @param  {event} event - String type to event
 		 * @return {Miniscroll.Point} Pair of coordinates
 		 */
@@ -317,7 +321,7 @@
 		/**
 		 * Extend a object to other
 		 * 
-		 * @method Miniscroll.Utils.extend
+		 * @method Miniscroll.Utils#extend
 		 * @return {object} list of parameters
 		 */
 		concat: function() {
@@ -332,6 +336,12 @@
 			return arguments[0];
 		},
 		
+		/**
+		 * Get the highest z-index
+		 * 
+		 * @method Miniscroll.Utils#getZindex
+		 * @return {intiger} the highest z-index
+		 */
 		getZindex: function(target) {
 			/**
 			 * @property {interger} topZIndex - the highest 'z-index'
@@ -622,7 +632,7 @@
 		 * @property {intiger} _topZindex - The top zindex.
 		 * @private
 		 */
-		this._topZindex = new Miniscroll.Utils.getZindex(this.scroll.target);
+		this._topZindex = Miniscroll.Utils.getZindex(this.scroll.target);
 		
 		return this;
 	};
@@ -676,12 +686,19 @@
 			this._scrollSize.y = (this._settings.scrollbarSize != "auto") ? this._settings.scrollbarSize : new Miniscroll.Utils.offset(this.scroll.target).height;
 			
 			// set the position X of scrollbar for default is on right
-			this.scrollPos.x = new Miniscroll.Utils.offset(this.scroll.target).left + (this._scrollSize.x - this._settings.size);
+			this._scrollPos.x = new Miniscroll.Utils.offset(this.scroll.target).left + (this._scrollSize.x - this._settings.size);
 			
 			// set the position Y of scrollbar for default is on bottom
-			this.scrollPos.y = new Miniscroll.Utils.offset(this.scroll.target).top + (this._scrollSize.y - this._settings.size);
+			this._scrollPos.y = new Miniscroll.Utils.offset(this.scroll.target).top + (this._scrollSize.y - this._settings.size);			
 			
-			console.log(this._topZindex);
+			Miniscroll.Utils.setCss(this.scroll.container, {
+				position: "absolute",
+				width: ((this._settings.axis == "x") ? this._scrollSize.x : this._settings.size) + "px",
+				height: ((this._settings.axis == "y") ? this._scrollSize.y : this._settings.size) + "px",
+				top: ((this._settings.axis == "y") ? new Miniscroll.Utils.offset(this.scroll.target).top : this._scrollPos.y) + "px",
+				left: ((this._settings.axis == "x") ? new Miniscroll.Utils.offset(this.scroll.target).left : this._scrollPos.x) + "px",
+				zIndex: this._topZindex
+			});
 		},
 		
 		/**
@@ -704,19 +721,6 @@
 			console.log("addThumb");
 		}
 	};
-
-	/*
-    	
-
-    	this.setCss(this.container, {
-			position: "absolute",
-			//visibility: "hidden",
-			width: ((this.settings.axis == "x") ? scrollWidth : this.settings.size) + "px",
-			height: ((this.settings.axis == "y") ? scrollHeight : this.settings.size) + "px",
-			top: ((this.settings.axis == "y") ? this.offset(this.target).top : scrollY) + "px",
-			left: ((this.settings.axis == "x") ? this.offset(this.target).left : scrollX) + "px",
-			zIndex: 999
-    	});*/
 	
 	// add a constructor name
 	//Miniscroll.Create.prototype.constructor = Miniscroll.Create;

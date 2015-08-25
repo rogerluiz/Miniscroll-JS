@@ -51,7 +51,7 @@
 		 * @property {intiger} _topZindex - The top zindex.
 		 * @private
 		 */
-		this._topZindex = new Miniscroll.Utils.getZindex(this.scroll.target);
+		this._topZindex = Miniscroll.Utils.getZindex(this.scroll.target);
 		
 		return this;
 	};
@@ -105,12 +105,19 @@
 			this._scrollSize.y = (this._settings.scrollbarSize != "auto") ? this._settings.scrollbarSize : new Miniscroll.Utils.offset(this.scroll.target).height;
 			
 			// set the position X of scrollbar for default is on right
-			this.scrollPos.x = new Miniscroll.Utils.offset(this.scroll.target).left + (this._scrollSize.x - this._settings.size);
+			this._scrollPos.x = new Miniscroll.Utils.offset(this.scroll.target).left + (this._scrollSize.x - this._settings.size);
 			
 			// set the position Y of scrollbar for default is on bottom
-			this.scrollPos.y = new Miniscroll.Utils.offset(this.scroll.target).top + (this._scrollSize.y - this._settings.size);
+			this._scrollPos.y = new Miniscroll.Utils.offset(this.scroll.target).top + (this._scrollSize.y - this._settings.size);			
 			
-			console.log(this._topZindex);
+			Miniscroll.Utils.setCss(this.scroll.container, {
+				position: "absolute",
+				width: ((this._settings.axis == "x") ? this._scrollSize.x : this._settings.size) + "px",
+				height: ((this._settings.axis == "y") ? this._scrollSize.y : this._settings.size) + "px",
+				top: ((this._settings.axis == "y") ? new Miniscroll.Utils.offset(this.scroll.target).top : this._scrollPos.y) + "px",
+				left: ((this._settings.axis == "x") ? new Miniscroll.Utils.offset(this.scroll.target).left : this._scrollPos.x) + "px",
+				zIndex: this._topZindex
+			});
 		},
 		
 		/**
@@ -133,19 +140,6 @@
 			console.log("addThumb");
 		}
 	};
-
-	/*
-    	
-
-    	this.setCss(this.container, {
-			position: "absolute",
-			//visibility: "hidden",
-			width: ((this.settings.axis == "x") ? scrollWidth : this.settings.size) + "px",
-			height: ((this.settings.axis == "y") ? scrollHeight : this.settings.size) + "px",
-			top: ((this.settings.axis == "y") ? this.offset(this.target).top : scrollY) + "px",
-			left: ((this.settings.axis == "x") ? this.offset(this.target).left : scrollX) + "px",
-			zIndex: 999
-    	});*/
 	
 	// add a constructor name
 	//Miniscroll.Create.prototype.constructor = Miniscroll.Create;

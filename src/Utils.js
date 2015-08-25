@@ -12,7 +12,7 @@
 		/**
 		 * Gets the value of a css property
 		 * 
-		 * @method Miniscroll.Utils.getCss
+		 * @method Miniscroll.Utils#getCss
 		 * @param  {HTMLElement} element - HTMLElement to be call
 		 * @param  {string} property - CSS property to search
 		 * @return {*} Returns the value of the css property searched
@@ -21,7 +21,7 @@
 		 */
 		getCss: function(element, property) {
 			var result;
-
+			
 			if (!window.getComputedStyle) {
 				if (document.defaultView && document.defaultView.getComputedStyle) {
 					result = document.defaultView.getComputedStyle.getPropertyValue(property);
@@ -29,6 +29,8 @@
 					result = (element.currentStyle) ? element.currentStyle[property] : element.style[property];
 				}
 			} else {
+				
+				//result = window.getComputedStyle(element, null).getPropertyValue(property);
 				result = window.getComputedStyle(element).getPropertyValue(property);
 			}
 
@@ -38,7 +40,7 @@
 		/**
 		 * Add css inline in the element
 		 * 
-		 * @method Miniscroll.Utils.setCss
+		 * @method Miniscroll.Utils#setCss
 		 * @param  {HTMLElement} element - HTMLElement to be call
 		 * @param  {object} arguments - Group of parameters that defines the style element
 		 * @return {void}
@@ -66,7 +68,7 @@
 		/**
 		 * Get Element
 		 * 
-		 * @method Miniscroll.Utils.get
+		 * @method Miniscroll.Utils#get
 		 * @param  {string|element} selector - Query string or a element
 		 * @return {HTMLElement} get the element usign a query selector
 		 */
@@ -118,7 +120,7 @@
 		/**
 		 * Create an element and add attributes
 		 * 
-		 * @method Miniscroll.Utils.create
+		 * @method Miniscroll.Utils#create
 		 * @param  {HTMLElement} element - container for the new element
 		 * @param  {string} tagName - Type of the new element ex: (div, article, etc..)
 		 * @param  {object} attrs - Atributes for the new element
@@ -145,11 +147,12 @@
 		/**
 		 * Offset
 		 * 
-		 * @method Miniscroll.Utils.offset
+		 * @method Miniscroll.Utils#offset
 		 * param {HTMLElement} element - HTMLElement to be call
+		 * 
 		 */
-		offset: function(element, target) {
-			var positionType = new Miniscroll.Utils.getCss(target, 'position');
+		offset: function(element) {
+			var positionType = new Miniscroll.Utils.getCss(element, 'position');
 
 			var style = new Miniscroll.Point(
 				(element.style.left == "") ? 0 : parseInt(element.style.left),
@@ -180,7 +183,7 @@
 		/**
 		 * Returns the current mouse position
 		 * 
-		 * @method Miniscroll.Utils.pointer
+		 * @method Miniscroll.Utils#pointer
 		 * @param  {event} event - String type to event
 		 * @return {Miniscroll.Point} Pair of coordinates
 		 */
@@ -204,7 +207,7 @@
 		/**
 		 * Extend a object to other
 		 * 
-		 * @method Miniscroll.Utils.extend
+		 * @method Miniscroll.Utils#extend
 		 * @return {object} list of parameters
 		 */
 		concat: function() {
@@ -219,6 +222,12 @@
 			return arguments[0];
 		},
 		
+		/**
+		 * Get the highest z-index
+		 * 
+		 * @method Miniscroll.Utils#getZindex
+		 * @return {intiger} the highest z-index
+		 */
 		getZindex: function(target) {
 			/**
 			 * @property {interger} topZIndex - the highest 'z-index'
