@@ -881,19 +881,19 @@
 			
 		for (var i = 0; i < tags.length; i++) {
 			// Get the original 'position' property
-			pos = this.getCss(tags[i]).position;
+			pos = this.getCss(tags[i], "position");
 				
 			// Set it temporarily to 'relative'
 			tags[i].style.position = "relative";
 				
 			// Grab the z-index
-			zIndex = this.getCss(tags[i]).zIndex;
+			zIndex = Number(this.getCss(tags[i], "z-index"));
 				
 			// Reset the 'position'
 			tags[i].style.position = pos;
 				
 			if (zIndex > topZIndex) {
-				topZIndex = zIndex;
+				topZIndex = zIndex + 1;
 			}
 		}
 			
