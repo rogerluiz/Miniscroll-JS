@@ -17,9 +17,9 @@
 		this.scroll = scroll;
 		
 		/**
-		  * @property {string} prefix - Prefix name.
-		  * @protected
-		  */
+		 * @property {string} prefix - Prefix name.
+		 * @protected
+		 */
 		this.prefix = "miniscroll-";
 		
 		/**
@@ -42,9 +42,9 @@
 		this._scrollPos = new Miniscroll.Point(0, 0);
 		
 		/**
-		  * @property {Miniscroll.Point} _trackerSize - Private internal var.
-		  * @private
-		  */
+		 * @property {Miniscroll.Point} _trackerSize - Private internal var.
+		 * @private
+		 */
 		this._trackerSize = new Miniscroll.Point(0, 0);
 		
 		/**
@@ -54,9 +54,9 @@
 		this._thumbSize = new Miniscroll.Point(0, 0);
 		
 		/**
-		  * @property {Miniscroll.Point} _offset - Private internal var.
-		  * @private
-		  */
+		 * @property {Miniscroll.Point} _offset - Private internal var.
+		 * @private
+		 */
 		this._offset = new Miniscroll.Point(0, 0);
 		
 		/**

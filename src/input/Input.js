@@ -18,8 +18,8 @@
 		 */
 		this.scroll = scroll;
 		
-		this.mouse = new Miniscroll.Mouse(this.scroll);
-		this.touch = new Miniscroll.Touch(this.scroll);
+		this._mouse = new Miniscroll.Mouse(this.scroll);
+		this._touch = new Miniscroll.Touch(this.scroll);
 	};
 
 	Miniscroll.Input.prototype = {
@@ -32,9 +32,9 @@
 		 */
 		init: function () {
 			if (!Miniscroll.TOUCH_EVENTS) {
-				this.mouse.start();
+				this._mouse.start();
 			} else {
-				this.touch.start();
+				this._touch.start();
 			}
 		},
 		
@@ -48,9 +48,9 @@
 		 */
 		destroy: function() {
 			if (!Miniscroll.TOUCH_EVENTS) {
-				this.mouse.destroy();
+				this._mouse.destroy();
 			} else {
-				this.touch.destroy();
+				this._touch.destroy();
 			}
 		}
 	};

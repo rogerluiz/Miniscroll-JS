@@ -54,8 +54,8 @@
 	 * 
 	 * @class Miniscroll.Scroll
 	 * @constructor
-	 * @param {string|element} selector
-	 * @param {object} options 
+	 * @param {string|element} selector - id or class of a HTMLElement with will contain the role scrollbar
+	 * @param {object} options - list of settings
 	 */
 	Miniscroll.Scroll = function(selector, options) {
 		
@@ -611,9 +611,9 @@
 		this.scroll = scroll;
 		
 		/**
-		  * @property {string} prefix - Prefix name.
-		  * @protected
-		  */
+		 * @property {string} prefix - Prefix name.
+		 * @protected
+		 */
 		this.prefix = "miniscroll-";
 		
 		/**
@@ -636,9 +636,9 @@
 		this._scrollPos = new Miniscroll.Point(0, 0);
 		
 		/**
-		  * @property {Miniscroll.Point} _trackerSize - Private internal var.
-		  * @private
-		  */
+		 * @property {Miniscroll.Point} _trackerSize - Private internal var.
+		 * @private
+		 */
 		this._trackerSize = new Miniscroll.Point(0, 0);
 		
 		/**
@@ -648,9 +648,9 @@
 		this._thumbSize = new Miniscroll.Point(0, 0);
 		
 		/**
-		  * @property {Miniscroll.Point} _offset - Private internal var.
-		  * @private
-		  */
+		 * @property {Miniscroll.Point} _offset - Private internal var.
+		 * @private
+		 */
 		this._offset = new Miniscroll.Point(0, 0);
 		
 		/**
@@ -810,6 +810,25 @@
 		 * @property {Miniscroll.Scroll} scroll - Reference to the scroll.
 		 */
 		this.scroll = scroll;
+		
+		/**
+		 * @property {HTMLElement} _container - Reference to the container of scrollbar
+		 * @private
+		 */
+		this._container = this.scroll.container;
+		
+		/**
+		 * @property {HTMLElement} _thumb - Reference to the thumb of scrollbar
+		 * @private
+		 */
+		this._thumb = this.scroll.thumb;
+		
+		/**
+		 * @property {HTMLElement} _tracker - Reference to the tracker of scrollbar
+		 * @private
+		 */
+		this._tracker = this.scroll.tracker;
+		
 	};
 	
 	Miniscroll.Mouse.prototype = {
@@ -818,7 +837,15 @@
 		 * 
 		 * @method Miniscroll.Mouse#start
 		 */
-		start: function () {},
+		start: function () {
+			
+		},
+		
+		onMousePress: function(event) {},
+		
+		onMouseMove: function(event) {},
+		
+		onMouseRelease: function(event) {},
 		
 		/**
 		 * Destroy all events
@@ -850,6 +877,24 @@
 		 * @property {Miniscroll.Scroll} scroll - Reference to the scroll.
 		 */
 		this.scroll = scroll;
+		
+		/**
+		 * @property {HTMLElement} _container - Reference to the container of scrollbar
+		 * @private
+		 */
+		this._container = this.scroll.container;
+		
+		/**
+		 * @property {HTMLElement} _thumb - Reference to the thumb of scrollbar
+		 * @private
+		 */
+		this._thumb = this.scroll.thumb;
+		
+		/**
+		 * @property {HTMLElement} _tracker - Reference to the tracker of scrollbar
+		 * @private
+		 */
+		this._tracker = this.scroll.tracker;
 	};
 
 	Miniscroll.Touch.prototype = {
@@ -891,8 +936,8 @@
 		 */
 		this.scroll = scroll;
 		
-		this.mouse = new Miniscroll.Mouse(this.scroll);
-		this.touch = new Miniscroll.Touch(this.scroll);
+		this._mouse = new Miniscroll.Mouse(this.scroll);
+		this._touch = new Miniscroll.Touch(this.scroll);
 	};
 
 	Miniscroll.Input.prototype = {
@@ -905,9 +950,9 @@
 		 */
 		init: function () {
 			if (!Miniscroll.TOUCH_EVENTS) {
-				this.mouse.start();
+				this._mouse.start();
 			} else {
-				this.touch.start();
+				this._touch.start();
 			}
 		},
 		
@@ -921,9 +966,9 @@
 		 */
 		destroy: function() {
 			if (!Miniscroll.TOUCH_EVENTS) {
-				this.mouse.destroy();
+				this._mouse.destroy();
 			} else {
-				this.touch.destroy();
+				this._touch.destroy();
 			}
 		}
 	};

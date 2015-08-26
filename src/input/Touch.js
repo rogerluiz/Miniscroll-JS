@@ -17,6 +17,24 @@
 		 * @property {Miniscroll.Scroll} scroll - Reference to the scroll.
 		 */
 		this.scroll = scroll;
+		
+		/**
+		 * @property {HTMLElement} _container - Reference to the container of scrollbar
+		 * @private
+		 */
+		this._container = this.scroll.container;
+		
+		/**
+		 * @property {HTMLElement} _thumb - Reference to the thumb of scrollbar
+		 * @private
+		 */
+		this._thumb = this.scroll.thumb;
+		
+		/**
+		 * @property {HTMLElement} _tracker - Reference to the tracker of scrollbar
+		 * @private
+		 */
+		this._tracker = this.scroll.tracker;
 	};
 
 	Miniscroll.Touch.prototype = {
