@@ -15,6 +15,8 @@
 		 * @property {Miniscroll.Scroll} scroll - Reference to the scroll.
 		 */
 		this.scroll = scroll;
+		//scroll.thumb = "asas";
+		
 		
 		/**
 		 * @property {string} prefix - Prefix name.
@@ -63,13 +65,13 @@
 		 * @property {object} _settings - Reference to the 'Miniscroll.Scroll.settings'.
 		 * @private
 		 */
-		this._settings = this.scroll.settings;
+		this._settings = scroll.settings;
 		
 		/**
 		 * @property {intiger} _topZindex - The top zindex.
 		 * @private
 		 */
-		this._topZindex = Miniscroll.Utils.getZindex(this.scroll.target);
+		this._topZindex = Miniscroll.Utils.getZindex(scroll.target);
 		
 		return this;
 	};
@@ -81,7 +83,7 @@
 		 * @method Miniscroll.Create#boot
 		 * @protected
 		 */
-		init: function () {
+		init: function (scroll) {
 			this.addContainer();
 			this.addTracker();
 			this.addThumb();

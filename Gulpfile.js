@@ -64,7 +64,12 @@ gulp.task('compress', function() {
         .pipe(gulp.dest('./build'));
 });
 
-//gulp.task('default', ['compress']);
+
+gulp.task('watch', function() {
+    gulp.watch('./src/**/*.js', ['merge']);
+});
+
+gulp.task('default', ['watch']);
 
 // build task for move files and etc..
 gulp.task('build', ['copy', 'merge', 'compress']);

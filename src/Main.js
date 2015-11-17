@@ -1,4 +1,3 @@
-window.onload = function() {
-	
-	var mini = new Miniscroll.Scroll("#scroll-container", {});
-}
+window.addEventListener('load', function() {
+	var mini = new Miniscroll("#scroll-container", {});
+}, false);

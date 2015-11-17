@@ -16,6 +16,7 @@
 			height: 400px;
 			margin: 10px auto;
 			background-color: #f2f2f2;
+			overflow: hidden;
 		}
 		
 		.text {
@@ -25,7 +26,31 @@
 </head>
 <body>
 	<div id="scroll-container" class="algo">
-		<div class="text"></div>
+		<div class="text">
+			<p>Se múltiplas esperas de evento idênticas forem registradas no mesmo EventTarget com os mesmos parâmetros, as versões duplicadas serão descartadas. Elas não fazem o EventListener ser disparado mais de uma vez, e, como as duplicatas são descartadas, elas não precisam ser removidas manualmente com o método removeEventListener.</p>
+
+			<p>É preferível referenciar o elemento do qual a espera de evento foi disparada, como quando é usado um manipulador genérico para uma série de elementos similares. Quando anexar uma função usando addEventListener(), o valor de this é mudado — perceba que o valor de this é passado para uma função a partir do disparador.</p>
+
+			<p>Nos exemplos acima, o valor de this em modifyText(), quando disparado pelo evento de clique, é uma referência à tabela 't'. Isso é um contraste do comportamento que acontece se o manipulador é adicionado ao HTML fonte:</p>
+
+			<p>O valor de this em modifyText(), quando disparado pelo evento de clique no HTML, será uma referência ao objeto global (no caso, a janela).</p>
+
+			<p>Nota: JavaScript 1.8.5 introduz o método Function.prototype.bind(), que permite especificar o valor que deve ser usado como this para todas as chamadas à uma determinada função. Isso evita problemas quando não é claro o que this será, dependendo do contexto do qual a sua função for chamada. Perceba, entretanto, que é preciso manter uma referência da escuta à mão, para que depois você possa removê-la.</p>
+
+			<p>Existe um porém com attachEvent: o valor de this será a referência ao objeto window em vez do elemento do qual foi disparado.</p>
+
+			<p>Se múltiplas esperas de evento idênticas forem registradas no mesmo EventTarget com os mesmos parâmetros, as versões duplicadas serão descartadas. Elas não fazem o EventListener ser disparado mais de uma vez, e, como as duplicatas são descartadas, elas não precisam ser removidas manualmente com o método removeEventListener.</p>
+
+			<p>É preferível referenciar o elemento do qual a espera de evento foi disparada, como quando é usado um manipulador genérico para uma série de elementos similares. Quando anexar uma função usando addEventListener(), o valor de this é mudado — perceba que o valor de this é passado para uma função a partir do disparador.</p>
+
+			<p>Nos exemplos acima, o valor de this em modifyText(), quando disparado pelo evento de clique, é uma referência à tabela 't'. Isso é um contraste do comportamento que acontece se o manipulador é adicionado ao HTML fonte:</p>
+
+			<p>O valor de this em modifyText(), quando disparado pelo evento de clique no HTML, será uma referência ao objeto global (no caso, a janela).</p>
+
+			<p>Nota: JavaScript 1.8.5 introduz o método Function.prototype.bind(), que permite especificar o valor que deve ser usado como this para todas as chamadas à uma determinada função. Isso evita problemas quando não é claro o que this será, dependendo do contexto do qual a sua função for chamada. Perceba, entretanto, que é preciso manter uma referência da escuta à mão, para que depois você possa removê-la.</p>
+
+			<p>Existe um porém com attachEvent: o valor de this será a referência ao objeto window em vez do elemento do qual foi disparado.</p>
+		</div>
 	</div>
 	
 	<script src="../build/miniscroll.js"></script>

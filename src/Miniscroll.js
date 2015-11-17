@@ -105,13 +105,12 @@
 		Miniscroll.Utils.concat(this.settings, options);
 		
 		
-		this.create = new Miniscroll.Create(this);
-		this.input = new Miniscroll.Input(this);
-		
+		this.create = new Miniscroll.Create(this).init();
+		this.input = new Miniscroll.Input(this).init();
 		
 		// init
-		this.create.init();
-		this.input.init();
+		//this.create.init();
+		//this.input.init();
 	};
 	
 	

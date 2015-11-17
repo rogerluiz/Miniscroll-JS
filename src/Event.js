@@ -71,8 +71,7 @@
 			var self = root;
 			var mousewheel = (/Firefox/i.test(navigator.userAgent)) ? "DOMMouseScroll" : "mousewheel";
 
-			if (element.addEventListener)
-			{
+			if (element.addEventListener) {
 				if(type === "mousewheel") {
 					element.removeEventListener(mousewheel, function(event) {
 						callback.call(self, event, this);
@@ -82,9 +81,7 @@
 						callback.call(self, event, this);
 					}, false);
 				}
-			}
-			else if (element.attachEvent)
-			{
+			} else if (element.attachEvent) {
 				element.detachEvent('on' + type, function(event) {
 					callback.call(self, event, this);
 				});
@@ -101,6 +98,11 @@
 			} else {
 				event.returnValue = false;
 			}
+		},
+
+		fix: function(event) {
+			event = event ? event : window.event;
+			//event.preventDefault = this.preventDefault(event);
 		},
 
 		/**

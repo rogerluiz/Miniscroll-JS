@@ -18,8 +18,8 @@
 		 */
 		this.scroll = scroll;
 		
-		this._mouse = new Miniscroll.Mouse(this.scroll);
-		this._touch = new Miniscroll.Touch(this.scroll);
+		this._mouse = new Miniscroll.Mouse(scroll);
+		this._touch = new Miniscroll.Touch(scroll);
 	};
 
 	Miniscroll.Input.prototype = {

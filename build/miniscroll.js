@@ -105,13 +105,12 @@
 		Miniscroll.Utils.concat(this.settings, options);
 		
 		
-		this.create = new Miniscroll.Create(this);
-		this.input = new Miniscroll.Input(this);
-		
+		this.create = new Miniscroll.Create(this).init();
+		this.input = new Miniscroll.Input(this).init();
 		
 		// init
-		this.create.init();
-		this.input.init();
+		//this.create.init();
+		//this.input.init();
 	};
 	
 	
@@ -504,8 +503,7 @@
 			var self = root;
 			var mousewheel = (/Firefox/i.test(navigator.userAgent)) ? "DOMMouseScroll" : "mousewheel";
 
-			if (element.addEventListener)
-			{
+			if (element.addEventListener) {
 				if(type === "mousewheel") {
 					element.removeEventListener(mousewheel, function(event) {
 						callback.call(self, event, this);
@@ -515,9 +513,7 @@
 						callback.call(self, event, this);
 					}, false);
 				}
-			}
-			else if (element.attachEvent)
-			{
+			} else if (element.attachEvent) {
 				element.detachEvent('on' + type, function(event) {
 					callback.call(self, event, this);
 				});
@@ -534,6 +530,11 @@
 			} else {
 				event.returnValue = false;
 			}
+		},
+
+		fix: function(event) {
+			event = event ? event : window.event;
+			//event.preventDefault = this.preventDefault(event);
 		},
 
 		/**
@@ -609,6 +610,8 @@
 		 * @property {Miniscroll.Scroll} scroll - Reference to the scroll.
 		 */
 		this.scroll = scroll;
+		//scroll.thumb = "asas";
+		
 		
 		/**
 		 * @property {string} prefix - Prefix name.
@@ -657,13 +660,13 @@
 		 * @property {object} _settings - Reference to the 'Miniscroll.Scroll.settings'.
 		 * @private
 		 */
-		this._settings = this.scroll.settings;
+		this._settings = scroll.settings;
 		
 		/**
 		 * @property {intiger} _topZindex - The top zindex.
 		 * @private
 		 */
-		this._topZindex = Miniscroll.Utils.getZindex(this.scroll.target);
+		this._topZindex = Miniscroll.Utils.getZindex(scroll.target);
 		
 		return this;
 	};
@@ -675,7 +678,7 @@
 		 * @method Miniscroll.Create#boot
 		 * @protected
 		 */
-		init: function () {
+		init: function (scroll) {
 			this.addContainer();
 			this.addTracker();
 			this.addThumb();
@@ -810,7 +813,11 @@
 		 * @property {Miniscroll.Scroll} scroll - Reference to the scroll.
 		 */
 		this.scroll = scroll;
-		
+
+		this._settings = scroll.settings;
+
+		this._target = scroll.target;
+
 		/**
 		 * @property {HTMLElement} _container - Reference to the container of scrollbar
 		 * @private
@@ -828,7 +835,15 @@
 		 * @private
 		 */
 		this._tracker = this.scroll.tracker;
-		
+
+		/**
+		 * @property {HTMLElement} _isScrolling - Check if is scrolling
+		 */
+		this.isScrolling = false;
+
+		this.thumbDelta = new Miniscroll.Point(0, 0);
+		this.thumbPos = new Miniscroll.Point(0, 0);
+		this.percent = new Miniscroll.Point(0, 0);
 	};
 	
 	Miniscroll.Mouse.prototype = {
@@ -838,23 +853,105 @@
 		 * @method Miniscroll.Mouse#start
 		 */
 		start: function () {
-			
+			// Removing event listener whose callback function uses .bind
+			// add this private function for working
+			this._onMousePress = this.onMousePress.bind(this);
+			this._onMouseMove = this.onMouseMove.bind(this);
+			this._onMouseRelease = this.onMouseRelease.bind(this);
+
+			//(/Firefox/i.test(navigator.userAgent)) ? "DOMMouseScroll" : "mousewheel"
+			this._thumb.addEventListener('mousedown', this._onMousePress, true);
 		},
 		
-		onMousePress: function(event) {},
+		onMousePress: function(event) {
+			Miniscroll.Event.fix(event);
+			Miniscroll.Event.preventDefault(event);
+
+			//this._thumb.removeEventListener('mousedown', this._onMousePress, true);
+			this.isScrolling = true;
+			var mousePos = Miniscroll.Utils.pointer(event);
+			
+			this.thumbDelta = new Miniscroll.Point(this.thumbPos.x - mousePos.x, this.thumbPos.y - mousePos.y);
+			
+			document.addEventListener('mousemove', this._onMouseMove, false);
+			document.addEventListener('mouseup', this._onMouseRelease, false);
+		},
 		
-		onMouseMove: function(event) {},
+		onMouseMove: function(event) {
+			Miniscroll.Event.fix(event);
+			Miniscroll.Event.preventDefault(event);
+
+			if(!this.isScrolling) {
+				return false;
+			}
+
+			var mousePos = Miniscroll.Utils.pointer(event);
+
+			this.thumbPos = new Miniscroll.Point(mousePos.x + this.thumbDelta.x, mousePos.y + this.thumbDelta.y);
+			this.thumbPos = this.getMaxAndMin(this._container, this._thumb, this.thumbPos);
+
+			this.percent = new Miniscroll.Point(
+				this.thumbPos.x / (this._container.offsetWidth - this._thumb.offsetWidth),
+				this.thumbPos.y / (this._container.offsetHeight - this._thumb.offsetHeight)
+			);
+
+			this.percent = new Miniscroll.Point(
+				Math.max(0, Math.min(1, this.percent.x)),
+				Math.max(0, Math.min(1, this.percent.y))
+			);
+			
+			if (this._settings.axis === "y") {
+				Miniscroll.Utils.setCss(this._thumb, { top: this.thumbPos.y });
+				this._target.scrollTop = Math.round((this._target.scrollHeight - this._target.offsetHeight) * this.percent.y);
+			} else {
+				Miniscroll.Utils.setCss(this._thumb, { left: this.thumbPos.x });
+				this._target.scrollLeft = Math.round((this._target.scrollWidth - this._target.offsetWidth) * this.percent.x);
+			}
+		},
 		
-		onMouseRelease: function(event) {},
+		onMouseRelease: function(event) {
+			Miniscroll.Event.fix(event);
+			Miniscroll.Event.preventDefault(event);
+
+			this.isScrolling = false;
+
+			document.removeEventListener('mouseup', this._onMouseRelease, false);
+			document.removeEventListener('mousemove', this._onMouseMove, false);
+		},
+
+		getMaxAndMin: function(container, thumb, pos) {
+			var x = Math.max(0, Math.min(container.offsetWidth - thumb.offsetWidth, pos.x));
+			var y = Math.max(0, Math.min(container.offsetHeight - thumb.offsetHeight, pos.y));
+			return new Miniscroll.Point(x, y);
+		},
 		
+		move: function(element, dir) {
+
+		},
+
 		/**
 		 * Destroy all events
 		 * 
 		 * @method Miniscroll.Mouse#destroy
 		 */
 		destroy: function() {
+			this._thumb.removeEventListener('mousedown', this._onMousePress, false);
+			document.removeEventListener('mouseup', this._onMouseRelease, false);
+			document.removeEventListener('mousemove', this._onMouseMove, false);
 		}
 	};
+
+	/*Object.defineProperty(Miniscroll.Mouse.prototype, "isScrolling", {
+		get: function() {
+			return this._isScrolling;
+		},
+		
+		set: function(value) {
+			if (value == false) {
+
+			}
+		}
+	});*/
 
 	Miniscroll.Mouse.prototype.constructor = Miniscroll.Mouse;
 
@@ -936,8 +1033,8 @@
 		 */
 		this.scroll = scroll;
 		
-		this._mouse = new Miniscroll.Mouse(this.scroll);
-		this._touch = new Miniscroll.Touch(this.scroll);
+		this._mouse = new Miniscroll.Mouse(scroll);
+		this._touch = new Miniscroll.Touch(scroll);
 	};
 
 	Miniscroll.Input.prototype = {
@@ -984,8 +1081,15 @@
 		}
 	}());
 	
-	window.Miniscroll = Miniscroll;
+	window.Miniscroll = Miniscroll.Scroll;
 })(window, document);
+
+// verifica se require existe
+if (typeof require === "function" && typeof require.specified === "function") {
+    /*define(function () {
+        return Miniscroll.Scroll;
+    });*/
+}
 /**
  * @copyright    2015 Roger Luiz Ltd.
  * @license      {@link https://github.com/rogerluiz/Miniscroll-JS/blob/master/license.txt|MIT License}
