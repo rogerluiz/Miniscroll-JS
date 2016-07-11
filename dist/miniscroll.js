@@ -986,6 +986,11 @@
 				element.removeEventListener(mousewheel, function(event) {
 					callback.call(_this, event, this);
 				}, false);
+				
+				// fix para o firefox trackpad
+				element.addEventListener('MozMousePixelScroll', function(event) {
+					callback.call(_this, event, this);
+				}, false);
 			} else {
 				element.removeEventListener(eventType, function(event) {
 					callback.call(_this, event, this);
