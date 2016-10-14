@@ -20,10 +20,6 @@
  * 		update 1.2.1 | 15/05/2013 - Touch event added, now works for ipad, iphone and android
  */
 (function(window, document, prototype) {
-	var config = {
-		touchEvents: ('ontouchstart' in document.documentElement)
-	},
-
 	/**
 	 * @constructor
 	 *
@@ -106,7 +102,9 @@
 		if (this.settings.isKeyEvent) this.addKeyBoardEvent();
 
 		// Verifica se o device atual suporta touch event e adiciona o evento adequado
-		(!config.touchEvents) ? this.setupEventHandler() : this.setupTouchEvent();
+		// -- bind both touch events and point events, so ultrabooks (those have touchscreens) can use it
+		this.setupEventHandler();
+		this.setupTouchEvent();
 
 		// verifica as mudanças no scroll
 		var _this = this;
