@@ -2,6 +2,8 @@
      <img src="http://miniscroll.rogerluizm.com.br/fb.jpg">
 </p>
 
+[![License][license-image]][license-url]
+
 Miniscroll is a little library for touch and desktop scrollbar application. if you found bugs send it to rogerluizm@gmail.com or send to <a href="https://github.com/rogerluiz/Miniscroll-JS/issues?page=1&state=open">issue</a> page
 
 _check my dev branch_
@@ -102,6 +104,11 @@ new Miniscroll(".scroller", {
 
 ***
 
+## Browser compatibility
+
+![Chrome][chrome-logo] | ![Firefox][firefox-logo] | ![IE][ie-logo] | ![Edge][edge-logo] | ![Opera][opera-logo] | ![Safari][safari-ios-logo]
+---                    | ---                      | ---            | ---                | ---                  | ---
+Latest ✔               | Latest ✔                 | 9+ ✔           | Latest ✔           | Latest ✔             | 3.2+ ✔
 
 ### The MIT License (MIT)
 
@@ -126,4 +133,21 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 
+[coverage-image]: https://img.shields.io/coveralls/fdaciuk/ajax/master.svg?style=flat-square
+[coverage-url]: https://coveralls.io/r/fdaciuk/ajax?branch=master
+[codeclimate-coverage-image]: https://img.shields.io/codeclimate/coverage/github/fdaciuk/ajax.svg?style=flat-square
+[codeclimate-coverage-url]: https://codeclimate.com/github/fdaciuk/ajax
+[codeclimate-image]: https://img.shields.io/codeclimate/github/fdaciuk/ajax.svg?style=flat-square
+[codeclimate-url]: https://codeclimate.com/github/fdaciuk/ajax
+[license-image]: https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square
+[license-url]: https://github.com/fdaciuk/licenses/blob/master/MIT-LICENSE.md
+[contributing-image]: https://img.shields.io/badge/fdaciuk%2Fajax-CONTRIBUTE-orange.svg?style=flat-square
+[contributing-url]: CONTRIBUTING.md
+[deprecated]: deprecated.md
+[chrome-logo]: https://rawgit.com/alrra/browser-logos/master/chrome/chrome_48x48.png
+[firefox-logo]: https://rawgit.com/alrra/browser-logos/master/firefox/firefox_48x48.png
+[ie-logo]: https://rawgit.com/alrra/browser-logos/master/internet-explorer/internet-explorer_48x48.png
+[edge-logo]: https://rawgit.com/alrra/browser-logos/master/edge/edge_48x48.png
+[opera-logo]: https://rawgit.com/alrra/browser-logos/master/opera/opera_48x48.png
+[safari-ios-logo]: https://rawgit.com/alrra/browser-logos/master/safari-ios/safari-ios_48x48.png
 
