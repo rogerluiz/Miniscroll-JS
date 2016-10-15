@@ -2,9 +2,6 @@
      <img src="http://miniscroll.rogerluizm.com.br/fb.jpg">
 </p>
 
-[![License][license-image]][license-url]
-[![CONTRIBUTING][contributing-image]][contributing-url]
-
 Miniscroll is a little library for touch and desktop scrollbar application. if you found bugs send it to rogerluizm@gmail.com or send to <a href="https://github.com/rogerluiz/Miniscroll-JS/issues?page=1&state=open">issue</a> page
 
 _check my dev branch_
