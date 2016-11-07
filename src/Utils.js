@@ -229,6 +229,7 @@
 		 * @return {intiger} the highest z-index
 		 */
 		getZindex: function(target) {
+
 			/**
 			 * @property {interger} topZIndex - the highest 'z-index'
 			 * @protected
@@ -246,13 +247,13 @@
 			 * @protected
 			 */
 			var pos = 0;
-			
+
 			/**
 			 * @property {HTMLElement|Array} tags - Get all HTMLElements inside the 'target'
 			 * @protected
 			 */
 			var tags = target.getElementsByTagName('*');
-			
+
 			for (var i = 0; i < tags.length; i++) {
 				// Get the original 'position' property
 				pos = Miniscroll.Utils.getCss(tags[i], "position");

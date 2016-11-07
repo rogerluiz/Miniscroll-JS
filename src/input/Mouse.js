@@ -12,7 +12,8 @@
 	 * @constructor
 	 * @param {Miniscroll.Scroll} scroll - A reference to the currently running game.
 	 */
-	Miniscroll.Mouse = function(scroll) {
+	Miniscroll.Mouse = function(scroll)
+    {
 		/**
 		 * @property {Miniscroll.Scroll} scroll - Reference to the scroll.
 		 */
@@ -50,13 +51,15 @@
 		this.percent = new Miniscroll.Point(0, 0);
 	};
 	
-	Miniscroll.Mouse.prototype = {
+	Miniscroll.Mouse.prototype =
+    {
 		/**
 		 * Starts the event listeners running.
 		 * 
 		 * @method Miniscroll.Mouse#start
 		 */
-		start: function () {
+		start: function ()
+        {
 			// Removing event listener whose callback function uses .bind
 			// add this private function for working
 			this._onMousePress = this.onMousePress.bind(this);
@@ -67,7 +70,8 @@
 			this._thumb.addEventListener('mousedown', this._onMousePress, true);
 		},
 		
-		onMousePress: function(event) {
+		onMousePress: function(event)
+        {
 			Miniscroll.Event.fix(event);
 			Miniscroll.Event.preventDefault(event);
 
@@ -81,11 +85,13 @@
 			document.addEventListener('mouseup', this._onMouseRelease, false);
 		},
 		
-		onMouseMove: function(event) {
+		onMouseMove: function(event)
+        {
 			Miniscroll.Event.fix(event);
 			Miniscroll.Event.preventDefault(event);
 
-			if(!this.isScrolling) {
+			if (!this.isScrolling)
+            {
 				return false;
 			}
 
@@ -104,16 +110,20 @@
 				Math.max(0, Math.min(1, this.percent.y))
 			);
 			
-			if (this._settings.axis === "y") {
+			if (this._settings.axis === "y")
+            {
 				Miniscroll.Utils.setCss(this._thumb, { top: this.thumbPos.y });
 				this._target.scrollTop = Math.round((this._target.scrollHeight - this._target.offsetHeight) * this.percent.y);
-			} else {
+			}
+            else
+            {
 				Miniscroll.Utils.setCss(this._thumb, { left: this.thumbPos.x });
 				this._target.scrollLeft = Math.round((this._target.scrollWidth - this._target.offsetWidth) * this.percent.x);
 			}
 		},
 		
-		onMouseRelease: function(event) {
+		onMouseRelease: function(event)
+        {
 			Miniscroll.Event.fix(event);
 			Miniscroll.Event.preventDefault(event);
 
@@ -123,14 +133,29 @@
 			document.removeEventListener('mousemove', this._onMouseMove, false);
 		},
 
-		getMaxAndMin: function(container, thumb, pos) {
+		onMouseWheel: function(event)
+		{
+		},
+
+		getMaxAndMin: function(container, thumb, pos)
+		{
 			var x = Math.max(0, Math.min(container.offsetWidth - thumb.offsetWidth, pos.x));
 			var y = Math.max(0, Math.min(container.offsetHeight - thumb.offsetHeight, pos.y));
 			return new Miniscroll.Point(x, y);
 		},
 		
-		move: function(element, dir) {
+		move: function(element, dir)
+		{
+		},
 
+		normalizeWheelSpeed: function(event)
+		{
+			var normalized;
+
+			if (event.wheelDelta)
+			{
+                normalized = (event.wheelDelta % 120)
+            }
 		},
 
 		/**
@@ -138,7 +163,8 @@
 		 * 
 		 * @method Miniscroll.Mouse#destroy
 		 */
-		destroy: function() {
+		destroy: function()
+        {
 			this._thumb.removeEventListener('mousedown', this._onMousePress, false);
 			document.removeEventListener('mouseup', this._onMouseRelease, false);
 			document.removeEventListener('mousemove', this._onMouseMove, false);

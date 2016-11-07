@@ -11,7 +11,7 @@
 
 // verifica se require existe
 if (typeof require === "function" && typeof require.specified === "function") {
-    /*define(function () {
+    /*define('Miniscroll', function () {
         return Miniscroll.Scroll;
     });*/
 }

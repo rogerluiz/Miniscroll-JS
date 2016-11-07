@@ -66,6 +66,8 @@
 		 * @type {Class}
 		 */
 		root = this;
+
+		
 		
 		/**
 		 * get the div he ought to contain the scrollbar
@@ -74,7 +76,7 @@
 		 * @type {HTMLElement}
 		 */
 		this.target = Miniscroll.Utils.get(selector);
-
+		
 		/**
 		 * The container of scrollbar
 		 * 
