@@ -735,7 +735,7 @@
 
 
 				for (var i = 0; i < len; i++) {
-					if (tags[i].className && tags[i].className.match(new RegExp("(^|\\s)" + match[1] + "(\\s|$)"))) {
+					if (tags[i].className && tags[i].className.toString().match(new RegExp("(^|\\s)" + match[1] + "(\\s|$)"))) {
 						element = tags[i];
 					}
 				}
