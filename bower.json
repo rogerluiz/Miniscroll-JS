@@ -1,0 +1,22 @@
+{
+  "name": "miniscroll_js",
+  "description": "A simple scrollbar for desktop and mobile",
+  "main": "dist/miniscroll.js",
+  "authors": [
+    "Roger Luiz"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "miniscroll",
+    "scrollbar",
+    "scroll"
+  ],
+  "homepage": "https://github.com/rogerluiz/Miniscroll-JS",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
