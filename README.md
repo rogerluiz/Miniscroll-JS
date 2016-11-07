@@ -8,6 +8,14 @@ Miniscroll is a little library for touch and desktop scrollbar application. if y
 
 _check my dev branch_
 
+
+```js
+npm install miniscroll_js
+```
+<a href="https://www.npmjs.com/package/miniscroll_js">https://www.npmjs.com/package/miniscroll_js</a>
+
+
+
 _version 1.3.0_
 
 ### Include miniscroll.js into your page:
