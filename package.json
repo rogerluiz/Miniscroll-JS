@@ -14,6 +14,9 @@
     "type": "git",
     "url": "https://github.com/rogerluiz/Miniscroll-JS.git"
   },
+  "bugs": {
+    "url": "https://github.com/rogerluiz/Miniscroll-JS/issues"
+  },
   "devDependencies": {
   }
 }

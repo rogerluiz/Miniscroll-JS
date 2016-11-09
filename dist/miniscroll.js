@@ -6,7 +6,9 @@
  *
  * @copyright (c) 2011, 2012 <http://rogerluizm.com.br/>
  *
- * @version 1.2.9
+ * @version 1.3.3
+ *		update 1.3.3 | 09/11/2016 - add suport for npm modules, amd
+ *    	update 1.3.0 | 25/08/2015 - add automatic get zindex
  *		update 1.2.9 | 10/09/2013 - fix multidimensional scrollwheel
  *		update 1.2.9 | 10/09/2013 - fix error in the scroll when the position is relative or absolute
  *		update 1.2.9 | 10/09/2013 - fix updating on the x axis
@@ -19,7 +21,17 @@
  * 		update 1.2.2 | 17/05/2013 - Key event added, now you can press the key down and key up for scrolling
  * 		update 1.2.1 | 15/05/2013 - Touch event added, now works for ipad, iphone and android
  */
-(function(window, document, prototype) {
+(function (root, factory) {
+    if (typeof exports === 'object') {
+        exports = module.exports = factory();
+    } else if (typeof define === 'function' && define.amd) {
+        define('Miniscroll', factory);
+    } else {
+        root.Miniscroll = factory();
+    }
+})(this, function() {
+	var prototype = "prototype";
+
 	/**
 	 * @constructor
 	 *
@@ -1023,5 +1035,6 @@
 		}
 	};
 
-	window.Miniscroll = Miniscroll;
-})(window, document, "prototype");
+	return Miniscroll;
+	//window.Miniscroll = Miniscroll;
+});
