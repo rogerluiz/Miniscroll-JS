@@ -23,7 +23,7 @@ npm install miniscroll_js
 ```
 <a href="https://www.npmjs.com/package/miniscroll_js">https://www.npmjs.com/package/miniscroll_js</a>
 
-
+#### with HTML js 
 ```html
 <script src="miniscroll.js"></script>
 ```
